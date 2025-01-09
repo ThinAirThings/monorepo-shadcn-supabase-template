@@ -1,0 +1,4 @@
+# pnpm-usepulse.yaml
+packages:
+  - "apps/*"
+  - "packages/*"

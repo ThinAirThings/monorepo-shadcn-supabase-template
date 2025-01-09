@@ -1,0 +1,12 @@
+{
+  "extends": "@usepulse/typescript-config/react-library.json",
+  "compilerOptions": {
+    //"outDir": "dist"
+    "baseUrl": ".",
+    "paths": {
+      "@usepulse/ui/*": ["./src/*"]
+    }
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}

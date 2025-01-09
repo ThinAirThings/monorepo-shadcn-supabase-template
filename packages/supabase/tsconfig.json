@@ -1,0 +1,19 @@
+{
+  "extends": "@usepulse/typescript-config/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    // Override these specific settings from base
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    // You might also need these
+    "verbatimModuleSyntax": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "usepulse",
+  "type": "module",
+  "private": true,
+  "usepulses": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "cleandep": "rm -rf node_modules && pnpm -r exec rm -rf node_modules && rm -rf pnpm-lock.yaml"
+  },
+  "devDependencies": {
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
