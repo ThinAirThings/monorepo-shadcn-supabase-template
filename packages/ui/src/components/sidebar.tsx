@@ -6,18 +6,18 @@ import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
-import { cn } from "@thinair-monorepo-template/ui/lib/utils"
-import { Button } from "@thinair-monorepo-template/ui/components/button"
-import { Input } from "@thinair-monorepo-template/ui/components/input"
-import { Separator } from "@thinair-monorepo-template/ui/components/separator"
-import { Sheet, SheetContent } from "@thinair-monorepo-template/ui/components/sheet"
-import { Skeleton } from "@thinair-monorepo-template/ui/components/skeleton"
+import { cn } from "@usepulse/ui/lib/utils"
+import { Button } from "@usepulse/ui/components/button"
+import { Input } from "@usepulse/ui/components/input"
+import { Separator } from "@usepulse/ui/components/separator"
+import { Sheet, SheetContent } from "@usepulse/ui/components/sheet"
+import { Skeleton } from "@usepulse/ui/components/skeleton"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@thinair-monorepo-template/ui/components/tooltip"
+} from "@usepulse/ui/components/tooltip"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

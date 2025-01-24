@@ -1,5 +1,5 @@
 {
-  "name": "@thinair-monorepo-template/app",
+  "name": "@usepulse/app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -46,15 +46,16 @@
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
     "@tanstack/react-table": "^8.20.6",
-    "@thinair-monorepo-template/supabase": "workspace:^",
-    "@thinair-monorepo-template/typescript-config": "workspace:*",
-    "@thinair-monorepo-template/ui": "workspace:*",
+    "@usepulse/supabase": "workspace:^",
+    "@usepulse/typescript-config": "workspace:*",
+    "@usepulse/ui": "workspace:*",
     "ai": "^4.0.22",
     "class-variance-authority": "^0.7.1",
     "cmdk": "1.0.0",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.0.0",
+    "graphql": "^16.10.0",
     "graphql-yoga": "^5.10.10",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.474.0",
@@ -73,6 +74,11 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@0no-co/graphqlsp": "^1.12.16",
+    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/client-preset": "^4.5.1",
+    "@graphql-codegen/introspection": "^4.0.3",
+    "@parcel/watcher": "^2.5.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

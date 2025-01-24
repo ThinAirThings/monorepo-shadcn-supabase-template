@@ -1,6 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { Database } from '@thinair-monorepo-template/supabase/types'
+import { Database } from '@usepulse/supabase/types'
 
 export async function updateSession(request: NextRequest) {
     let supabaseResponse = NextResponse.next({
@@ -32,8 +32,9 @@ export async function updateSession(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser()
 
-    // Check if the current path is under /dashboard
-    const isPrivateRoute = request.nextUrl.pathname.startsWith('/dashboard')
+    // Check if the current path is under /dashboard or /onboarding
+    const isPrivateRoute = request.nextUrl.pathname.startsWith('/dashboard') || 
+        request.nextUrl.pathname.startsWith('/onboarding')
     
     // Define auth routes that should redirect if user is already authenticated
     const isAuthRoute = request.nextUrl.pathname.startsWith('/login') ||
@@ -50,8 +51,6 @@ export async function updateSession(request: NextRequest) {
     if (!user && isPrivateRoute) {
         const url = request.nextUrl.clone()
         url.pathname = '/login'
-        // Store the original URL as a searchParam to redirect back after login
-        url.searchParams.set('redirectTo', request.nextUrl.pathname)
         return NextResponse.redirect(url)
     }
 

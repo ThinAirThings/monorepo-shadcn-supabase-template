@@ -1,3 +1,3 @@
-# `@thinair-monorepo-template/typescript-config`
+# `@usepulse/typescript-config`
 
-Shared typescript configuration for the thinair-monorepo-template.
+Shared typescript configuration for the usepulse.

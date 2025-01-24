@@ -1,4 +1,4 @@
-project_id = "blueprint-v2"
+project_id = "thinair-monorepo-template"
 
 [api]
 enabled = true

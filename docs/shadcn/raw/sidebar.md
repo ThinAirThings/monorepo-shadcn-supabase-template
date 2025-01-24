@@ -522,7 +522,7 @@ components/app-sidebar.tsx
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton>
-              Select thinair-monorepo-template
+              Select usepulse
               <ChevronDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>

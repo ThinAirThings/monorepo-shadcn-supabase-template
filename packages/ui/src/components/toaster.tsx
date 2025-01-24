@@ -1,6 +1,6 @@
 "use client"
 
-import { useToast } from "@thinair-monorepo-template/ui/hooks/use-toast"
+import { useToast } from "@usepulse/ui/hooks/use-toast"
 import {
   Toast,
   ToastClose,
@@ -8,7 +8,7 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@thinair-monorepo-template/ui/components/toast"
+} from "@usepulse/ui/components/toast"
 
 export function Toaster() {
   const { toasts } = useToast()

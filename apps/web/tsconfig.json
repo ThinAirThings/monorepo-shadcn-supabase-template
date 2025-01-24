@@ -1,10 +1,10 @@
 {
-  "extends": "@thinair-monorepo-template/typescript-config/nextjs.json",
+  "extends": "@usepulse/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@thinair-monorepo-template/ui/*": ["../../packages/ui/src/*"]
+      "@usepulse/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
       {

@@ -5,8 +5,8 @@ import {
     defaultDataIdFromObject,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context'
-import { createBrowserClient } from '@thinair-monorepo-template/supabase/createBrowserClient';
-import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient';
+import { createBrowserClient } from '@usepulse/supabase/createBrowserClient';
+import { createServerClient } from '@usepulse/supabase/createServerClient';
 import { getVercelURL } from '../vercel/get-vercel-url';
 
 const httpLink = createHttpLink({

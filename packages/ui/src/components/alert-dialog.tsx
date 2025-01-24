@@ -3,8 +3,8 @@
 import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
-import { cn } from "@thinair-monorepo-template/ui/lib/utils"
-import { buttonVariants } from "@thinair-monorepo-template/ui/components/button"
+import { cn } from "@usepulse/ui/lib/utils"
+import { buttonVariants } from "@usepulse/ui/components/button"
 
 const AlertDialog = AlertDialogPrimitive.Root
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@thinair-monorepo-template/ui/components/button';
+import { Button } from '@usepulse/ui/components/button';
 import {
   Card,
   CardContent,
@@ -8,8 +8,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@thinair-monorepo-template/ui/components/card';
-import { Input } from '@thinair-monorepo-template/ui/components/input';
+} from '@usepulse/ui/components/card';
+import { Input } from '@usepulse/ui/components/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -21,11 +21,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@thinair-monorepo-template/ui/components/form';
+} from '@usepulse/ui/components/form';
 import { signup } from '../actions';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@thinair-monorepo-template/ui/hooks/use-toast';
+import { useToast } from '@usepulse/ui/hooks/use-toast';
 
 const signupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),

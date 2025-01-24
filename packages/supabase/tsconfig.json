@@ -1,5 +1,5 @@
 {
-  "extends": "@thinair-monorepo-template/typescript-config/base.json",
+  "extends": "@usepulse/typescript-config/base.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

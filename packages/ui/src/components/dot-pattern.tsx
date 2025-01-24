@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-import { cn } from "@thinair-monorepo-template/ui/lib/utils";
+import { cn } from "@usepulse/ui/lib/utils";
 
 interface DotPatternProps {
   width?: any;

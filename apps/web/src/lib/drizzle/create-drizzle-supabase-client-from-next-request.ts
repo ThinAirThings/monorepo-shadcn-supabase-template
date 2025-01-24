@@ -1,5 +1,5 @@
-import { createDrizzleSupabaseClient } from "@thinair-monorepo-template/supabase/drizzle/createDrizzleSupabaseClient";
-import { db } from "@thinair-monorepo-template/supabase/drizzle/db";
+import { createDrizzleSupabaseClient } from "@usepulse/supabase/drizzle/createDrizzleSupabaseClient";
+import { db } from "@usepulse/supabase/drizzle/db";
 import { NextRequest } from "next/server";
 
 

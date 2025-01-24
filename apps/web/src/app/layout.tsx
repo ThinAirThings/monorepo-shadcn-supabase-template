@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
-import "@thinair-monorepo-template/ui/globals.css"
-import { Toaster } from "@thinair-monorepo-template/ui/components/toaster"
+import "@usepulse/ui/globals.css"
+import { Toaster } from "@usepulse/ui/components/toaster"
 import { Providers } from "@/components/providers"
 
 
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased bg-weave`}
+        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
       >
         <Providers>{children}</Providers>
         <Toaster />

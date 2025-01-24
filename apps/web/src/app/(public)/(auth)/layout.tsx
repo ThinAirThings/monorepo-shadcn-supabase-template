@@ -1,8 +1,8 @@
 'use client';
 
-import { Card, CardContent } from '@thinair-monorepo-template/ui/components/card';
-import { DotPattern } from '@thinair-monorepo-template/ui/components/dot-pattern';
-import { cn } from '@thinair-monorepo-template/ui/lib/utils';
+import { Card, CardContent } from '@usepulse/ui/components/card';
+import { DotPattern } from '@usepulse/ui/components/dot-pattern';
+import { cn } from '@usepulse/ui/lib/utils';
 import Image from 'next/image';
 
 export default function UnauthenticatedLayout({
@@ -19,13 +19,13 @@ export default function UnauthenticatedLayout({
             />
             <Card className="w-full max-w-md p-8 shadow-fade relative z-10">
                 <div className="flex justify-center">
-                    <Image
+                    {/* <Image
                         src="/thinair.logo.svg"
                         alt="Blueprint Logo"
                         width={200}
                         height={200}
                         priority
-                    />
+                    /> */}
                 </div>
                 <CardContent>
                     {children}

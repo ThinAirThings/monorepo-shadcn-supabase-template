@@ -11,10 +11,10 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@thinair-monorepo-template/ui/components",
-    "utils": "@thinair-monorepo-template/ui/lib/utils",
-    "hooks": "@thinair-monorepo-template/ui/hooks",
-    "lib": "@thinair-monorepo-template/ui/lib",
-    "ui": "@thinair-monorepo-template/ui/components"
+    "components": "@usepulse/ui/components",
+    "utils": "@usepulse/ui/lib/utils",
+    "hooks": "@usepulse/ui/hooks",
+    "lib": "@usepulse/ui/lib",
+    "ui": "@usepulse/ui/components"
   }
 }

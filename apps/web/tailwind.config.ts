@@ -1,5 +1,5 @@
 
-import baseConfig from "@thinair-monorepo-template/ui/tailwind.config";
+import baseConfig from "@usepulse/ui/tailwind.config";
 import type { Config } from "tailwindcss";
 
 export default {
