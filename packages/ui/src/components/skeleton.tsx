@@ -1,4 +1,4 @@
-import { cn } from "@usepulse/ui/lib/utils"
+import { cn } from "@thinair-monorepo-template/ui/lib/utils"
 
 function Skeleton({
   className,

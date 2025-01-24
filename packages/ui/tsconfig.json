@@ -1,11 +1,13 @@
 {
-  "extends": "@usepulse/typescript-config/react-library.json",
+  "extends": "@thinair-monorepo-template/typescript-config/react-library.json",
   "compilerOptions": {
     //"outDir": "dist"
     "baseUrl": ".",
     "paths": {
-      "@usepulse/ui/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"]
+    },
+    "module": "Preserve",
+    "moduleResolution": "bundler"
   },
   "include": ["."],
   "exclude": ["node_modules", "dist"]

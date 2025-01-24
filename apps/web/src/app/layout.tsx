@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
-import "@usepulse/ui/globals.css"
-import { Toaster } from "@usepulse/ui/components/toaster"
+import "@thinair-monorepo-template/ui/globals.css"
+import { Toaster } from "@thinair-monorepo-template/ui/components/toaster"
 import { Providers } from "@/components/providers"
 
 

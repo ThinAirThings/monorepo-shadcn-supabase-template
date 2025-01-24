@@ -12,8 +12,8 @@ import {
   useFormContext,
 } from "react-hook-form"
 
-import { cn } from "@usepulse/ui/lib/utils"
-import { Label } from "@usepulse/ui/components/label"
+import { cn } from "@thinair-monorepo-template/ui/lib/utils"
+import { Label } from "@thinair-monorepo-template/ui/components/label"
 
 const Form = FormProvider
 

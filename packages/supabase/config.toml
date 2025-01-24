@@ -1,8 +1,8 @@
-project_id = "usepulse"
+project_id = "blueprint-v2"
 
 [api]
 enabled = true
-port = 54_361
+port = 54_371
 schemas = [ "public", "graphql_public" ]
 extra_search_path = [ "public", "extensions" ]
 max_rows = 1_000
@@ -11,13 +11,13 @@ max_rows = 1_000
   enabled = false
 
 [db]
-port = 54_362
-shadow_port = 54_360
+port = 54_372
+shadow_port = 54_370
 major_version = 15
 
   [db.pooler]
   enabled = false
-  port = 54_369
+  port = 54_379
   pool_mode = "transaction"
   default_pool_size = 20
   max_client_conn = 100
@@ -31,13 +31,13 @@ enabled = true
 
 [studio]
 enabled = true
-port = 54_363
+port = 54_373
 api_url = "http://127.0.0.1"
 openai_api_key = "env(OPENAI_API_KEY)"
 
 [inbucket]
 enabled = true
-port = 54_364
+port = 54_374
 
 [storage]
 enabled = true
@@ -115,7 +115,7 @@ inspector_port = 8_083
 
 [analytics]
 enabled = true
-port = 54_367
+port = 54_377
 backend = "postgres"
 
 [experimental]

@@ -1,20 +1,21 @@
 {
-  "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "new-york",
-  "rsc": true,
-  "tsx": true,
-  "tailwind": {
-    "config": "../../packages/ui/tailwind.config.ts",
-    "css": "../../packages/ui/src/styles/globals.css",
-    "baseColor": "zinc",
-    "cssVariables": true
-  },
-  "iconLibrary": "lucide",
-  "aliases": {
-    "components": "@/components",
-    "hooks": "@/hooks",
-    "lib": "@/lib",
-    "utils": "@usepulse/ui/lib/utils",
-    "ui": "@usepulse/ui/components"
+    "$schema": "https://ui.shadcn.com/schema.json",
+    "style": "new-york",
+    "rsc": true,
+    "tsx": true,
+    "tailwind": {
+      "config": "../../packages/ui/tailwind.config.ts",
+      "css": "../../packages/ui/src/styles/globals.css",
+      "baseColor": "zinc",
+      "cssVariables": true
+    },
+    "iconLibrary": "lucide",
+    "aliases": {
+      "components": "@thinair-monorepo-template/ui/components",
+      "hooks": "@thinair-monorepo-template/ui/hooks",
+      "lib": "@thinair-monorepo-template/ui/lib",
+      "utils": "@thinair-monorepo-template/ui/lib/utils",
+      "ui": "@thinair-monorepo-template/ui/components"
+    }
   }
-}
+  

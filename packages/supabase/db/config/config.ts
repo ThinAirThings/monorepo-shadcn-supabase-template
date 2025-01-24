@@ -1,30 +1,14 @@
-import { drizzle } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
-import { fileURLToPath } from 'url'
-import { dirname, resolve } from 'path'
-import dotenv from 'dotenv'
-import { createOrReplaceCanUserDo } from './rbac'
-import { createOrReplaceHandleNewUserTrigger } from './triggers'
+import { createOrReplaceHandleNewUserTrigger } from './triggers/handle-new-auth-user'
+import { createOrReplaceAuditFieldsTrigger } from './triggers/handle-audit-fields'
+import { enableTotalCountForAllTables } from './flags/enableTotalCount'
+import { enableGraphqlInflection } from './flags/graphql-inflection'
+import { createOrReplaceViewerFunction } from './functions/viewer'
 import { sql } from 'drizzle-orm'
+import { db } from '@/lib/drizzle/db'
 
-// Get the directory path in ES modules
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
-// Load environment variables from .env file
-dotenv.config({ path: resolve(__dirname, '../../../.env') })
-
-// Ensure DATABASE_URL is defined
-if (!process.env.DATABASE_URL) {
-    throw new Error('DATABASE_URL environment variable is not defined')
-}
-
+console.log(process.env.DATABASE_URL)
 async function configureDatabase() {
     try {
-        // Initialize database client
-        const client = postgres(process.env.DATABASE_URL!, { max: 1 })
-        const db = drizzle(client)
-
         console.log('🔄 Starting database configuration...')
 
         // Enable required extensions
@@ -37,18 +21,25 @@ async function configureDatabase() {
             CREATE EXTENSION IF NOT EXISTS "vector";
         `)
 
-        // Configure RBAC functions
-        console.log('📚 Configuring RBAC functions...')
-        await createOrReplaceCanUserDo()
+        // Configure GraphQL
+        console.log('🔧 Configuring GraphQL settings...')
+        await enableGraphqlInflection()
 
         // Configure triggers
         console.log('🔧 Configuring database triggers...')
+        await createOrReplaceAuditFieldsTrigger()
         await createOrReplaceHandleNewUserTrigger()
+
+        // Enable total count for all tables
+        console.log('📊 Enabling total count for all tables...')
+        await enableTotalCountForAllTables()
+
+        // Create database functions
+        console.log('🔧 Creating database functions...')
+        await createOrReplaceViewerFunction()
 
         console.log('✅ Database configuration completed successfully')
 
-        // Close the client connection
-        await client.end()
     } catch (error) {
         console.error('❌ Error configuring database:', error)
         throw error

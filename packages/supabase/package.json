@@ -1,14 +1,14 @@
 {
-  "name": "@usepulse/supabase",
+  "name": "@thinair-monorepo-template/supabase",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "configure": "tsx scripts/configure-toml.tsx",
-    "db:configure": "tsx db/config/config.ts",
-    "db:init": "bun run scripts/initialize.tsx",
-    "db:reset": "bun run scripts/initialize.tsx --reset"
+    "update-config-file": "tsx scripts/configure-toml.tsx",
+    "reset": "bunx supabase db reset --linked && tsx db/config/config.ts",
+    "generate": "bunx supabase gen types typescript --project-id zckqdanfxbneyklwzyqh --schema public > database.types.ts",
+    "configure": "tsx db/config/config.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,17 +16,17 @@
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.12",
-    "chalk": "^5.3.0",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.3",
     "drizzle-zod": "^0.6.1",
+    "jsonwebtoken": "^9.0.2",
     "postgres": "^3.4.5"
   },
   "devDependencies": {
+    "@thinair-monorepo-template/typescript-config": "workspace:*",
     "@iarna/toml": "^2.2.5",
-    "@types/bun": "^1.1.16",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/prompts": "^2.4.9",
-    "@usepulse/typescript-config": "workspace:*",
     "drizzle-kit": "^0.30.1",
     "prompts": "^2.4.2",
     "tsx": "^4.19.2",
@@ -35,6 +35,7 @@
   "exports": {
     "./*": "./lib/supabase/*.ts",
     "./drizzle/*": "./lib/drizzle/*.ts",
-    "./types": "./database.types.ts"
+    "./types": "./database.types.ts",
+    "./schema": "./db/schema/schema.ts"
   }
 }

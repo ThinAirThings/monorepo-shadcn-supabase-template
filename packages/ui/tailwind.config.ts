@@ -10,9 +10,13 @@ const config = {
   ],
   theme: {
   	extend: {
+  		boxShadow: {
+  			fade: '`0px 4px 8px rgba(34,42,53,.05),\n			0px 0px 0px 1px rgba(34,42,53,.08),\n			0px 1px 5px -4px rgba(19,19,22,.7)`'
+  		},
   		fontFamily: {
   			sans: 'var(--font-geist-sans)',
-  			mono: 'var(--font-geist-mono)'
+  			mono: 'var(--font-geist-mono)',
+  			oskari: 'var(--font-oskari)'
   		},
   		colors: {
   			border: 'hsl(var(--border))',
@@ -80,11 +84,42 @@ const config = {
   				to: {
   					height: '0'
   				}
+  			},
+  			orbit: {
+  				'0%': {
+  					transform: 'rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg))'
+  				},
+  				'100%': {
+  					transform: 'rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg))'
+  				}
+  			},
+  			'border-beam': {
+  				'100%': {
+  					'offset-distance': '100%'
+  				}
+  			},
+  			'spin-around': {
+  				'0%': {
+  					transform: 'translateZ(0) rotate(0)'
+  				},
+  				'15%, 35%': {
+  					transform: 'translateZ(0) rotate(90deg)'
+  				},
+  				'65%, 85%': {
+  					transform: 'translateZ(0) rotate(270deg)'
+  				},
+  				'100%': {
+  					transform: 'translateZ(0) rotate(360deg)'
+  				}
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+  			orbit: 'orbit calc(var(--duration)*1s) linear infinite',
+  			'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
+  			'shimmer-slide': 'shimmer-slide var(--speed) ease-in-out infinite alternate',
+  			'spin-around': 'spin-around calc(var(--speed) * 2) infinite linear'
   		}
   	}
   },

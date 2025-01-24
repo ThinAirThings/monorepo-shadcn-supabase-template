@@ -2,10 +2,10 @@ import { type Database } from 'database.types'
 import { createServerClient as _createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export async function createServerClient() {
+export async function createServerClient<T extends Database>() {
+  const { cookies } = await import('next/headers')
   const cookieStore = await cookies()
-
-  return _createServerClient<Database>(
+  return _createServerClient<T>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {

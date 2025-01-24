@@ -1,4 +1,5 @@
-# pnpm-usepulse.yaml
+# pnpm-thinair-monorepo-template.yaml
 packages:
   - "apps/*"
   - "packages/*"
+  - "docs"

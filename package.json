@@ -1,8 +1,8 @@
 {
-  "name": "usepulse",
+  "name": "thinair-monorepo-template",
   "type": "module",
   "private": true,
-  "usepulses": [
+  "thinair-monorepo-templates": [
     "packages/*",
     "apps/*"
   ],

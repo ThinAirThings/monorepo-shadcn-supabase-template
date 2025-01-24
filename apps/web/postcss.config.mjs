@@ -1,1 +1,1 @@
-export { default } from "@usepulse/ui/postcss.config";
+export { default } from "@thinair-monorepo-template/ui/postcss.config";

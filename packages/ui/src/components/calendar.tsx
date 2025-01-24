@@ -4,8 +4,8 @@ import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
 
-import { cn } from "@usepulse/ui/lib/utils"
-import { buttonVariants } from "@usepulse/ui/components/button"
+import { cn } from "@thinair-monorepo-template/ui/lib/utils"
+import { buttonVariants } from "@thinair-monorepo-template/ui/components/button"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 

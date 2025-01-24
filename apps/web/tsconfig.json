@@ -1,14 +1,18 @@
 {
-  "extends": "@usepulse/typescript-config/nextjs.json",
+  "extends": "@thinair-monorepo-template/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@usepulse/ui/*": ["../../packages/ui/src/*"]
+      "@thinair-monorepo-template/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./graphql.schema.json"
       }
     ]
   },

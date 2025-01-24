@@ -1,0 +1,63 @@
+# Add patterns to ignore here, one per line
+# Example:
+# *.log
+# tmp/
+
+# Dependencies
+node_modules/
+.pnpm-store/
+.yarn/
+.pnp.*
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Testing
+coverage/
+.nyc_output/
+storybook-static/
+
+# Environment files
+.env*
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+*.pem
+
+# Vercel
+.vercel/
+.turbo
+
+# Cache
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# Assets
+*.svg
+
+# Generated files
+graphql.schema.json
+graphql.ts
+
+# Misc
+*.log
+.DS_Store
+thumbs.db

@@ -2,7 +2,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
 
-import { cn } from "@usepulse/ui/lib/utils"
+import { cn } from "@thinair-monorepo-template/ui/lib/utils"
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
