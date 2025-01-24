@@ -1,5 +1,5 @@
 {
-  "name": "@usepulse/app",
+  "name": "@thinair-monorepo-template/app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -46,9 +46,9 @@
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
     "@tanstack/react-table": "^8.20.6",
-    "@usepulse/supabase": "workspace:^",
-    "@usepulse/typescript-config": "workspace:*",
-    "@usepulse/ui": "workspace:*",
+    "@thinair-monorepo-template/supabase": "workspace:^",
+    "@thinair-monorepo-template/typescript-config": "workspace:*",
+    "@thinair-monorepo-template/ui": "workspace:*",
     "ai": "^4.0.22",
     "class-variance-authority": "^0.7.1",
     "cmdk": "1.0.0",

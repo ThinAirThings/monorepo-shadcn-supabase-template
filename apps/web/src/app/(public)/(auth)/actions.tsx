@@ -1,6 +1,6 @@
 'use server'
 
-import { createServerClient } from '@usepulse/supabase/createServerClient'
+import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 

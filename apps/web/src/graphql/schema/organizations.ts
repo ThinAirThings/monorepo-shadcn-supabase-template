@@ -1,5 +1,5 @@
 import { builder } from '../builder';
-import { organizations, organizationMembers } from '@usepulse/supabase/schema';
+import { organizations, organizationMembers } from '@thinair-monorepo-template/supabase/schema';
 
 // Create the Organization type using drizzleObject
 const OrganizationType = builder.drizzleObject('organizations', {

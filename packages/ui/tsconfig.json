@@ -1,5 +1,5 @@
 {
-  "extends": "@usepulse/typescript-config/react-library.json",
+  "extends": "@thinair-monorepo-template/typescript-config/react-library.json",
   "compilerOptions": {
     //"outDir": "dist"
     "baseUrl": ".",

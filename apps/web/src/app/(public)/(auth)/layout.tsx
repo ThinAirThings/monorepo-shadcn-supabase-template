@@ -1,8 +1,8 @@
 'use client';
 
-import { Card, CardContent } from '@usepulse/ui/components/card';
-import { DotPattern } from '@usepulse/ui/components/dot-pattern';
-import { cn } from '@usepulse/ui/lib/utils';
+import { Card, CardContent } from '@thinair-monorepo-template/ui/components/card';
+import { DotPattern } from '@thinair-monorepo-template/ui/components/dot-pattern';
+import { cn } from '@thinair-monorepo-template/ui/lib/utils';
 import Image from 'next/image';
 
 export default function UnauthenticatedLayout({

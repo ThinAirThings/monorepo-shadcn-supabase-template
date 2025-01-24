@@ -1,8 +1,8 @@
 import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
-import { cn } from "@usepulse/ui/lib/utils"
-import { ButtonProps, buttonVariants } from "@usepulse/ui/components/button"
+import { cn } from "@thinair-monorepo-template/ui/lib/utils"
+import { ButtonProps, buttonVariants } from "@thinair-monorepo-template/ui/components/button"
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav

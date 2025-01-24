@@ -1,9 +1,9 @@
 import SchemaBuilder from '@pothos/core';
 import DrizzlePlugin from '@pothos/plugin-drizzle';
-import { db } from '@usepulse/supabase/drizzle/db';
-import * as schema from '@usepulse/supabase/schema';
+import { db } from '@thinair-monorepo-template/supabase/drizzle/db';
+import * as schema from '@thinair-monorepo-template/supabase/schema';
 import { User } from '@supabase/supabase-js';
-import { createDrizzleSupabaseClient } from '@usepulse/supabase/drizzle/createDrizzleSupabaseClient';
+import { createDrizzleSupabaseClient } from '@thinair-monorepo-template/supabase/drizzle/createDrizzleSupabaseClient';
 // Define the types for our schema builder
 interface SchemaTypes {
     Context: {

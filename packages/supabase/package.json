@@ -1,5 +1,5 @@
 {
-  "name": "@usepulse/supabase",
+  "name": "@thinair-monorepo-template/supabase",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -23,7 +23,7 @@
     "postgres": "^3.4.5"
   },
   "devDependencies": {
-    "@usepulse/typescript-config": "workspace:*",
+    "@thinair-monorepo-template/typescript-config": "workspace:*",
     "@iarna/toml": "^2.2.5",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/prompts": "^2.4.9",

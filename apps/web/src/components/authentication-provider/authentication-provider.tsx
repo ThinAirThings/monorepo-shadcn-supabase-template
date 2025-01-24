@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode, useTransition } from 'react';
-import { createBrowserClient } from '@usepulse/supabase/createBrowserClient';
+import { createBrowserClient } from '@thinair-monorepo-template/supabase/createBrowserClient';
 import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { FullLoading } from '@/components/full-loading';
