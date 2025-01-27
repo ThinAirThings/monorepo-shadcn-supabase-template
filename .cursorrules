@@ -1,0 +1,733 @@
+<Root>
+  <ProjectSummary>
+    <Name>A Modern Type-Safe Application</Name>
+    <Description>
+      This project is a modern, type-safe application that uses a unified approach to schema definition,
+      GraphQL integration, and frontend tooling. It emphasizes consistent data handling, automated migrations,
+      and type safety throughout.
+    </Description>
+
+    <CoreConceptsAndDesignDecisions>
+
+      <DatabaseAndSchemaModeling>
+        <DrizzleForSchemaDefinition>
+          This project uses Drizzle ORM in a TypeScript-first manner.
+          Schema definitions are written in TypeScript, and Drizzle generates the corresponding SQL migrations.
+          This approach keeps the database schema aligned with the codebase, simplifying development
+          and ensuring data consistency.
+        </DrizzleForSchemaDefinition>
+      </DatabaseAndSchemaModeling>
+
+      <SupabaseIntegrationAndPgGraphql>
+        <SupabaseIntegration>
+          Supabase provides Postgres hosting and authentication, forming the core of user management
+          and data storage for the application.
+        </SupabaseIntegration>
+        <PgGraphqlExtension>
+          The pg_graphql Postgres extension automatically generates a GraphQL schema based on the Postgres schema.
+          It follows a Relay-inspired pattern for querying and mutations, ensuring consistency when working with data.
+        </PgGraphqlExtension>
+      </SupabaseIntegrationAndPgGraphql>
+
+      <FrontendAndCodeGeneration>
+        <GraphQLAndApolloClient>
+          On the frontend, Apollo Client is used to interact with the GraphQL API, providing robust type safety
+          and efficient data management.
+        </GraphQLAndApolloClient>
+        <GraphQLCodegenIntegration>
+          @graphql-codegen/cli is used to generate TypeScript types and React Apollo hooks from GraphQL documents,
+          guaranteeing strong type definitions and end-to-end type safety.
+        </GraphQLCodegenIntegration>
+      </FrontendAndCodeGeneration>
+    </CoreConceptsAndDesignDecisions>
+
+    <Conclusion>
+      This application combines modern technologies—TypeScript, Drizzle, Supabase, GraphQL, and React—to create
+      an efficient, type-safe foundation. Automated schema generation, real-time integration, and consistent
+      data models help streamline the development process and maintain reliability over time.
+    </Conclusion>
+  </ProjectSummary>
+
+  <Rules>
+
+    <!-- Rule: SQL style guidelines -->
+    <Rule>
+      <Name>sql_style</Name>
+      <Description>Follow PostgreSQL-friendly SQL style guidelines for readability</Description>
+      <Pattern>\.sql$</Pattern>
+      <Conventions>
+        <Convention>
+          <Description>Use lowercase for SQL keywords and snake_case for identifiers</Description>
+          <Example>
+            <Correct>
+              create table user_profiles (
+                  id uuid primary key default uuid_generate_v4()
+              );
+            </Correct>
+            <Incorrect>
+              CREATE TABLE UserProfiles (
+                  ID UUID PRIMARY KEY DEFAULT UUID_GENERATE_V4()
+              );
+            </Incorrect>
+          </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+
+    <!-- Rule: Package manager usage -->
+    <Rule>
+      <Name>package_manager</Name>
+      <Description>Always use pnpm instead of npm for package management commands</Description>
+      <Pattern>.*</Pattern>
+      <Conventions>
+        <Convention>
+          <Description>Use pnpm for all package management tasks</Description>
+          <Example>
+            <Correct>pnpm install</Correct>
+            <Incorrect>npm install</Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Use pnpm in documentation and README files</Description>
+          <Example>
+            <Correct>
+              ~~~bash
+              pnpm install
+              ~~~
+            </Correct>
+            <Incorrect>
+              ```bash
+              npm install
+              ```
+            </Incorrect>
+          </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+
+    <!-- Rule: Markdown code blocks -->
+    <Rule>
+      <Name>markdown_code_blocks</Name>
+      <Description>Ensure proper formatting for Markdown code blocks</Description>
+      <Pattern>\.md$</Pattern>
+      <Conventions>
+        <Convention>
+          <Description>Use triple backticks with a language spec for outer code blocks</Description>
+          <Example>
+            <Correct>
+              ```markdown:path/to/README.md
+              # Content here
+              ```
+            </Correct>
+            <Incorrect>
+              # Content here
+            </Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Properly format inner code blocks with spacing and structure</Description>
+          <Example>
+            <Correct>
+              ```markdown
+              # Heading
+
+                  ```javascript
+                  const example = "code";
+                  ```
+              ```
+            </Correct>
+            <Incorrect>
+              ```markdown
+              # Heading
+              ```javascript
+              const example = "code";
+              ```
+              ```
+            </Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Always specify a language for syntax highlighting</Description>
+          <Example>
+            <Correct>
+              ```markdown
+              # Example
+
+                  ```typescript
+                  interface Example {
+                      prop: string;
+                  }
+                  ```
+              ```
+            </Correct>
+            <Incorrect>
+              ```markdown
+              # Example
+
+                  ```
+                  interface Example {
+                      prop: string;
+                  }
+                  ```
+              ```
+            </Incorrect>
+          </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+
+    <!-- Rule: Indentation -->
+    <Rule>
+      <Name>indentation</Name>
+      <Description>Use 4 spaces for indentation in all code files</Description>
+      <Pattern>\.(ts|js|json|tsx|jsx|sql)$</Pattern>
+      <Conventions>
+        <Convention>
+          <Description>Use 4 spaces consistently</Description>
+          <Example>
+            <Correct>
+              {
+                  "key": "value"
+              }
+            </Correct>
+            <Incorrect>
+              {
+                "key": "value"
+              }
+            </Incorrect>
+          </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+
+  <!-- Rule: Form handling with composable React Hook Form + GraphQL + useImperativeHandle -->
+  <Rule>
+    <Name>react_hook_form_pattern</Name>
+    <Description>
+      Consistent form design guidelines for React Hook Form with GraphQL. Includes
+      rules around create/update modes, imperative submission, hidden submit buttons,
+      skeleton placeholders, structured error handling, and stable callbacks.
+    </Description>
+    <Pattern>\.tsx$</Pattern>
+    <Conventions>
+
+      <!-- Convention: Single Top-Level Form -->
+      <Convention>
+        <Description>
+          Each form component should have one top-level &lt;form&gt; element,
+          wrapped in a shared &lt;Form /&gt; provider (from @usepulse/ui or similar),
+          with consistent spacing and styling (e.g. className="space-y-6 px-2").
+        </Description>
+        <Example>
+          <Correct>
+            &lt;Form {...form}&gt;
+              &lt;form className="space-y-6 px-2" onSubmit={form.handleSubmit(onValidSubmit)}&gt;
+                ...
+              &lt;/form&gt;
+            &lt;/Form&gt;
+          </Correct>
+          <Incorrect>
+            &lt;div&gt;
+              &lt;section&gt;...No &lt;form&gt; present...&lt;/section&gt;
+            &lt;/div&gt;
+          </Incorrect>
+        </Example>
+      </Convention>
+
+      <!-- Convention: Hidden Submit Button -->
+      <Convention>
+        <Description>
+          Include a hidden &lt;button type="submit"/&gt; inside the form, ensuring
+          pressing Enter triggers submission automatically in multi-field forms.
+        </Description>
+        <Example>
+          <Correct>
+            &lt;form onSubmit={...}&gt;
+              &lt;button type="submit" className="hidden" /&gt;
+              &lt;!-- other fields --&gt;
+            &lt;/form&gt;
+          </Correct>
+          <Incorrect>
+            &lt;form&gt;
+              &lt;!-- Missing button; Enter won't submit properly if multiple inputs exist --&gt;
+            &lt;/form&gt;
+          </Incorrect>
+        </Example>
+      </Convention>
+
+      <!-- Convention: Zod + React Hook Form Validation -->
+      <Convention>
+        <Description>
+          Use a Zod schema for validation and pass it to React Hook Form through zodResolver.
+          Provide defaultValues and dynamic values based on server data for consistent
+          client-side validation.
+        </Description>
+        <Example>
+          <Correct>
+            const formSchema = z.object({ ... });
+            const form = useForm({
+              resolver: zodResolver(formSchema),
+              defaultValues: { ... },
+              values: { ... }
+            });
+          </Correct>
+          <Incorrect>
+            const form = useForm({
+              // Missing or incomplete form schema
+              defaultValues: {},
+            });
+          </Incorrect>
+        </Example>
+      </Convention>
+
+      <!-- Convention: Use useCallback for Stable Handlers -->
+      <Convention>
+        <Description>
+          Wrap your form submit handlers (and other stable functions) in useCallback
+          for improved performance and more predictable reference identities,
+          especially when using useImperativeHandle or passing handlers to child components.
+        </Description>
+        <Example>
+          <Correct>
+            const handleSubmit = useCallback(() => {
+              form.handleSubmit(async (values) => {
+                // ...mutation logic...
+              })();
+            }, [form, /* other dependencies */]);
+          </Correct>
+          <Incorrect>
+            function handleSubmit() {
+              // Not wrapped in useCallback; references change on every render
+              form.handleSubmit(async (values) =&gt; { ... })();
+            }
+          </Incorrect>
+        </Example>
+      </Convention>
+
+      <!-- Convention: Imperative Form Submission (useImperativeHandle) -->
+      <Convention>
+        <Description>
+          Use useImperativeHandle to expose "submit" and any "loading" states on the ref,
+          so parent components can programmatically trigger form submission and track
+          loading/disabled status.
+        </Description>
+        <Example>
+          <Correct>
+            useImperativeHandle(ref, () =&gt; ({
+              submit: handleSubmit,
+              mutationLoading,
+            }), [handleSubmit, mutationLoading]);
+          </Correct>
+          <Incorrect>
+            // Not exposing handleSubmit or loading status to parent components
+            useImperativeHandle(ref, () =&gt; ({}));
+          </Incorrect>
+        </Example>
+      </Convention>
+
+      <!-- Convention: Create/Update Mode (Optional) -->
+      <Convention>
+        <Description>
+          If the form supports both creation and update scenarios, include a "mode" prop
+          ("create" | "update") to dynamically pick the correct mutation and default logic.
+        </Description>
+        <Example>
+          <Correct>
+            function MyForm({ mode = "create", ... }) {
+              if (mode === "create") {
+                // call create mutation
+              } else {
+                // call update mutation
+              }
+            }
+          </Correct>
+          <Incorrect>
+            function MyForm({ ... }) {
+              // Only update logic; can't handle creation
+            }
+          </Incorrect>
+        </Example>
+      </Convention>
+
+      <!-- Convention: GraphQL Fragment + Mutation -->
+      <Convention>
+        <Description>
+          For each domain (e.g., Profiles, Organizations), define a GraphQL fragment
+          describing relevant fields. Pair it with matching create/update mutations,
+          optionally handling cache updates in the create path.
+        </Description>
+        <Example>
+          <Correct>
+            const MyFragment = graphql(`
+              fragment MyFragment on MyObject {
+                id
+                fieldA
+                fieldB
+              }
+            `);
+
+            const CreateMyObjectMutation = graphql(`...`);
+            const UpdateMyObjectMutation = graphql(`...`);
+          </Correct>
+          <Incorrect>
+            // Missing fragments or separate mutation files with no references
+          </Incorrect>
+        </Example>
+      </Convention>
+
+      <!-- Convention: Skeleton for Loading States -->
+      <Convention>
+        <Description>
+          Provide a dedicated Skeleton component (e.g., MyFormSkeleton) 
+          that visually mimics the form layout to represent loading placeholders.
+        </Description>
+        <Example>
+          <Correct>
+            export function MyFormSkeleton() {
+              return (
+                &lt;div className="space-y-6 px-2"&gt;
+                  &lt;div className="space-y-2"&gt;
+                    &lt;Skeleton className="h-4 w-[60px]" /&gt;
+                    &lt;Skeleton className="h-10 w-full rounded-md" /&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              );
+            }
+          </Correct>
+          <Incorrect>
+            // Missing or incomplete skeleton, no loading placeholders
+          </Incorrect>
+        </Example>
+      </Convention>
+
+      <!-- Convention: Clean Error Handling in onSubmit -->
+      <Convention>
+        <Description>
+          In handleSubmit, catch Apollo or server-side errors. Map server errors
+          to form fields with form.setError for specific validation messages,
+          and surface user-friendly feedback where relevant.
+        </Description>
+        <Example>
+          <Correct>
+            form.handleSubmit(async (values) =&gt; {
+              try {
+                const { data } = await someMutation({ variables: { ... } });
+                if (data?.someMutation?.error) {
+                  form.setError("fieldName", { message: "Custom error message" });
+                  throw new Error("Field error");
+                }
+              } catch (error) {
+                onError?.(error);
+              }
+            })();
+          </Correct>
+          <Incorrect>
+            form.handleSubmit(async (values) =&gt; {
+              // Error is ignored or never set on the form
+            })();
+          </Incorrect>
+        </Example>
+      </Convention>
+
+    </Conventions>
+  </Rule>
+
+    <!-- Rule: Use shadcn/ui components -->
+    <Rule>
+      <Name>component_library</Name>
+      <Description>Use shadcn/ui components by default for UI elements</Description>
+      <Pattern>\.(tsx|jsx)$</Pattern>
+      <Conventions>
+        <Convention>
+          <Description>Default to shadcn/ui for common UI components</Description>
+          <Example>
+            <Correct>
+              import { Button } from '@/components/ui/button';
+
+              function Component() {
+                  return <Button>Click me</Button>;
+              }
+            </Correct>
+            <Incorrect>
+              function Component() {
+                  return <button className="custom-btn">Click me</button>;
+              }
+            </Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Create custom components only if shadcn/ui doesn’t cover the needed functionality</Description>
+          <Example>
+            <Correct>
+              // Custom component for specialized functionality not provided by shadcn
+              function SpecializedChart() {
+                  return <div>Custom chart implementation</div>;
+              }
+            </Correct>
+            <Incorrect>
+              // Re-implementing an existing shadcn/ui component
+              function CustomButton() {
+                  return <button>Click me</button>;
+              }
+            </Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>When extending shadcn/ui, follow its styling and conventions</Description>
+          <Example>
+            <Correct>
+              const CustomButton = forwardRef<HTMLButtonElement, ButtonProps>(
+                  ({ className, ...props }, ref) => (
+                      <Button
+                          className={cn("custom-styles", className)}
+                          ref={ref}
+                          {...props}
+                      />
+                  )
+              )
+            </Correct>
+            <Incorrect>
+              function CustomButton({ className, ...props }) {
+                  return <button className={`custom-button ${className}`} {...props} />;
+              }
+            </Incorrect>
+          </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+
+    <!-- Rule: Command dropdown structure using shadcn/ui -->
+    <Rule>
+      <Name>command_dropdown_structure</Name>
+      <Description>When using the Command component inside dropdowns, always include the complete structure to avoid errors</Description>
+      <Pattern>\.(tsx|jsx)$</Pattern>
+      <Conventions>
+        <Convention>
+          <Description>Include CommandList when using Command in dropdowns</Description>
+          <Example>
+            <Correct>
+              <Command>
+                  <CommandInput placeholder="Search..." />
+                  <CommandList>
+                      <CommandEmpty>No results</CommandEmpty>
+                      <CommandGroup>
+                          <CommandItem>Item</CommandItem>
+                      </CommandGroup>
+                  </CommandList>
+              </Command>
+            </Correct>
+            <Incorrect>
+              <Command>
+                  <CommandEmpty>No results</CommandEmpty>
+                  <CommandGroup>
+                      <CommandItem>Item</CommandItem>
+                  </CommandGroup>
+              </Command>
+            </Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Ensure proper component hierarchy to prevent iterator-related errors</Description>
+          <Example>
+            <Correct>
+              import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
+
+              <DropdownMenuContent>
+                  <Command>
+                      <CommandInput />
+                      <CommandList>
+                          <CommandGroup>
+                              <CommandItem>Item</CommandItem>
+                          </CommandGroup>
+                      </CommandList>
+                  </Command>
+              </DropdownMenuContent>
+            </Correct>
+            <Incorrect>
+              import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
+
+              <DropdownMenuContent>
+                  <Command>
+                      <CommandGroup>
+                          <CommandItem>Item</CommandItem>
+                      </CommandGroup>
+                  </Command>
+              </DropdownMenuContent>
+            </Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Import all necessary Command subcomponents for full functionality</Description>
+          <Example>
+            <Correct>import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';</Correct>
+            <Incorrect>import { Command, CommandGroup, CommandItem } from '@/components/ui/command';</Incorrect>
+          </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+
+    <!-- Rule: GraphQL soft deletion -->
+    <Rule>
+      <Name>graphql_soft_deletion</Name>
+      <Description>All GraphQL queries must include soft-deletion logic using pg_graphql-compatible syntax</Description>
+      <Pattern>\.(tsx|ts)$</Pattern>
+      <Conventions>
+        <Convention>
+          <Description>Include a deletedAt filter in collection queries with { is: NULL } syntax</Description>
+          <Example>
+            <Correct>
+              query GetItems {
+                itemsCollection(
+                  filter: { deletedAt: { is: NULL } }
+                ) {
+                  edges {
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            </Correct>
+            <Incorrect>
+              query GetItems {
+                itemsCollection {
+                  edges {
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            </Incorrect>
+            <Incorrect>
+              query GetItems {
+                itemsCollection(
+                  filter: { deletedAt: { isNull: true } }
+                ) {
+                  edges {
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            </Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Apply soft deletion filters in nested collection queries</Description>
+          <Example>
+            <Correct>
+              nestedCollection(
+                filter: { deletedAt: { is: NULL } }
+              )
+            </Correct>
+            <Incorrect>
+              nestedCollection
+            </Incorrect>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Use updateCollection with deletedAt for soft deletion mutations</Description>
+          <Example>
+            <Correct>
+              mutation SoftDelete($id: UUID!) {
+                updateItemsCollection(
+                  set: { deletedAt: "now()" }
+                  filter: { id: { eq: $id } }
+                )
+              }
+            </Correct>
+            <Incorrect>
+              mutation HardDelete($id: UUID!) {
+                deleteFromItemsCollection(
+                  filter: { id: { eq: $id } }
+                )
+              }
+            </Incorrect>
+          </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+
+    <!-- Rule: Motion and animations using Framer Motion -->
+    <Rule>
+      <Name>motion_and_animations</Name>
+      <Description>Use Framer Motion to improve UI interactions and transitions</Description>
+      <Pattern>\.(tsx|jsx)$</Pattern>
+      <Conventions>
+        <Convention>
+            <Description>Use AnimatePresence with popLayout or wait modes for page transitions</Description>
+            <Example>
+                <Correct>
+                    <AnimatePresence mode="popLayout">
+                        <motion.div
+                            key={pathname}
+                            variants={variants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                        >
+                            {children}
+                        </motion.div>
+                    </AnimatePresence>
+                </Correct>
+            </Example>
+        </Convention>
+        <Convention>
+            <Description>Enhance state changes with motion-based animations</Description>
+            <Example>
+                <Correct>
+                    <AnimatePresence mode="wait">
+                        {viewState === 'success' && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                            >
+                                <SuccessAnimation />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </Correct>
+                <Incorrect>
+                    {viewState === 'success' && <SuccessAnimation />}
+                </Incorrect>
+            </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+
+    <!-- Rule: Form keyboard shortcuts -->
+    <Rule>
+      <Name>form_keyboard_shortcuts</Name>
+      <Description>Implement consistent keyboard shortcuts for form submissions</Description>
+      <Pattern>\.(tsx|jsx)$</Pattern>
+      <Conventions>
+        <Convention>
+          <Description>Use Ctrl+Enter (or Cmd+Enter) for textarea submissions</Description>
+          <Example>
+            <Correct>
+              const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+                  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                      e.preventDefault();
+                      handleSubmit();
+                  }
+              };
+            </Correct>
+          </Example>
+        </Convention>
+        <Convention>
+          <Description>Use Enter for submissions in regular input fields</Description>
+          <Example>
+            <Correct>
+              <form onSubmit={handleSubmit}>
+                  <Input onKeyDown={handleKeyDown} />
+              </form>
+            </Correct>
+          </Example>
+        </Convention>
+      </Conventions>
+    </Rule>
+  </Rules>
+</Root>

@@ -6,6 +6,12 @@ import { User } from '@supabase/supabase-js';
 import { createDrizzleSupabaseClient } from '@thinair-monorepo-template/supabase/drizzle/createDrizzleSupabaseClient';
 // Define the types for our schema builder
 interface SchemaTypes {
+    Scalars: {
+        File: {
+            Input: File
+            Output: never
+        }
+    }
     Context: {
         user: User | null;
         db: ReturnType<typeof createDrizzleSupabaseClient>
@@ -21,7 +27,12 @@ export const builder = new SchemaBuilder<SchemaTypes>({
         client: db
     },
 });
-
+// Initialize the base query type with a placeholder field
+builder.scalarType('File', {
+    serialize: () => {
+        throw new Error('Uploads can only be used as input types');
+    },
+});
 // Initialize the base query type with a placeholder field
 builder.queryType({
     fields: (t) => ({

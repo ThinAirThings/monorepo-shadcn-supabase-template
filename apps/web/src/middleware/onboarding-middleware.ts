@@ -24,32 +24,44 @@ const OnboardingMiddlewareQuery = graphql(`
 `);
 
 export async function handleOnboardingRedirect(request: NextRequest) {
-    // Skip onboarding check for public routes and static files
+    // Skip auth routes and static files
     if (
         request.nextUrl.pathname.startsWith('/login') ||
-        request.nextUrl.pathname.startsWith('/signup') ||
-        request.nextUrl.pathname.startsWith('/onboarding')
+        request.nextUrl.pathname.startsWith('/signup')
     ) {
         return NextResponse.next();
     }
 
     try {
         const { data } = await apolloClient.query({
-            query: OnboardingMiddlewareQuery
+            query: OnboardingMiddlewareQuery,
+            fetchPolicy: 'network-only'
         });
 
-        const hasCompleteProfile = data?.viewer?.firstName && 
+        const hasCompleteProfile = !!(data?.viewer?.firstName && 
             data?.viewer?.lastName && 
-            data?.viewer?.phoneNumber;
+            data?.viewer?.phoneNumber);
 
-        const hasOrganizations = data?.viewer?.organizationMembersCollection?.edges?.length ?? 0 > 0;
-
+        const hasOrganizations = (data?.viewer?.organizationMembersCollection?.edges?.length ?? 0) > 0;
         const isOnboarded = hasCompleteProfile && hasOrganizations;
-
-        if (!isOnboarded) {
+        // Create clean URL for redirects (without query params)
+        const createRedirectUrl = (pathname: string) => {
             const url = request.nextUrl.clone();
-            url.pathname = '/onboarding';
-            return NextResponse.redirect(url);
+            url.pathname = pathname;
+            url.search = ''; // Clear all query parameters
+            return url;
+        };
+
+        // If user is not onboarded and trying to access any route except onboarding,
+        // redirect to onboarding
+        if (!isOnboarded && !request.nextUrl.pathname.startsWith('/onboarding')) {
+            return NextResponse.redirect(createRedirectUrl('/onboarding'));
+        }
+
+        // If user is onboarded and trying to access onboarding route,
+        // redirect to dashboard
+        if (isOnboarded && request.nextUrl.pathname.startsWith('/onboarding')) {
+            return NextResponse.redirect(createRedirectUrl('/dashboard'));
         }
 
         return NextResponse.next();

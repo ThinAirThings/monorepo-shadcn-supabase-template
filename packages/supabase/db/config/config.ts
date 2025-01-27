@@ -5,6 +5,7 @@ import { enableGraphqlInflection } from './flags/graphql-inflection'
 import { createOrReplaceViewerFunction } from './functions/viewer'
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/drizzle/db'
+import { createStorageBucket } from './storage/create-storage-bucket'
 
 console.log(process.env.DATABASE_URL)
 async function configureDatabase() {
@@ -37,7 +38,31 @@ async function configureDatabase() {
         // Create database functions
         console.log('🔧 Creating database functions...')
         await createOrReplaceViewerFunction()
-
+        
+        // Configure storage buckets
+        console.log('📦 Configuring storage buckets...')
+        await createStorageBucket({
+            id: 'profile_pictures',
+            public: true,
+            policies: {
+                // Anyone can view profile pictures
+                select: `bucket_id = 'profile_pictures'`,
+                
+                // Users can only upload to their own folder
+                insert: `
+                    bucket_id = 'profile_pictures'
+                    and auth.uid() = owner_id::uuid
+                    and (storage.foldername(name))[1] = auth.uid()::text
+                `,
+                
+                // Users can only update files in their own folder
+                update: `
+                    bucket_id = 'profile_pictures'
+                    and auth.uid() = owner_id::uuid
+                    and (storage.foldername(name))[1] = auth.uid()::text
+                `
+            }
+        })
         console.log('✅ Database configuration completed successfully')
 
     } catch (error) {

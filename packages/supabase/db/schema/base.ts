@@ -17,6 +17,7 @@ export const baseIndexes = (tableName: string, table: {
     index(`${tableName}_deleted_at_index`).on(table.deletedAt),
     pgPolicy(`${tableName}_deleted_at_policy`, {
         'for': 'select',
+        as: 'restrictive',
         'using': sql`deleted_at is null`
     })
 ]

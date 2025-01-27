@@ -11,13 +11,19 @@ export const profiles = pgTable('profiles', {
     firstName: text('first_name'),
     lastName: text('last_name'),
     phoneNumber: text('phone_number'),    
+    profilePictureUrl: text('profile_picture_url'),
 }, (table) => [
     ...baseIndexes('profiles', table),
     pgPolicy('profiles_update_policy', {
         'for': 'update',
-        using: sql`auth.uid() = id`,
+        using: sql`auth.uid() = profiles.id`,
         withCheck: sql`true`
-    })
+    }),
+    pgPolicy('profiles_select_policy', {
+        'for': 'select',
+        using: sql`true`
+    }),
+    index('profiles_email_idx').on(table.email),
 ]);
 
 export const organizations = pgTable('organizations', {
@@ -32,9 +38,9 @@ export const organizations = pgTable('organizations', {
         'for': 'select',
         using: sql`EXISTS (
             SELECT 1 FROM organization_members
-            WHERE organization_id = id
-            AND user_id = auth.uid()
-        )`
+            WHERE organization_members.organization_id = organizations.id
+            AND organization_members.user_id = auth.uid()
+        ) OR organizations.created_by = auth.uid()`
     }),
     // Anyone authenticated can create an organization
     pgPolicy('organizations_insert_policy', {
@@ -46,9 +52,9 @@ export const organizations = pgTable('organizations', {
         'for': 'update',
         using: sql`EXISTS (
             SELECT 1 FROM organization_members
-            WHERE organization_id = id
-            AND user_id = auth.uid()
-            AND role IN ('Owner', 'Administrator')
+            WHERE organization_members.organization_id = organizations.id
+            AND organization_members.user_id = auth.uid()
+            AND organization_members.role IN ('Owner', 'Administrator')
         )`,
         withCheck: sql`true`
     })
@@ -67,37 +73,70 @@ export const organizationMembers = pgTable('organization_members', {
     // Members can read other members of their organizations
     pgPolicy('organization_members_read_policy', {
         'for': 'select',
-        using: sql`auth.uid() = user_id`
+        using: sql`auth.uid() = organization_members.user_id`
     }),
-    // Only owners and administrators can add new members
+    // Allow inserts if:
+    // 1. Organization has no members (creator can add first members)
+    // 2. User is an owner/admin of the organization
     pgPolicy('organization_members_insert_policy', {
         'for': 'insert',
         withCheck: sql`
+            (
+                NOT EXISTS (
+                    SELECT 1 FROM organization_members om
+                    WHERE om.organization_id = organization_members.organization_id
+                    AND om.deleted_at IS NULL
+                )
+                AND EXISTS (
+                    SELECT 1 FROM organizations o
+                    WHERE o.id = organization_members.organization_id
+                    AND o.created_by = auth.uid()
+                )
+            )
+            OR
             EXISTS (
-                SELECT 1 FROM organization_members 
-                WHERE organization_id = organization_members.organization_id
-                AND user_id = auth.uid()
-                AND role IN ('Owner', 'Administrator')
+                SELECT 1 FROM organization_members om
+                WHERE om.organization_id = organization_members.organization_id
+                AND om.user_id = auth.uid()
+                AND om.role IN ('Owner', 'Administrator')
+                AND om.deleted_at IS NULL
             )
         `
     }),
     // Allow updates only if:
-    // 1. User is an owner (can modify any role)
-    // 2. User is an admin (can only modify member/admin roles, cannot modify owner roles)
+    // 1. Organization has no members and user is creator
+    // 2. User is an owner (can modify any role)
+    // 3. User is an admin (can only modify member/admin roles, cannot modify owner roles)
     pgPolicy('organization_members_update_policy', {
         'for': 'update',
-        using: sql`EXISTS (
-            SELECT 1 FROM organization_members 
-            WHERE organization_id = organization_members.organization_id
-            AND user_id = auth.uid()
-            AND (
-                role = 'Owner'
-                OR (
-                    role = 'Administrator'
-                    AND organization_members.role != 'Owner'
+        using: sql`
+            (
+                NOT EXISTS (
+                    SELECT 1 FROM organization_members om
+                    WHERE om.organization_id = organization_members.organization_id
+                    AND om.deleted_at IS NULL
+                )
+                AND EXISTS (
+                    SELECT 1 FROM organizations o
+                    WHERE o.id = organization_members.organization_id
+                    AND o.created_by = auth.uid()
                 )
             )
-        )`,
+            OR
+            EXISTS (
+                SELECT 1 FROM organization_members om
+                WHERE om.organization_id = organization_members.organization_id
+                AND om.user_id = auth.uid()
+                AND om.deleted_at IS NULL
+                AND (
+                    om.role = 'Owner'
+                    OR (
+                        om.role = 'Administrator'
+                        AND organization_members.role != 'Owner'
+                    )
+                )
+            )
+        `,
         withCheck: sql`true`
     })
 ]);

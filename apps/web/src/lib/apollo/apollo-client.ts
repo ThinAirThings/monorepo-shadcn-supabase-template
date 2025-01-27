@@ -8,11 +8,14 @@ import { setContext } from '@apollo/client/link/context'
 import { createBrowserClient } from '@thinair-monorepo-template/supabase/createBrowserClient';
 import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient';
 import { getVercelURL } from '../vercel/get-vercel-url';
-
+import createUploadLink  from 'apollo-upload-client/createUploadLink.mjs';
+import { relayStylePagination } from '@apollo/client/utilities';
 const httpLink = createHttpLink({
     uri: `${getVercelURL()}api/graphql`,
 });
-
+const uploadLink = createUploadLink({
+    uri: `${getVercelURL()}api/graphql`,
+});
 const authLink = setContext(async (_, { headers }) => {
     // Check if we're running on the server
     const isServer = typeof window === 'undefined';
@@ -37,26 +40,14 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 export const apolloClient = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: authLink.concat(uploadLink),
     cache: new InMemoryCache({
-        dataIdFromObject(responseObject) {
-            if ('nodeId' in responseObject) {
-                return `${responseObject.nodeId}`
-            }
-            return defaultDataIdFromObject(responseObject)
-        },
         typePolicies: {
             Query: {
                 fields: {
-                    node: {
-                        read(_, { args, toReference }) {
-                            const ref = toReference({
-                                nodeId: args?.nodeId,
-                            })
-                
-                            return ref
-                        },
-                    },
+                    organizationsCollection: relayStylePagination(),
+                    zonesCollection: relayStylePagination(),
+                    leadsCollection: relayStylePagination(),
                 },
             },
         },

@@ -1,4 +1,4 @@
-import { schema } from '@/graphql/schema'
+import { schema } from '@/graphql/schema/schema'
 import { createYoga, createSchema } from 'graphql-yoga'
 import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient'
 import { stitchSchemas } from '@graphql-tools/stitch';
