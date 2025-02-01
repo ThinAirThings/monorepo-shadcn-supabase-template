@@ -1,18 +1,14 @@
 import { 
     ApolloClient, 
     InMemoryCache,
-    createHttpLink,
-    defaultDataIdFromObject,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context'
 import { createBrowserClient } from '@thinair-monorepo-template/supabase/createBrowserClient';
 import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient';
 import { getVercelURL } from '../vercel/get-vercel-url';
 import createUploadLink  from 'apollo-upload-client/createUploadLink.mjs';
-import { relayStylePagination } from '@apollo/client/utilities';
-const httpLink = createHttpLink({
-    uri: `${getVercelURL()}api/graphql`,
-});
+import generatedIntrospection from '@/root/graphql.possibleTypes.json'
+
 const uploadLink = createUploadLink({
     uri: `${getVercelURL()}api/graphql`,
 });
@@ -42,15 +38,8 @@ const authLink = setContext(async (_, { headers }) => {
 export const apolloClient = new ApolloClient({
     link: authLink.concat(uploadLink),
     cache: new InMemoryCache({
-        typePolicies: {
-            Query: {
-                fields: {
-                    organizationsCollection: relayStylePagination(),
-                    zonesCollection: relayStylePagination(),
-                    leadsCollection: relayStylePagination(),
-                },
-            },
-        },
+        possibleTypes: generatedIntrospection.possibleTypes
     }),
-    dataMasking: true
+    dataMasking: true,
+    
 });

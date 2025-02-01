@@ -1,22 +1,8 @@
-import { profiles } from '@thinair-monorepo-template/supabase/schema';
+import { profiles } from '@usepulse/supabase/schema';
 import { builder } from '../builder';
 import { eq } from "drizzle-orm";
-import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient';
-import { Err, ErrType, Ok, Result } from '../types/Result';
+import { createServerClient } from '@usepulse/supabase/createServerClient';
 
-type ProfileUpdateErrorSet = ErrType<'Unauthorized'> | ErrType<'Unknown'> | ErrType<'UploadFailed'>
-
-const ProfileType = builder.drizzleObject('profiles', {
-    name: 'Profile',
-    fields: (t) => ({
-        id: t.exposeID('id'),
-        email: t.exposeString('email'),
-        firstName: t.exposeString('firstName'),
-        lastName: t.exposeString('lastName'),
-        phoneNumber: t.exposeString('phoneNumber'),
-        profilePictureUrl: t.exposeString('profilePictureUrl'),
-    }),
-})
 
 builder.mutationField('profileUpdate', t => 
     t.field({
@@ -36,38 +22,19 @@ builder.mutationField('profileUpdate', t =>
                 required: true,
             }),
         },
-        type: builder.objectRef<Result<typeof profiles.$inferSelect, ProfileUpdateErrorSet>>('ProfileUpdateResult').implement({
-            description: 'The result of the profile update mutation',
+        type: builder.simpleObject('ProfileUpdateResult', {
             fields: (t) => ({
-                data: t.field({
-                    type: ProfileType,
-                    resolve: (parent) => parent.data,
-                    nullable: true,
-                }),
-                error: t.field({
-                    type: builder.objectRef<ProfileUpdateErrorSet>('ProfileUpdateError').implement({
-                        fields: (t) => ({
-                            type: t.field({
-                                type: builder.enumType('ProfileUpdateErrorType', {
-                                    values: ['Unauthorized', 'Unknown', 'UploadFailed'],
-                                }),
-                                resolve: (parent) => parent.type,
-                            }),
-                            message: t.exposeString('message'),
-                        })
-                    }),
-                    resolve: (parent) => parent.error,
-                    nullable: true,
-                })
+                id: t.string({ nullable: false }),
+                firstName: t.string({ nullable: true }),
+                lastName: t.string({ nullable: true }),
+                phoneNumber: t.string({ nullable: true }),
+                profilePictureUrl: t.string({ nullable: true }),
             }),
         }),
         resolve: async (_, args, { user, db }) => {
             try {
                 if (!user?.id) {
-                    return Err({
-                        type: 'Unauthorized',
-                        message: 'Unauthorized',
-                    });
+                    throw new Error('Unauthorized')
                 }
 
                 const supabase = await createServerClient()
@@ -89,10 +56,7 @@ builder.mutationField('profileUpdate', t =>
 
                     if (uploadError) {
                         console.log(uploadError)
-                        return Err({
-                            type: 'UploadFailed',
-                            message: 'Failed to upload profile picture',
-                        });
+                        throw new Error('UploadFailed')
                     }
 
                     const { data: { publicUrl } } = supabase.storage
@@ -114,18 +78,12 @@ builder.mutationField('profileUpdate', t =>
                 });
 
                 if (!profile) {
-                    return Err({
-                        type: 'Unauthorized',
-                        message: 'Unauthorized',
-                    });
+                    throw new Error('Failed to update profile')
                 }
 
-                return Ok(profile);
+                return profile;
             } catch (error) {
-                return Err({
-                    type: 'Unknown',
-                    message: error instanceof Error ? error.message : 'Unknown error',
-                });
+                throw new Error('Failed to update profile')
             }
         }
     })

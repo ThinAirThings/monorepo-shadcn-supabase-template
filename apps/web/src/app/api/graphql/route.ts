@@ -1,11 +1,11 @@
-import { schema } from '@/graphql/schema/schema'
+import { schema } from '@/graphql/schema'
 import { createYoga, createSchema } from 'graphql-yoga'
-import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient'
+import { createServerClient } from '@usepulse/supabase/createServerClient'
 import { stitchSchemas } from '@graphql-tools/stitch';
 import { buildHTTPExecutor } from '@graphql-tools/executor-http';
 import { schemaFromExecutor } from '@graphql-tools/wrap';
-import { createDrizzleSupabaseClient } from '@thinair-monorepo-template/supabase/drizzle/createDrizzleSupabaseClient';
-import { db } from '@thinair-monorepo-template/supabase/drizzle/db';
+import { createDrizzleSupabaseClient } from '@usepulse/supabase/drizzle/createDrizzleSupabaseClient';
+import { db } from '@usepulse/supabase/drizzle/db';
 
 interface NextContext {
   params: Promise<Record<string, string>>
@@ -56,7 +56,6 @@ const { handleRequest } = createYoga<NextContext>({
       if (!authHeader) {
           return { authHeader: null, user: null };
       }
-
       // Create Supabase client
       const supabase = await createServerClient();
       const accessToken = authHeader.split(' ')[1];

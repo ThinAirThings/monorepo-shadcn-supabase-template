@@ -1,18 +1,9 @@
 import { type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
-import { handleOnboardingRedirect } from './middleware/onboarding-middleware'
 
 export async function middleware(request: NextRequest) {
   // First check auth
   const response = await updateSession(request)
-  
-  // If the auth middleware redirected, return that response
-  if (response.status !== 200) {
-    return response
-  }
-
-  // Then check onboarding status
-  return handleOnboardingRedirect(request)
 }
 
 export const config = {

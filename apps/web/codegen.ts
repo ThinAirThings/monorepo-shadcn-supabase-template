@@ -37,6 +37,9 @@ const config: CodegenConfig = {
       plugins: [],
       config: {
         inlineFragmentTypes: "mask",
+        customDirectives: {
+          apolloUnmask: true
+        },
         enumsAsTypes: true,
         scalars: {
           UUID: 'string',
@@ -52,6 +55,12 @@ const config: CodegenConfig = {
     },
     "./graphql.schema.json": {
       plugins: ["introspection"]
+    },
+    "./graphql.possibleTypes.json": {
+      plugins: ['fragment-matcher'],
+      config: {
+        module: 'es2015'
+      }
     }
   }
 };

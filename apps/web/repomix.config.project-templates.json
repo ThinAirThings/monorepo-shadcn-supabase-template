@@ -1,0 +1,31 @@
+{
+  "output": {
+    "filePath": "repomix-output.project-templates.xml",
+    "style": "xml",
+    "parsableStyle": false,
+    "fileSummary": true,
+    "directoryStructure": true,
+    "removeComments": false,
+    "removeEmptyLines": false,
+    "topFilesLength": 10,
+    "showLineNumbers": true,
+    "copyToClipboard": false
+  },
+  "include": [
+    "src/components/project-templates/project-templates-form.tsx",
+    "src/components/project-template-phases/project-template-phases-form.tsx",
+    "src/components/project-template-phase-tasks/project-template-phase-tasks-form.tsx",
+    "packages/supabase/db/schema/schema.ts"
+  ],
+  "ignore": {
+    "useGitignore": false,
+    "useDefaultPatterns": false,
+    "customPatterns": []
+  },
+  "security": {
+    "enableSecurityCheck": true
+  },
+  "tokenCount": {
+    "encoding": "o200k_base"
+  }
+}

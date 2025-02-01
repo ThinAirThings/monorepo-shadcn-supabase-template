@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@/root/*": ["./*"],
       "@thinair-monorepo-template/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [

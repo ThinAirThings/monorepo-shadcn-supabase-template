@@ -1,17 +1,6 @@
 import { builder } from '../builder';
-import { organizations, organizationMembers } from '@thinair-monorepo-template/supabase/schema';
-import { Err, ErrType, Ok, Result } from '../types/Result';
-
-
-type OrganizationCreateErrorSet = ErrType<'OrganizationExists'> | ErrType<'Unauthorized'> | ErrType<'Unknown'>
-
-const OrganizationType = builder.drizzleObject('organizations', {
-    name: 'Organization',
-    fields: (t) => ({
-        id: t.exposeID('id'),
-        name: t.exposeString('name'),
-    }),
-})
+import { organizations, organizationMembers } from '@usepulse/supabase/schema';
+import { createServerClient } from '@usepulse/supabase/createServerClient';
 
 // Create the mutation
 builder.mutationField('organizationCreate', t => 
@@ -21,80 +10,89 @@ builder.mutationField('organizationCreate', t =>
                 type: builder.inputType('OrganizationCreateInput', {
                     fields: (t) => ({
                         name: t.string({ required: true }),
+                        profilePicture: t.field({
+                            type: 'File',
+                            required: false,
+                        }),
                     }),
                 }),
                 required: true,
             })
         },
-        type: builder.objectRef<Result<typeof organizations.$inferSelect, OrganizationCreateErrorSet>>('OrganizationCreateResult').implement({
-            description: 'The result of the organization create mutation',
+        type: builder.simpleObject('OrganizationCreateResult', {
             fields: (t) => ({
-                data: t.field({
-                    type: OrganizationType,
-                    resolve: (parent) => parent.data,
-                    nullable: true,
-                }),
-                error: t.field({
-                    type: builder.objectRef<OrganizationCreateErrorSet>('OrganizationCreateError').implement({
-                        fields: (t) => ({
-                            type: t.field({
-                                type: builder.enumType('OrganizationCreateErrorType', {
-                                    values: ['OrganizationExists', 'Unauthorized', 'Unknown'],
-                                }),
-                                resolve: (parent) => parent.type,
-                            }),
-                            message: t.exposeString('message'),
-                        })
-                    }),
-                    resolve: (parent) => parent.error,
-                    nullable: true,
-                })
+                id: t.field({ type: 'UUID', nullable: false }),
+                name: t.string({ nullable: false }),
+                profilePictureUrl: t.string({ nullable: true }),
             })
         }),
         resolve: async (_, args, { user, db }) => {
             try {
                 if (!user?.id) {
-                    return Err({
-                        type: 'Unauthorized',
-                        message: 'Unauthorized',
-                    });
+                    throw new Error('Unauthorized')
                 }
-                console.log(user)
-                console.log('Creating organization')
-                // First create the organization using RLS to respect policies
+
+                const supabase = await createServerClient()
+                let profilePictureUrl = undefined
+
+                // Handle profile picture upload if provided
+                if (args.input.profilePicture) {
+                    const file = args.input.profilePicture
+                    const timestamp = Date.now()
+                    const extension = file.name.split('.').pop()
+                    const fileName = `${timestamp}.${extension}`
+
+                    const { error: uploadError } = await supabase.storage
+                        .from('organization_profile_pictures')
+                        .upload(fileName, file, {
+                            upsert: true,
+                            contentType: file.type,
+                        })
+
+                    if (uploadError) {
+                        throw new Error('Failed to upload organization logo')
+                    }
+
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('organization_profile_pictures')
+                        .getPublicUrl(fileName)
+
+                    profilePictureUrl = publicUrl
+                }
+
+                // Create organization with all data
                 const [organization] = await db.rls(async (tx) => {
                     const [org] = await tx
                         .insert(organizations)
                         .values({
                             name: args.input.name,
+                            profilePictureUrl,
                         })
                         .returning();
+
                     if (!org) {
                         throw new Error('Failed to create organization');
                     }
+
                     await tx.insert(organizationMembers).values({
-                        userId: user.id,
+                        profileId: user.id,
                         organizationId: org.id,
                         role: 'Owner',
                         createdBy: user.id,
                         updatedBy: user.id,
                     })
+
                     return [org];
                 });
-                console.log('Organization created', organization)
+
                 if (!organization) {
-                    return Err({
-                        type: 'OrganizationExists',
-                        message: 'Failed to create organization',
-                    });
+                    throw new Error('Failed to create organization')
                 }
-                return Ok(organization);
+
+                return organization
             } catch (error) {
                 console.error('Error creating organization', error)
-                return Err({
-                    type: 'Unknown',
-                    message: error instanceof Error ? error.message : 'Unknown error',
-                });
+                throw error
             }
         },
     })

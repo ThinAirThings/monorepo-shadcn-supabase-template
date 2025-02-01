@@ -1,5 +1,9 @@
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  redirect('/login')
+  return (
+    <div>
+      <h1>Hello World</h1>
+    </div>
+  )
 }

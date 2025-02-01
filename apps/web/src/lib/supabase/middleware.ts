@@ -32,22 +32,21 @@ export async function updateSession(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser()
 
-    // Check if the current path is under /dashboard or /onboarding
-    const isPrivateRoute = request.nextUrl.pathname.startsWith('/dashboard') || 
-        request.nextUrl.pathname.startsWith('/onboarding')
+    // Check if the current path is under /dashboard (private routes)
+    const isPrivateRoute = request.nextUrl.pathname.startsWith('/dashboard')
     
-    // Define auth routes that should redirect if user is already authenticated
+    // Auth routes are public but have special redirect logic when authenticated
     const isAuthRoute = request.nextUrl.pathname.startsWith('/login') ||
         request.nextUrl.pathname.startsWith('/signup')
 
-    // Redirect to dashboard if authenticated user tries to access auth pages
+    // If authenticated user tries to access auth pages, redirect to dashboard
     if (user && isAuthRoute) {
         const url = request.nextUrl.clone()
         url.pathname = '/dashboard'
         return NextResponse.redirect(url)
     }
 
-    // Redirect to login if not authenticated and trying to access a private route
+    // If unauthenticated user tries to access private routes, redirect to login
     if (!user && isPrivateRoute) {
         const url = request.nextUrl.clone()
         url.pathname = '/login'

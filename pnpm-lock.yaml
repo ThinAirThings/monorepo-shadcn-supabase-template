@@ -38,6 +38,9 @@ importers:
       '@pothos/plugin-drizzle':
         specifier: ^0.6.0
         version: 0.6.0(@pothos/core@4.3.0(graphql@16.10.0))(graphql@16.10.0)
+      '@pothos/plugin-simple-objects':
+        specifier: ^4.1.0
+        version: 4.1.0(@pothos/core@4.3.0(graphql@16.10.0))(graphql@16.10.0)
       '@radix-ui/react-accordion':
         specifier: ^1.2.2
         version: 1.2.2(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -213,6 +216,9 @@ importers:
       '@graphql-codegen/client-preset':
         specifier: ^4.5.1
         version: 4.5.1(@babel/core@7.26.7)(graphql@16.10.0)
+      '@graphql-codegen/fragment-matcher':
+        specifier: ^5.0.2
+        version: 5.0.2(graphql@16.10.0)
       '@graphql-codegen/introspection':
         specifier: ^4.0.3
         version: 4.0.3(@babel/core@7.26.7)(graphql@16.10.0)
@@ -1331,6 +1337,11 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+  '@graphql-codegen/fragment-matcher@5.0.2':
+    resolution: {integrity: sha512-AeazT6Arv7LvpkvPYTajfUO6g1FeGLqyt6VaxDhMIRCuJN21PAvSWsh3wayc+K5L5VtYFZXYczC7Lw1bMb8C2Q==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+
   '@graphql-codegen/gql-tag-operations@4.0.12':
     resolution: {integrity: sha512-v279i49FJ5dMmQXIGUgm6FtnnkxtJjVJWDNYh9JK4ppvOixdHp+PmEzW227DkLN6avhVxNnYdp/1gdRBwdWypw==}
     engines: {node: '>=16'}
@@ -1943,6 +1954,12 @@ packages:
 
   '@pothos/plugin-drizzle@0.6.0':
     resolution: {integrity: sha512-avgzoVmRa0DFe3lDojqWq5GJBD3cu6fjI3BeDsO0PBM8fOGkyxDVkXy3tnfVw039fUcJ6IqxK6R4AsdNn4aIbQ==}
+    peerDependencies:
+      '@pothos/core': '*'
+      graphql: '>=16.6.0'
+
+  '@pothos/plugin-simple-objects@4.1.0':
+    resolution: {integrity: sha512-R4u3Hnd6btWt1XHG3bgBa463XbDgH380GRWg88FMrDfoqqkB1EI02gsWgmASqHHJgFI35V9Tc62loGy2XpTUyA==}
     peerDependencies:
       '@pothos/core': '*'
       graphql: '>=16.6.0'
@@ -5620,6 +5637,12 @@ snapshots:
       graphql: 16.10.0
       tslib: 2.6.3
 
+  '@graphql-codegen/fragment-matcher@5.0.2(graphql@16.10.0)':
+    dependencies:
+      '@graphql-codegen/plugin-helpers': 5.1.0(graphql@16.10.0)
+      graphql: 16.10.0
+      tslib: 2.6.3
+
   '@graphql-codegen/gql-tag-operations@4.0.12(@babel/core@7.26.7)(graphql@16.10.0)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.1.0(graphql@16.10.0)
@@ -6363,6 +6386,11 @@ snapshots:
       graphql: 16.10.0
 
   '@pothos/plugin-drizzle@0.6.0(@pothos/core@4.3.0(graphql@16.10.0))(graphql@16.10.0)':
+    dependencies:
+      '@pothos/core': 4.3.0(graphql@16.10.0)
+      graphql: 16.10.0
+
+  '@pothos/plugin-simple-objects@4.1.0(@pothos/core@4.3.0(graphql@16.10.0))(graphql@16.10.0)':
     dependencies:
       '@pothos/core': 4.3.0(graphql@16.10.0)
       graphql: 16.10.0
