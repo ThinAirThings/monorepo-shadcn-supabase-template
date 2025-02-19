@@ -24,8 +24,12 @@ import {
 } from '@thinair-monorepo-template/ui/components/form';
 import { signup } from '../actions';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useToast } from '@thinair-monorepo-template/ui/hooks/use-toast';
+import { Alert, AlertDescription } from "@thinair-monorepo-template/ui/components/alert";
+import { Info } from "lucide-react";
+import { graphql } from "@/gql";
+import { useQuery } from "@apollo/client";
 
 const signupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -34,10 +38,36 @@ const signupSchema = z.object({
 
 type SignupValues = z.infer<typeof signupSchema>;
 
+const GetInviteDetailsQuery = graphql(`
+  query GetInviteDetails($token: String!) {
+    organizationInvitesCollection(filter: { token: { eq: $token } }) {
+      edges {
+        node {
+          id
+          email
+          role
+          organizationName
+        }
+      }
+    }
+  }
+`);
+
+
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const inviteToken = searchParams.get('inviteToken');
+  const { toast } = useToast();
   
+  const { data: inviteData } = useQuery(GetInviteDetailsQuery, {
+    variables: { token: inviteToken ?? '' },
+    skip: !inviteToken,
+  });
+
+  const inviteDetails = inviteData?.organizationInvitesCollection?.edges?.[0]?.node;
+
   const form = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -45,7 +75,7 @@ export default function SignupPage() {
       password: '',
     },
   });
-  const {toast} = useToast();
+
   const onSubmit = async (data: SignupValues) => {
     try {
       setIsLoading(true);
@@ -63,9 +93,15 @@ export default function SignupPage() {
       if (result.success) {
         toast({
           title: 'Success',
-          description: 'Account created successfully! Please check your email to verify your account.',
+          description: 'Account created successfully!',
         });
-        router.refresh();
+        
+        // If we have an invite token, redirect to the invite API endpoint
+        if (inviteToken) {
+          router.push(`/api/invites/${inviteToken}`);
+        } else {
+          router.push('/dashboard');
+        }
       }
     } catch (error) {
       toast({
@@ -83,12 +119,41 @@ export default function SignupPage() {
     <>
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">
-          Create an account
+          {inviteToken ? `Join ${inviteDetails?.organizationName ?? 'Organization'}` : 'Create an account'}
         </CardTitle>
         <CardDescription className="text-center">
-          Enter your email and password to create your account
+          {inviteToken 
+            ? 'Create a new account to join as a team member'
+            : 'Enter your email and password to create your account'
+          }
         </CardDescription>
       </CardHeader>
+
+      {inviteToken && inviteDetails && (
+        <div className="mb-6 w-full">
+          <Alert>
+            <Info className="h-4 w-4" />
+            <AlertDescription className="space-y-2">
+              <p>
+                Sign up with <span className="font-medium">{inviteDetails.email}</span> to join{' '}
+                <span className="font-medium">{inviteDetails.organizationName}</span> as 
+                a {inviteDetails.role.toLowerCase()}.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Already have an account? You can{' '}
+                <Link 
+                  href={`/login?inviteToken=${inviteToken}`}
+                  className="text-primary hover:text-primary/80 underline"
+                >
+                  sign in here
+                </Link>
+                .
+              </p>
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-4">
@@ -142,7 +207,7 @@ export default function SignupPage() {
             <div className="text-sm text-center text-muted-foreground">
               Already have an account?{' '}
               <Link 
-                href="/login" 
+                href={inviteToken ? `/login?inviteToken=${inviteToken}` : '/login'}
                 className="text-primary hover:text-primary/80"
               >
                 Sign in

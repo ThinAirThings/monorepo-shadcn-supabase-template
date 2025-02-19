@@ -13,7 +13,7 @@ type SupabaseToken = {
     role?: string;
   };
   
-  export function createDrizzleSupabaseClient(accessToken: string, { admin, client }: { admin: PostgresJsDatabase<any>; client: PostgresJsDatabase<any> }) {
+  export function createDrizzleSupabaseClient<T extends Record<string, unknown>>(accessToken: string, { admin, client }: { admin: PostgresJsDatabase<T>; client: PostgresJsDatabase<T> }) {
     const token = jwt.decode(accessToken) as SupabaseToken;
     return {
       admin,

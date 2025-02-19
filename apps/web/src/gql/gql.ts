@@ -14,7 +14,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
-    "\n    query AuthenticatedUserQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n            deletedAt\n        }\n    }\n": types.AuthenticatedUserQueryDocument,
+    "\n  query GetInviteDetails($token: String!) {\n    organizationInvitesCollection(filter: { token: { eq: $token } }) {\n      edges {\n        node {\n          id\n          email\n          role\n          organizationName\n        }\n      }\n    }\n  }\n": types.GetInviteDetailsDocument,
+    "\n    query AuthenticationQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n            deletedAt\n        }\n    }\n": types.AuthenticationQueryDocument,
+    "\n    fragment ProfilesFormFragment on Profiles {\n        id\n        firstName\n        lastName\n        phoneNumber\n        profilePictureUrl\n    }\n": types.ProfilesFormFragmentFragmentDoc,
+    "\n    mutation UpdateProfile(\n        $firstName: String\n        $lastName: String\n        $phoneNumber: String\n        $profilePicture: File\n    ) {\n        profileUpdate(input: {\n            firstName: $firstName\n            lastName: $lastName\n            phoneNumber: $phoneNumber\n            profilePicture: $profilePicture\n        }) {\n            id\n            firstName\n            lastName\n            phoneNumber\n            profilePictureUrl\n        }\n    }\n": types.UpdateProfileDocument,
+    "\n    query ProfilesMenuQuery {\n        viewer {\n            id\n            firstName\n            lastName\n            profilePictureUrl\n        }\n    }\n": types.ProfilesMenuQueryDocument,
     "\n    query OnboardingMiddlewareQuery {\n        viewer {\n            id\n            firstName\n            lastName\n            phoneNumber\n            organizationMembersCollection {\n                edges {\n                    node {\n                        organization {\n                            id\n                            name\n                        }\n                    }\n                }\n            }\n        }\n    }\n": types.OnboardingMiddlewareQueryDocument,
 };
 
@@ -35,7 +39,23 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query AuthenticatedUserQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n            deletedAt\n        }\n    }\n"): (typeof documents)["\n    query AuthenticatedUserQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n            deletedAt\n        }\n    }\n"];
+export function graphql(source: "\n  query GetInviteDetails($token: String!) {\n    organizationInvitesCollection(filter: { token: { eq: $token } }) {\n      edges {\n        node {\n          id\n          email\n          role\n          organizationName\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetInviteDetails($token: String!) {\n    organizationInvitesCollection(filter: { token: { eq: $token } }) {\n      edges {\n        node {\n          id\n          email\n          role\n          organizationName\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query AuthenticationQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n            deletedAt\n        }\n    }\n"): (typeof documents)["\n    query AuthenticationQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n            deletedAt\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    fragment ProfilesFormFragment on Profiles {\n        id\n        firstName\n        lastName\n        phoneNumber\n        profilePictureUrl\n    }\n"): (typeof documents)["\n    fragment ProfilesFormFragment on Profiles {\n        id\n        firstName\n        lastName\n        phoneNumber\n        profilePictureUrl\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation UpdateProfile(\n        $firstName: String\n        $lastName: String\n        $phoneNumber: String\n        $profilePicture: File\n    ) {\n        profileUpdate(input: {\n            firstName: $firstName\n            lastName: $lastName\n            phoneNumber: $phoneNumber\n            profilePicture: $profilePicture\n        }) {\n            id\n            firstName\n            lastName\n            phoneNumber\n            profilePictureUrl\n        }\n    }\n"): (typeof documents)["\n    mutation UpdateProfile(\n        $firstName: String\n        $lastName: String\n        $phoneNumber: String\n        $profilePicture: File\n    ) {\n        profileUpdate(input: {\n            firstName: $firstName\n            lastName: $lastName\n            phoneNumber: $phoneNumber\n            profilePicture: $profilePicture\n        }) {\n            id\n            firstName\n            lastName\n            phoneNumber\n            profilePictureUrl\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query ProfilesMenuQuery {\n        viewer {\n            id\n            firstName\n            lastName\n            profilePictureUrl\n        }\n    }\n"): (typeof documents)["\n    query ProfilesMenuQuery {\n        viewer {\n            id\n            firstName\n            lastName\n            profilePictureUrl\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

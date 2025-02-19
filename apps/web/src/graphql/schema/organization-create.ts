@@ -1,6 +1,6 @@
 import { builder } from '../builder';
-import { organizations, organizationMembers } from '@usepulse/supabase/schema';
-import { createServerClient } from '@usepulse/supabase/createServerClient';
+import { organizations, organizationMembers } from '@thinair-monorepo-template/supabase/schema';
+import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient';
 
 // Create the mutation
 builder.mutationField('organizationCreate', t => 

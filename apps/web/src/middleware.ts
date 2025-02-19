@@ -4,6 +4,7 @@ import { updateSession } from '@/lib/supabase/middleware'
 export async function middleware(request: NextRequest) {
   // First check auth
   const response = await updateSession(request)
+  return response
 }
 
 export const config = {

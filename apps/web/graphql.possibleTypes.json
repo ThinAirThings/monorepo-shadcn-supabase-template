@@ -1,0 +1,11 @@
+{
+  "possibleTypes": {
+    "Node": [
+      "DeletedRecord",
+      "OrganizationInvites",
+      "OrganizationMembers",
+      "Organizations",
+      "Profiles"
+    ]
+  }
+}

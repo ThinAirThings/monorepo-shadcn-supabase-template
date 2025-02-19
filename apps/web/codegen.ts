@@ -40,6 +40,7 @@ const config: CodegenConfig = {
         customDirectives: {
           apolloUnmask: true
         },
+        addTypenameToSelectionSet: true,
         enumsAsTypes: true,
         scalars: {
           UUID: 'string',
@@ -59,7 +60,35 @@ const config: CodegenConfig = {
     "./graphql.possibleTypes.json": {
       plugins: ['fragment-matcher'],
       config: {
-        module: 'es2015'
+        module: 'es2015',
+        useExplicitTyping: true
+      }
+    },
+    "./graphql.possibleTypes.ts": {
+      plugins: ['fragment-matcher'],
+      config: {
+        module: 'es2015',
+        useExplicitTyping: true
+      }
+    },
+    './graphql.zod.ts': {
+      plugins: ['typescript', 'typescript-validation-schema'],
+      config: {
+        schema: 'zod',
+        scalars: {
+          UUID: 'string',
+          Date: 'string',
+          File: 'File',
+          Time: 'string',
+          Datetime: 'string',
+          JSON: 'string',
+          BigInt: 'string',
+          BigFloat: 'string',
+          Opaque: 'any',
+        },
+        scalarSchemas: {
+          File: "z.custom<File>(file => file instanceof File)"
+        }
       }
     }
   }

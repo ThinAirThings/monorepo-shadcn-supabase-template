@@ -7,10 +7,10 @@ import { useRouter } from 'next/navigation';
 import { FullLoading } from '@/components/full-loading';
 import { skipToken, useQuery, useSuspenseQuery } from '@apollo/client';
 import { graphql } from '@/gql';
-import { AuthenticatedUserQueryQuery } from '@/gql/graphql';
+import { NodeKeyProvider } from '@/context/node-key-provider';
 
-export const AuthenticatedUserQuery = graphql(`
-    query AuthenticatedUserQuery {
+export const AuthenticationQuery = graphql(`
+    query AuthenticationQuery {
         viewer {
             id
             email
@@ -24,19 +24,13 @@ export const AuthenticatedUserQuery = graphql(`
     }
 `);
 
-interface AuthenticatedUserContextType {
-    userNode: NonNullable<AuthenticatedUserQueryQuery['viewer']>;
-}
-
-const AuthenticatedUserContext = createContext<AuthenticatedUserContextType | undefined>(undefined);
-
-export function AuthenticatedUserNodeProvider({ children }: { children: ReactNode }) {
+export function AuthenticationProvider({ children }: { children: ReactNode }) {
     const [authUser, setAuthUser] = useState<User | null>(null);
     const [loading, startTransition] = useTransition();
     const supabase = createBrowserClient();
     const router = useRouter();
 
-    const { data, error } = useQuery(AuthenticatedUserQuery);
+    const { data, error } = useQuery(AuthenticationQuery);
     const userNode = data?.viewer ?? null;
     useEffect(() => {
         startTransition(async () => {
@@ -55,22 +49,8 @@ export function AuthenticatedUserNodeProvider({ children }: { children: ReactNod
     }
 
     return (
-        <AuthenticatedUserContext.Provider
-            value={{
-                userNode,
-            }}
-        >
+        <NodeKeyProvider node={userNode}>
             {children}
-        </AuthenticatedUserContext.Provider>
+        </NodeKeyProvider>
     );
-}
-
-export function useAuthenticatedUserNode() {
-    const context = useContext(AuthenticatedUserContext);
-    
-    if (context === undefined) {
-        throw new Error('useAuthenticatedUserNode must be used within an AuthenticatedUserProvider');
-    }
-    
-    return context;
 }

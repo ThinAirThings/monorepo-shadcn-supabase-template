@@ -1,0 +1,1 @@
+CREATE POLICY "organization_members_select_policy" ON "organization_members" AS PERMISSIVE FOR SELECT TO public USING (is_org_member(organization_members.organization_id, auth.uid()));

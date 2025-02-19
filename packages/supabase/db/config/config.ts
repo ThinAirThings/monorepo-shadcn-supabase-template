@@ -6,6 +6,8 @@ import { createOrReplaceViewerFunction } from './functions/viewer'
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/drizzle/db'
 import { createStorageBucket } from './storage/create-storage-bucket'
+import { createOrReplaceDeleteTrigger } from './triggers/handle-delete'
+import { createOrReplaceIsOrgMemberFunction } from './functions/is-org-member'
 
 console.log(process.env.DATABASE_URL)
 async function configureDatabase() {
@@ -30,6 +32,7 @@ async function configureDatabase() {
         console.log('🔧 Configuring database triggers...')
         await createOrReplaceAuditFieldsTrigger()
         await createOrReplaceHandleNewUserTrigger()
+        await createOrReplaceDeleteTrigger()
 
         // Enable total count for all tables
         console.log('📊 Enabling total count for all tables...')
@@ -38,7 +41,8 @@ async function configureDatabase() {
         // Create database functions
         console.log('🔧 Creating database functions...')
         await createOrReplaceViewerFunction()
-        
+        await createOrReplaceIsOrgMemberFunction()
+
         // Configure storage buckets
         console.log('📦 Configuring storage buckets...')
         await createStorageBucket({
@@ -60,6 +64,44 @@ async function configureDatabase() {
                     bucket_id = 'profile_pictures'
                     and auth.uid() = owner_id::uuid
                     and (storage.foldername(name))[1] = auth.uid()::text
+                `
+            }
+        })
+        await createStorageBucket({
+            id: 'organization_profile_pictures',
+            public: true,
+            policies: {
+                // Anyone can view organization profile pictures
+                select: `bucket_id = 'organization_profile_pictures'`,
+                
+                // Allow upload if:
+                // 1. User is owner/admin of the organization
+                // 2. Organization has no members (creator can upload first logo)
+                insert: `
+                    bucket_id = 'organization_profile_pictures'
+                    and (
+                        exists (
+                            select 1 from organization_members
+                            where organization_id::text = (storage.foldername(name))[1]
+                            and profile_id = auth.uid()
+                            and role in ('Owner', 'Administrator')
+                        )
+                        or
+                        not exists (
+                            select 1 from organization_members
+                            where organization_id::text = (storage.foldername(name))[1]
+                        )
+                    )
+                `,
+                // Only org owners/admins can update pictures
+                update: `
+                    bucket_id = 'organization_profile_pictures'
+                    and exists (
+                        select 1 from organization_members
+                        where organization_id::text = (storage.foldername(name))[1]
+                        and profile_id = auth.uid()
+                        and role in ('Owner', 'Administrator')
+                    )
                 `
             }
         })

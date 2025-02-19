@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { z } from 'zod'
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -14,22 +13,14 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  /** A high precision floating point value represented as a string */
   BigFloat: { input: string; output: string; }
-  /** An arbitrary size integer represented as a string */
   BigInt: { input: string; output: string; }
-  /** An opaque string using for tracking a position in results during pagination */
   Cursor: { input: any; output: any; }
-  /** A date without time information */
   Date: { input: string; output: string; }
-  /** A date and time */
   Datetime: { input: string; output: string; }
-  File: { input: any; output: any; }
-  /** A Javascript Object Notation value serialized as a string */
+  File: { input: File; output: File; }
   JSON: { input: string; output: string; }
-  /** Any type not handled by the type system */
   Opaque: { input: any; output: any; }
-  /** A time without date information */
   Time: { input: string; output: string; }
   UUID: { input: string; output: string; }
 };
@@ -224,9 +215,10 @@ export type DeletedRecordUpdateResponse = {
   records: Array<DeletedRecord>;
 };
 
-export type FilterIs =
-  | 'NOT_NULL'
-  | 'NULL';
+export enum FilterIs {
+  NotNull = 'NOT_NULL',
+  Null = 'NULL'
+}
 
 /** Boolean expression comparing fields on type "Float" */
 export type FloatFilter = {
@@ -435,15 +427,16 @@ export type OpaqueFilter = {
 };
 
 /** Defines a per-field sorting order */
-export type OrderByDirection =
+export enum OrderByDirection {
   /** Ascending order, nulls first */
-  | 'AscNullsFirst'
+  AscNullsFirst = 'AscNullsFirst',
   /** Ascending order, nulls last */
-  | 'AscNullsLast'
+  AscNullsLast = 'AscNullsLast',
   /** Descending order, nulls first */
-  | 'DescNullsFirst'
+  DescNullsFirst = 'DescNullsFirst',
   /** Descending order, nulls last */
-  | 'DescNullsLast';
+  DescNullsLast = 'DescNullsLast'
+}
 
 export type OrganizationCreateInput = {
   name: Scalars['String']['input'];
@@ -702,10 +695,11 @@ export type OrganizationMembersUpdateResponse = {
   records: Array<OrganizationMembers>;
 };
 
-export type OrganizationRoles =
-  | 'Administrator'
-  | 'Member'
-  | 'Owner';
+export enum OrganizationRoles {
+  Administrator = 'Administrator',
+  Member = 'Member',
+  Owner = 'Owner'
+}
 
 /** Boolean expression comparing fields on type "OrganizationRoles" */
 export type OrganizationRolesFilter = {
@@ -1157,43 +1151,592 @@ export type UuidListFilter = {
   overlaps?: InputMaybe<Array<Scalars['UUID']['input']>>;
 };
 
-export type GetInviteDetailsQueryVariables = Exact<{
-  token: Scalars['String']['input'];
+
+type Properties<T> = Required<{
+  [K in keyof T]: z.ZodType<T[K], any, T[K]>;
 }>;
 
+type definedNonNullAny = {};
 
-export type GetInviteDetailsQuery = { __typename: 'Query', organizationInvitesCollection?: { __typename: 'OrganizationInvitesConnection', edges: Array<{ __typename: 'OrganizationInvitesEdge', node: { __typename: 'OrganizationInvites', id: string, email: string, role: OrganizationRoles, organizationName: string } }> } | null };
+export const isDefinedNonNullAny = (v: any): v is definedNonNullAny => v !== undefined && v !== null;
 
-export type AuthenticationQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export const definedNonNullAnySchema = z.any().refine((v) => isDefinedNonNullAny(v));
 
+export const FilterIsSchema = z.nativeEnum(FilterIs);
 
-export type AuthenticationQueryQuery = { __typename: 'Query', viewer?: { __typename: 'Profiles', id: string, email: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, createdAt: string, updatedAt: string, deletedAt?: string | null } | null };
+export const OrderByDirectionSchema = z.nativeEnum(OrderByDirection);
 
-export type ProfilesFormFragmentFragment = { __typename: 'Profiles', id: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, profilePictureUrl?: string | null } & { ' $fragmentName'?: 'ProfilesFormFragmentFragment' };
+export const OrganizationRolesSchema = z.nativeEnum(OrganizationRoles);
 
-export type UpdateProfileMutationVariables = Exact<{
-  firstName?: InputMaybe<Scalars['String']['input']>;
-  lastName?: InputMaybe<Scalars['String']['input']>;
-  phoneNumber?: InputMaybe<Scalars['String']['input']>;
-  profilePicture?: InputMaybe<Scalars['File']['input']>;
-}>;
+export function BigFloatFilterSchema(): z.ZodObject<Properties<BigFloatFilter>> {
+  return z.object({
+    eq: z.string().nullish(),
+    gt: z.string().nullish(),
+    gte: z.string().nullish(),
+    in: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    lt: z.string().nullish(),
+    lte: z.string().nullish(),
+    neq: z.string().nullish()
+  })
+}
 
+export function BigFloatListFilterSchema(): z.ZodObject<Properties<BigFloatListFilter>> {
+  return z.object({
+    containedBy: z.array(z.string()).nullish(),
+    contains: z.array(z.string()).nullish(),
+    eq: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.string()).nullish()
+  })
+}
 
-export type UpdateProfileMutation = { __typename: 'Mutation', profileUpdate?: { __typename: 'ProfileUpdateResult', id: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, profilePictureUrl?: string | null } | null };
+export function BigIntFilterSchema(): z.ZodObject<Properties<BigIntFilter>> {
+  return z.object({
+    eq: z.string().nullish(),
+    gt: z.string().nullish(),
+    gte: z.string().nullish(),
+    in: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    lt: z.string().nullish(),
+    lte: z.string().nullish(),
+    neq: z.string().nullish()
+  })
+}
 
-export type ProfilesMenuQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export function BigIntListFilterSchema(): z.ZodObject<Properties<BigIntListFilter>> {
+  return z.object({
+    containedBy: z.array(z.string()).nullish(),
+    contains: z.array(z.string()).nullish(),
+    eq: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.string()).nullish()
+  })
+}
 
+export function BooleanFilterSchema(): z.ZodObject<Properties<BooleanFilter>> {
+  return z.object({
+    eq: z.boolean().nullish(),
+    is: FilterIsSchema.nullish()
+  })
+}
 
-export type ProfilesMenuQueryQuery = { __typename: 'Query', viewer?: { __typename: 'Profiles', id: string, firstName?: string | null, lastName?: string | null, profilePictureUrl?: string | null } | null };
+export function BooleanListFilterSchema(): z.ZodObject<Properties<BooleanListFilter>> {
+  return z.object({
+    containedBy: z.array(z.boolean()).nullish(),
+    contains: z.array(z.boolean()).nullish(),
+    eq: z.array(z.boolean()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.boolean()).nullish()
+  })
+}
 
-export type OnboardingMiddlewareQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export function DateFilterSchema(): z.ZodObject<Properties<DateFilter>> {
+  return z.object({
+    eq: z.string().nullish(),
+    gt: z.string().nullish(),
+    gte: z.string().nullish(),
+    in: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    lt: z.string().nullish(),
+    lte: z.string().nullish(),
+    neq: z.string().nullish()
+  })
+}
 
+export function DateListFilterSchema(): z.ZodObject<Properties<DateListFilter>> {
+  return z.object({
+    containedBy: z.array(z.string()).nullish(),
+    contains: z.array(z.string()).nullish(),
+    eq: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.string()).nullish()
+  })
+}
 
-export type OnboardingMiddlewareQueryQuery = { __typename: 'Query', viewer?: { __typename: 'Profiles', id: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, organizationMembersCollection?: { __typename: 'OrganizationMembersConnection', edges: Array<{ __typename: 'OrganizationMembersEdge', node: { __typename: 'OrganizationMembers', organization?: { __typename: 'Organizations', id: string, name: string } | null } }> } | null } | null };
+export function DatetimeFilterSchema(): z.ZodObject<Properties<DatetimeFilter>> {
+  return z.object({
+    eq: z.string().nullish(),
+    gt: z.string().nullish(),
+    gte: z.string().nullish(),
+    in: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    lt: z.string().nullish(),
+    lte: z.string().nullish(),
+    neq: z.string().nullish()
+  })
+}
 
-export const ProfilesFormFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProfilesFormFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Profiles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureUrl"}}]}}]} as unknown as DocumentNode<ProfilesFormFragmentFragment, unknown>;
-export const GetInviteDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetInviteDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"organizationInvitesCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"token"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"organizationName"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetInviteDetailsQuery, GetInviteDetailsQueryVariables>;
-export const AuthenticationQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AuthenticationQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"viewer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<AuthenticationQueryQuery, AuthenticationQueryQueryVariables>;
-export const UpdateProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"firstName"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lastName"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"phoneNumber"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"profilePicture"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"File"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"profileUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"firstName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"firstName"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"lastName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lastName"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"phoneNumber"},"value":{"kind":"Variable","name":{"kind":"Name","value":"phoneNumber"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"profilePicture"},"value":{"kind":"Variable","name":{"kind":"Name","value":"profilePicture"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureUrl"}}]}}]}}]} as unknown as DocumentNode<UpdateProfileMutation, UpdateProfileMutationVariables>;
-export const ProfilesMenuQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ProfilesMenuQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"viewer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureUrl"}}]}}]}}]} as unknown as DocumentNode<ProfilesMenuQueryQuery, ProfilesMenuQueryQueryVariables>;
-export const OnboardingMiddlewareQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"OnboardingMiddlewareQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"viewer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"organizationMembersCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<OnboardingMiddlewareQueryQuery, OnboardingMiddlewareQueryQueryVariables>;
+export function DatetimeListFilterSchema(): z.ZodObject<Properties<DatetimeListFilter>> {
+  return z.object({
+    containedBy: z.array(z.string()).nullish(),
+    contains: z.array(z.string()).nullish(),
+    eq: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.string()).nullish()
+  })
+}
+
+export function DeletedRecordFilterSchema(): z.ZodObject<Properties<DeletedRecordFilter>> {
+  return z.object({
+    and: z.array(DeletedRecordFilterSchema()).nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: DeletedRecordFilterSchema().nullish(),
+    objectId: UuidFilterSchema().nullish(),
+    or: z.array(DeletedRecordFilterSchema()).nullish(),
+    tableName: StringFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish()
+  })
+}
+
+export function DeletedRecordInsertInputSchema(): z.ZodObject<Properties<DeletedRecordInsertInput>> {
+  return z.object({
+    data: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    objectId: z.string().nullish(),
+    tableName: z.string().nullish(),
+    updatedAt: z.string().nullish()
+  })
+}
+
+export function DeletedRecordOrderBySchema(): z.ZodObject<Properties<DeletedRecordOrderBy>> {
+  return z.object({
+    deletedAt: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    objectId: OrderByDirectionSchema.nullish(),
+    tableName: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function DeletedRecordUpdateInputSchema(): z.ZodObject<Properties<DeletedRecordUpdateInput>> {
+  return z.object({
+    data: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    objectId: z.string().nullish(),
+    tableName: z.string().nullish(),
+    updatedAt: z.string().nullish()
+  })
+}
+
+export function FloatFilterSchema(): z.ZodObject<Properties<FloatFilter>> {
+  return z.object({
+    eq: z.number().nullish(),
+    gt: z.number().nullish(),
+    gte: z.number().nullish(),
+    in: z.array(z.number()).nullish(),
+    is: FilterIsSchema.nullish(),
+    lt: z.number().nullish(),
+    lte: z.number().nullish(),
+    neq: z.number().nullish()
+  })
+}
+
+export function FloatListFilterSchema(): z.ZodObject<Properties<FloatListFilter>> {
+  return z.object({
+    containedBy: z.array(z.number()).nullish(),
+    contains: z.array(z.number()).nullish(),
+    eq: z.array(z.number()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.number()).nullish()
+  })
+}
+
+export function IdFilterSchema(): z.ZodObject<Properties<IdFilter>> {
+  return z.object({
+    eq: z.string().nullish()
+  })
+}
+
+export function IntFilterSchema(): z.ZodObject<Properties<IntFilter>> {
+  return z.object({
+    eq: z.number().nullish(),
+    gt: z.number().nullish(),
+    gte: z.number().nullish(),
+    in: z.array(z.number()).nullish(),
+    is: FilterIsSchema.nullish(),
+    lt: z.number().nullish(),
+    lte: z.number().nullish(),
+    neq: z.number().nullish()
+  })
+}
+
+export function IntListFilterSchema(): z.ZodObject<Properties<IntListFilter>> {
+  return z.object({
+    containedBy: z.array(z.number()).nullish(),
+    contains: z.array(z.number()).nullish(),
+    eq: z.array(z.number()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.number()).nullish()
+  })
+}
+
+export function OpaqueFilterSchema(): z.ZodObject<Properties<OpaqueFilter>> {
+  return z.object({
+    eq: definedNonNullAnySchema.nullish(),
+    is: FilterIsSchema.nullish()
+  })
+}
+
+export function OrganizationCreateInputSchema(): z.ZodObject<Properties<OrganizationCreateInput>> {
+  return z.object({
+    name: z.string(),
+    profilePicture: z.custom<File>(file => file instanceof File).nullish()
+  })
+}
+
+export function OrganizationInvitesFilterSchema(): z.ZodObject<Properties<OrganizationInvitesFilter>> {
+  return z.object({
+    acceptedAt: DatetimeFilterSchema().nullish(),
+    and: z.array(OrganizationInvitesFilterSchema()).nullish(),
+    createdAt: DatetimeFilterSchema().nullish(),
+    createdBy: UuidFilterSchema().nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    email: StringFilterSchema().nullish(),
+    expiresAt: DatetimeFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    invitedBy: UuidFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: OrganizationInvitesFilterSchema().nullish(),
+    or: z.array(OrganizationInvitesFilterSchema()).nullish(),
+    organizationId: UuidFilterSchema().nullish(),
+    organizationName: StringFilterSchema().nullish(),
+    role: OrganizationRolesFilterSchema().nullish(),
+    token: StringFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish(),
+    updatedBy: UuidFilterSchema().nullish()
+  })
+}
+
+export function OrganizationInvitesInsertInputSchema(): z.ZodObject<Properties<OrganizationInvitesInsertInput>> {
+  return z.object({
+    acceptedAt: z.string().nullish(),
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    email: z.string().nullish(),
+    expiresAt: z.string().nullish(),
+    id: z.string().nullish(),
+    invitedBy: z.string().nullish(),
+    organizationId: z.string().nullish(),
+    organizationName: z.string().nullish(),
+    role: OrganizationRolesSchema.nullish(),
+    token: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function OrganizationInvitesOrderBySchema(): z.ZodObject<Properties<OrganizationInvitesOrderBy>> {
+  return z.object({
+    acceptedAt: OrderByDirectionSchema.nullish(),
+    createdAt: OrderByDirectionSchema.nullish(),
+    createdBy: OrderByDirectionSchema.nullish(),
+    deletedAt: OrderByDirectionSchema.nullish(),
+    email: OrderByDirectionSchema.nullish(),
+    expiresAt: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    invitedBy: OrderByDirectionSchema.nullish(),
+    organizationId: OrderByDirectionSchema.nullish(),
+    organizationName: OrderByDirectionSchema.nullish(),
+    role: OrderByDirectionSchema.nullish(),
+    token: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish(),
+    updatedBy: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function OrganizationInvitesUpdateInputSchema(): z.ZodObject<Properties<OrganizationInvitesUpdateInput>> {
+  return z.object({
+    acceptedAt: z.string().nullish(),
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    email: z.string().nullish(),
+    expiresAt: z.string().nullish(),
+    id: z.string().nullish(),
+    invitedBy: z.string().nullish(),
+    organizationId: z.string().nullish(),
+    organizationName: z.string().nullish(),
+    role: OrganizationRolesSchema.nullish(),
+    token: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function OrganizationMembersFilterSchema(): z.ZodObject<Properties<OrganizationMembersFilter>> {
+  return z.object({
+    and: z.array(OrganizationMembersFilterSchema()).nullish(),
+    createdAt: DatetimeFilterSchema().nullish(),
+    createdBy: UuidFilterSchema().nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: OrganizationMembersFilterSchema().nullish(),
+    or: z.array(OrganizationMembersFilterSchema()).nullish(),
+    organizationId: UuidFilterSchema().nullish(),
+    profileId: UuidFilterSchema().nullish(),
+    role: OrganizationRolesFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish(),
+    updatedBy: UuidFilterSchema().nullish()
+  })
+}
+
+export function OrganizationMembersInsertInputSchema(): z.ZodObject<Properties<OrganizationMembersInsertInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    organizationId: z.string().nullish(),
+    profileId: z.string().nullish(),
+    role: OrganizationRolesSchema.nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function OrganizationMembersOrderBySchema(): z.ZodObject<Properties<OrganizationMembersOrderBy>> {
+  return z.object({
+    createdAt: OrderByDirectionSchema.nullish(),
+    createdBy: OrderByDirectionSchema.nullish(),
+    deletedAt: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    organizationId: OrderByDirectionSchema.nullish(),
+    profileId: OrderByDirectionSchema.nullish(),
+    role: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish(),
+    updatedBy: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function OrganizationMembersUpdateInputSchema(): z.ZodObject<Properties<OrganizationMembersUpdateInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    organizationId: z.string().nullish(),
+    profileId: z.string().nullish(),
+    role: OrganizationRolesSchema.nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function OrganizationRolesFilterSchema(): z.ZodObject<Properties<OrganizationRolesFilter>> {
+  return z.object({
+    eq: OrganizationRolesSchema.nullish(),
+    in: z.array(OrganizationRolesSchema).nullish(),
+    is: FilterIsSchema.nullish(),
+    neq: OrganizationRolesSchema.nullish()
+  })
+}
+
+export function OrganizationsFilterSchema(): z.ZodObject<Properties<OrganizationsFilter>> {
+  return z.object({
+    and: z.array(OrganizationsFilterSchema()).nullish(),
+    createdAt: DatetimeFilterSchema().nullish(),
+    createdBy: UuidFilterSchema().nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    name: StringFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: OrganizationsFilterSchema().nullish(),
+    or: z.array(OrganizationsFilterSchema()).nullish(),
+    profilePictureUrl: StringFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish(),
+    updatedBy: UuidFilterSchema().nullish()
+  })
+}
+
+export function OrganizationsInsertInputSchema(): z.ZodObject<Properties<OrganizationsInsertInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    name: z.string().nullish(),
+    profilePictureUrl: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function OrganizationsOrderBySchema(): z.ZodObject<Properties<OrganizationsOrderBy>> {
+  return z.object({
+    createdAt: OrderByDirectionSchema.nullish(),
+    createdBy: OrderByDirectionSchema.nullish(),
+    deletedAt: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    name: OrderByDirectionSchema.nullish(),
+    profilePictureUrl: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish(),
+    updatedBy: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function OrganizationsUpdateInputSchema(): z.ZodObject<Properties<OrganizationsUpdateInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    name: z.string().nullish(),
+    profilePictureUrl: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function ProfileUpdateInputSchema(): z.ZodObject<Properties<ProfileUpdateInput>> {
+  return z.object({
+    firstName: z.string().nullish(),
+    lastName: z.string().nullish(),
+    phoneNumber: z.string().nullish(),
+    profilePicture: z.custom<File>(file => file instanceof File).nullish()
+  })
+}
+
+export function ProfilesFilterSchema(): z.ZodObject<Properties<ProfilesFilter>> {
+  return z.object({
+    and: z.array(ProfilesFilterSchema()).nullish(),
+    createdAt: DatetimeFilterSchema().nullish(),
+    createdBy: UuidFilterSchema().nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    email: StringFilterSchema().nullish(),
+    firstName: StringFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    lastName: StringFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: ProfilesFilterSchema().nullish(),
+    or: z.array(ProfilesFilterSchema()).nullish(),
+    phoneNumber: StringFilterSchema().nullish(),
+    profilePictureUrl: StringFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish(),
+    updatedBy: UuidFilterSchema().nullish()
+  })
+}
+
+export function ProfilesInsertInputSchema(): z.ZodObject<Properties<ProfilesInsertInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    email: z.string().nullish(),
+    firstName: z.string().nullish(),
+    id: z.string().nullish(),
+    lastName: z.string().nullish(),
+    phoneNumber: z.string().nullish(),
+    profilePictureUrl: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function ProfilesOrderBySchema(): z.ZodObject<Properties<ProfilesOrderBy>> {
+  return z.object({
+    createdAt: OrderByDirectionSchema.nullish(),
+    createdBy: OrderByDirectionSchema.nullish(),
+    deletedAt: OrderByDirectionSchema.nullish(),
+    email: OrderByDirectionSchema.nullish(),
+    firstName: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    lastName: OrderByDirectionSchema.nullish(),
+    phoneNumber: OrderByDirectionSchema.nullish(),
+    profilePictureUrl: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish(),
+    updatedBy: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function ProfilesUpdateInputSchema(): z.ZodObject<Properties<ProfilesUpdateInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    email: z.string().nullish(),
+    firstName: z.string().nullish(),
+    id: z.string().nullish(),
+    lastName: z.string().nullish(),
+    phoneNumber: z.string().nullish(),
+    profilePictureUrl: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function StringFilterSchema(): z.ZodObject<Properties<StringFilter>> {
+  return z.object({
+    eq: z.string().nullish(),
+    gt: z.string().nullish(),
+    gte: z.string().nullish(),
+    ilike: z.string().nullish(),
+    in: z.array(z.string()).nullish(),
+    iregex: z.string().nullish(),
+    is: FilterIsSchema.nullish(),
+    like: z.string().nullish(),
+    lt: z.string().nullish(),
+    lte: z.string().nullish(),
+    neq: z.string().nullish(),
+    regex: z.string().nullish(),
+    startsWith: z.string().nullish()
+  })
+}
+
+export function StringListFilterSchema(): z.ZodObject<Properties<StringListFilter>> {
+  return z.object({
+    containedBy: z.array(z.string()).nullish(),
+    contains: z.array(z.string()).nullish(),
+    eq: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.string()).nullish()
+  })
+}
+
+export function TimeFilterSchema(): z.ZodObject<Properties<TimeFilter>> {
+  return z.object({
+    eq: z.string().nullish(),
+    gt: z.string().nullish(),
+    gte: z.string().nullish(),
+    in: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    lt: z.string().nullish(),
+    lte: z.string().nullish(),
+    neq: z.string().nullish()
+  })
+}
+
+export function TimeListFilterSchema(): z.ZodObject<Properties<TimeListFilter>> {
+  return z.object({
+    containedBy: z.array(z.string()).nullish(),
+    contains: z.array(z.string()).nullish(),
+    eq: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.string()).nullish()
+  })
+}
+
+export function UuidFilterSchema(): z.ZodObject<Properties<UuidFilter>> {
+  return z.object({
+    eq: z.string().nullish(),
+    in: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    neq: z.string().nullish()
+  })
+}
+
+export function UuidListFilterSchema(): z.ZodObject<Properties<UuidListFilter>> {
+  return z.object({
+    containedBy: z.array(z.string()).nullish(),
+    contains: z.array(z.string()).nullish(),
+    eq: z.array(z.string()).nullish(),
+    is: FilterIsSchema.nullish(),
+    overlaps: z.array(z.string()).nullish()
+  })
+}

@@ -1,7 +1,7 @@
-import { profiles } from '@usepulse/supabase/schema';
+import { profiles } from '@thinair-monorepo-template/supabase/schema';
 import { builder } from '../builder';
 import { eq } from "drizzle-orm";
-import { createServerClient } from '@usepulse/supabase/createServerClient';
+import { createServerClient } from '@thinair-monorepo-template/supabase/createServerClient';
 
 
 builder.mutationField('profileUpdate', t => 

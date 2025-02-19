@@ -10,6 +10,7 @@
     "cleandep": "rm -rf node_modules && pnpm -r exec rm -rf node_modules && rm -rf pnpm-lock.yaml"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
