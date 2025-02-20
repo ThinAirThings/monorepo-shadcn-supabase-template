@@ -10,7 +10,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@thinair-monorepo-template/ui/components/dropdown-menu"
-import { Settings, LogOut } from "lucide-react"
+import { Settings, LogOut, User } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { createBrowserClient } from "@thinair-monorepo-template/supabase/createBrowserClient"
 
@@ -18,6 +18,7 @@ const ProfilesMenuQuery = graphql(`
     query ProfilesMenuQuery {
         viewer {
             id
+            email
             firstName
             lastName
             profilePictureUrl
@@ -47,7 +48,6 @@ export function ProfilesMenu() {
     const profile = data?.viewer
     if (!profile) return null
 
-    const initials = `${profile.firstName?.[0] ?? ''}${profile.lastName?.[0] ?? ''}`
     const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(' ')
 
     const handleLogout = async () => {
@@ -56,7 +56,7 @@ export function ProfilesMenu() {
     }
 
     return (
-        <div className="p-4 border-t">
+        <div className="p-4 border-t max-w-[250px]">
             <DropdownMenu>
                 <DropdownMenuTrigger className="w-full">
                     <div className="flex items-center gap-3 hover:bg-accent rounded-md p-2 transition-colors">
@@ -65,10 +65,11 @@ export function ProfilesMenu() {
                                 src={profile.profilePictureUrl ?? undefined} 
                                 alt={fullName} 
                             />
-                            <AvatarFallback>{initials}</AvatarFallback>
+                            <AvatarFallback><User size={16} /></AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0 text-left">
                             <p className="text-sm font-medium truncate">{fullName}</p>
+                            <p className="text-xs text-muted-foreground truncate">{profile.email}</p>
                         </div>
                     </div>
                 </DropdownMenuTrigger>
