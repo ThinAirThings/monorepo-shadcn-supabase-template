@@ -6,7 +6,8 @@
       "OrganizationInvites",
       "OrganizationMembers",
       "Organizations",
-      "Profiles"
+      "Profiles",
+      "Projects"
     ]
   }
 };
@@ -17,7 +18,8 @@
       "OrganizationInvites",
       "OrganizationMembers",
       "Organizations",
-      "Profiles"
+      "Profiles",
+      "Projects"
     ]
   }
 };

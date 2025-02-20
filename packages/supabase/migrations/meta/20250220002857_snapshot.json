@@ -1,0 +1,759 @@
+{
+  "id": "5932d26c-903c-4d53-aa0b-c054c96410ab",
+  "prevId": "44672c2a-a9a4-483f-bf46-01849f8324dd",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.organization_invites": {
+      "name": "organization_invites",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "uuid_generate_v4()"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_name": {
+          "name": "organization_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "organization_roles",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "invited_by": {
+          "name": "invited_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "accepted_at": {
+          "name": "accepted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_invites_organization_id_organizations_id_fk": {
+          "name": "organization_invites_organization_id_organizations_id_fk",
+          "tableFrom": "organization_invites",
+          "tableTo": "organizations",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "organization_invites_invited_by_profiles_id_fk": {
+          "name": "organization_invites_invited_by_profiles_id_fk",
+          "tableFrom": "organization_invites",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "invited_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "organization_invites_email_org_idx": {
+          "name": "organization_invites_email_org_idx",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email",
+            "organization_id"
+          ]
+        },
+        "organization_invites_token_idx": {
+          "name": "organization_invites_token_idx",
+          "nullsNotDistinct": false,
+          "columns": [
+            "token"
+          ]
+        }
+      },
+      "policies": {
+        "organization_invites_select_policy": {
+          "name": "organization_invites_select_policy",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "public"
+          ],
+          "using": "auth.role() IN ('anon', 'authenticated')"
+        },
+        "organization_invites_insert_policy": {
+          "name": "organization_invites_insert_policy",
+          "as": "PERMISSIVE",
+          "for": "INSERT",
+          "to": [
+            "public"
+          ],
+          "withCheck": "EXISTS (\n            SELECT 1 FROM organization_members\n            WHERE organization_members.organization_id = organization_invites.organization_id\n            AND organization_members.profile_id = auth.uid()\n            AND organization_members.role IN ('Owner', 'Administrator')\n        )"
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.organization_members": {
+      "name": "organization_members",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "uuid_generate_v4()"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profile_id": {
+          "name": "profile_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "role": {
+          "name": "role",
+          "type": "organization_roles",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_members_profile_id_profiles_id_fk": {
+          "name": "organization_members_profile_id_profiles_id_fk",
+          "tableFrom": "organization_members",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "organization_members_organization_id_organizations_id_fk": {
+          "name": "organization_members_organization_id_organizations_id_fk",
+          "tableFrom": "organization_members",
+          "tableTo": "organizations",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "org_member_unique_idx": {
+          "name": "org_member_unique_idx",
+          "nullsNotDistinct": false,
+          "columns": [
+            "profile_id",
+            "organization_id"
+          ]
+        }
+      },
+      "policies": {
+        "organization_members_select_policy": {
+          "name": "organization_members_select_policy",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "public"
+          ],
+          "using": "is_org_member(organization_members.organization_id, auth.uid())"
+        },
+        "organization_members_insert_admin_policy": {
+          "name": "organization_members_insert_admin_policy",
+          "as": "PERMISSIVE",
+          "for": "INSERT",
+          "to": [
+            "public"
+          ],
+          "withCheck": "EXISTS (\n            SELECT 1 FROM organization_members om\n            WHERE om.organization_id = organization_members.organization_id\n            AND om.profile_id = auth.uid()\n            AND om.role IN ('Owner', 'Administrator')\n        )"
+        },
+        "organization_members_insert_invited_policy": {
+          "name": "organization_members_insert_invited_policy",
+          "as": "PERMISSIVE",
+          "for": "INSERT",
+          "to": [
+            "public"
+          ],
+          "withCheck": "\n            EXISTS (\n                SELECT 1 FROM organization_invites oi\n                WHERE oi.organization_id = organization_members.organization_id\n                AND oi.email = (\n                    SELECT email FROM profiles WHERE profiles.id = auth.uid()\n                )\n                AND oi.role = organization_members.role\n                AND oi.accepted_at IS NULL\n                AND oi.expires_at > now()\n            )\n            AND auth.uid() = organization_members.profile_id\n        "
+        },
+        "organization_members_insert_no_members_policy": {
+          "name": "organization_members_insert_no_members_policy",
+          "as": "PERMISSIVE",
+          "for": "INSERT",
+          "to": [
+            "public"
+          ],
+          "withCheck": "\n            (\n                NOT EXISTS (\n                    SELECT 1 FROM organization_members om\n                    WHERE om.organization_id = organization_members.organization_id\n                )\n                AND EXISTS (\n                    SELECT 1 FROM organizations o\n                    WHERE o.id = organization_members.organization_id\n                    AND o.created_by = auth.uid()\n                )\n            )\n        "
+        },
+        "organization_members_update_policy": {
+          "name": "organization_members_update_policy",
+          "as": "PERMISSIVE",
+          "for": "UPDATE",
+          "to": [
+            "public"
+          ],
+          "using": "EXISTS (\n                SELECT 1 FROM organization_members om\n                WHERE om.organization_id = organization_members.organization_id\n                AND om.profile_id = auth.uid()\n                AND (\n                    om.role = 'Owner'\n                    OR (\n                        om.role = 'Administrator'\n                        AND organization_members.role != 'Owner'\n                    )\n                )\n            )\n        ",
+          "withCheck": "true"
+        },
+        "organization_members_delete_policy": {
+          "name": "organization_members_delete_policy",
+          "as": "PERMISSIVE",
+          "for": "DELETE",
+          "to": [
+            "public"
+          ],
+          "using": "EXISTS (\n            SELECT 1 FROM organization_members om\n            WHERE om.organization_id = organization_members.organization_id\n            AND om.profile_id = auth.uid()\n            AND om.role IN ('Owner', 'Administrator')\n        )"
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.organizations": {
+      "name": "organizations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "uuid_generate_v4()"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "profile_picture_url": {
+          "name": "profile_picture_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "organizations_name_unique_idx": {
+          "name": "organizations_name_unique_idx",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      },
+      "policies": {
+        "organizations_insert_policy": {
+          "name": "organizations_insert_policy",
+          "as": "PERMISSIVE",
+          "for": "INSERT",
+          "to": [
+            "public"
+          ],
+          "withCheck": "auth.uid() IS NOT NULL"
+        },
+        "organizations_read_policy": {
+          "name": "organizations_read_policy",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "public"
+          ],
+          "using": "EXISTS (\n            SELECT 1 FROM organization_members\n            WHERE organization_members.organization_id = organizations.id\n            AND organization_members.profile_id = auth.uid()\n        ) OR organizations.created_by = auth.uid()"
+        },
+        "organizations_update_policy": {
+          "name": "organizations_update_policy",
+          "as": "PERMISSIVE",
+          "for": "UPDATE",
+          "to": [
+            "public"
+          ],
+          "using": "EXISTS (\n            SELECT 1 FROM organization_members\n            WHERE organization_members.organization_id = organizations.id\n            AND organization_members.profile_id = auth.uid()\n            AND organization_members.role IN ('Owner', 'Administrator')\n        )",
+          "withCheck": "true"
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.profiles": {
+      "name": "profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profile_picture_url": {
+          "name": "profile_picture_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "profiles_email_idx": {
+          "name": "profiles_email_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "profiles_id_users_id_fk": {
+          "name": "profiles_id_users_id_fk",
+          "tableFrom": "profiles",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "profiles_update_policy": {
+          "name": "profiles_update_policy",
+          "as": "PERMISSIVE",
+          "for": "UPDATE",
+          "to": [
+            "public"
+          ],
+          "using": "auth.uid() = profiles.id",
+          "withCheck": "true"
+        },
+        "profiles_select_policy": {
+          "name": "profiles_select_policy",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "public"
+          ],
+          "using": "true"
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.projects": {
+      "name": "projects",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "uuid_generate_v4()"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'00000000-0000-0000-0000-000000000000'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profile_id": {
+          "name": "profile_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "projects_organization_id_organizations_id_fk": {
+          "name": "projects_organization_id_organizations_id_fk",
+          "tableFrom": "projects",
+          "tableTo": "organizations",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "projects_profile_id_profiles_id_fk": {
+          "name": "projects_profile_id_profiles_id_fk",
+          "tableFrom": "projects",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "projects_select_policy": {
+          "name": "projects_select_policy",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "public"
+          ],
+          "using": "EXISTS (\n            SELECT 1 FROM organization_members om\n            WHERE om.organization_id = projects.organization_id\n            AND om.profile_id = auth.uid()\n        )"
+        },
+        "projects_select_policy_self": {
+          "name": "projects_select_policy_self",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "public"
+          ],
+          "using": "projects.profile_id = auth.uid()"
+        },
+        "projects_insert_policy": {
+          "name": "projects_insert_policy",
+          "as": "PERMISSIVE",
+          "for": "INSERT",
+          "to": [
+            "public"
+          ],
+          "withCheck": "projects.organization_id IS NULL AND projects.profile_id = auth.uid()"
+        },
+        "projects_insert_policy_org": {
+          "name": "projects_insert_policy_org",
+          "as": "PERMISSIVE",
+          "for": "INSERT",
+          "to": [
+            "public"
+          ],
+          "withCheck": "EXISTS (\n            SELECT 1 FROM organization_members om\n            WHERE om.organization_id = projects.organization_id\n            AND om.profile_id = auth.uid()\n        )"
+        },
+        "projects_update_policy_self": {
+          "name": "projects_update_policy_self",
+          "as": "PERMISSIVE",
+          "for": "UPDATE",
+          "to": [
+            "public"
+          ],
+          "using": "projects.profile_id = auth.uid()"
+        },
+        "projects_update_policy_org": {
+          "name": "projects_update_policy_org",
+          "as": "PERMISSIVE",
+          "for": "UPDATE",
+          "to": [
+            "public"
+          ],
+          "withCheck": "EXISTS (\n            SELECT 1 FROM organization_members om\n            WHERE om.organization_id = projects.organization_id\n            AND om.profile_id = auth.uid()\n        )"
+        },
+        "projects_delete_policy_org": {
+          "name": "projects_delete_policy_org",
+          "as": "PERMISSIVE",
+          "for": "DELETE",
+          "to": [
+            "public"
+          ],
+          "using": "EXISTS (\n            SELECT 1 FROM organization_members om\n            WHERE om.organization_id = projects.organization_id\n            AND om.profile_id = auth.uid()\n            AND om.role IN ('Owner', 'Administrator')\n        )"
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.organization_roles": {
+      "name": "organization_roles",
+      "schema": "public",
+      "values": [
+        "Owner",
+        "Administrator",
+        "Member"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

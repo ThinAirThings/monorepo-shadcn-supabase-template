@@ -189,3 +189,63 @@ export const organizationInvites = pgTable('organization_invites', {
         )`
     }),
 ]);
+
+export const projects = pgTable('projects', {
+    ...base,
+    name: text('name').notNull(),
+    organizationId: uuid('organization_id').references(() => organizations.id),
+    profileId: uuid('profile_id').references(() => profiles.id),
+}, (table) => [
+    // Members of the organization can see organization projects
+    pgPolicy('projects_select_policy', {
+        'for': 'select',
+        using: sql`EXISTS (
+            SELECT 1 FROM organization_members om
+            WHERE om.organization_id = projects.organization_id
+            AND om.profile_id = auth.uid()
+        )`
+    }),
+    // Users can see their own projects
+    pgPolicy('projects_select_policy_self', {
+        'for': 'select',
+        using: sql`projects.profile_id = auth.uid()`
+    }),
+    // Any authenticated user can create a project in their personal organization
+    pgPolicy('projects_insert_policy', {
+        'for': 'insert',
+        withCheck: sql`projects.organization_id IS NULL AND projects.profile_id = auth.uid()`
+    }),
+    // Users of an organization can create projects in that organization
+    pgPolicy('projects_insert_policy_org', {
+        'for': 'insert',
+        withCheck: sql`EXISTS (
+            SELECT 1 FROM organization_members om
+            WHERE om.organization_id = projects.organization_id
+            AND om.profile_id = auth.uid()
+        )`
+    }),
+    // Users can update their own projects
+    pgPolicy('projects_update_policy_self', {
+        'for': 'update',
+        using: sql`projects.profile_id = auth.uid()`
+    }),
+    // Users in an organization and update the projects in that organization
+    pgPolicy('projects_update_policy_org', {
+        'for': 'update',
+        withCheck: sql`EXISTS (
+            SELECT 1 FROM organization_members om
+            WHERE om.organization_id = projects.organization_id
+            AND om.profile_id = auth.uid()
+        )`
+    }),
+    // Users in an organization can delete the projects in that organization
+    pgPolicy('projects_delete_policy_org', {
+        'for': 'delete',
+        using: sql`EXISTS (
+            SELECT 1 FROM organization_members om
+            WHERE om.organization_id = projects.organization_id
+            AND om.profile_id = auth.uid()
+            AND om.role IN ('Owner', 'Administrator')
+        )`
+    }),
+]);

@@ -281,6 +281,8 @@ export type Mutation = {
   deleteFromOrganizationsCollection: OrganizationsDeleteResponse;
   /** Deletes zero or more records from the `Profiles` collection */
   deleteFromProfilesCollection: ProfilesDeleteResponse;
+  /** Deletes zero or more records from the `Projects` collection */
+  deleteFromProjectsCollection: ProjectsDeleteResponse;
   /** Adds one or more `DeletedRecord` records to the collection */
   insertIntoDeletedRecordCollection?: Maybe<DeletedRecordInsertResponse>;
   /** Adds one or more `OrganizationInvites` records to the collection */
@@ -291,6 +293,8 @@ export type Mutation = {
   insertIntoOrganizationsCollection?: Maybe<OrganizationsInsertResponse>;
   /** Adds one or more `Profiles` records to the collection */
   insertIntoProfilesCollection?: Maybe<ProfilesInsertResponse>;
+  /** Adds one or more `Projects` records to the collection */
+  insertIntoProjectsCollection?: Maybe<ProjectsInsertResponse>;
   organizationCreate?: Maybe<OrganizationCreateResult>;
   profileUpdate?: Maybe<ProfileUpdateResult>;
   /** Updates zero or more records in the `DeletedRecord` collection */
@@ -303,6 +307,8 @@ export type Mutation = {
   updateOrganizationsCollection: OrganizationsUpdateResponse;
   /** Updates zero or more records in the `Profiles` collection */
   updateProfilesCollection: ProfilesUpdateResponse;
+  /** Updates zero or more records in the `Projects` collection */
+  updateProjectsCollection: ProjectsUpdateResponse;
 };
 
 
@@ -346,6 +352,12 @@ export type MutationDeleteFromProfilesCollectionArgs = {
 };
 
 
+export type MutationDeleteFromProjectsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<ProjectsFilter>;
+};
+
+
 export type MutationInsertIntoDeletedRecordCollectionArgs = {
   objects: Array<DeletedRecordInsertInput>;
 };
@@ -368,6 +380,11 @@ export type MutationInsertIntoOrganizationsCollectionArgs = {
 
 export type MutationInsertIntoProfilesCollectionArgs = {
   objects: Array<ProfilesInsertInput>;
+};
+
+
+export type MutationInsertIntoProjectsCollectionArgs = {
+  objects: Array<ProjectsInsertInput>;
 };
 
 
@@ -413,6 +430,13 @@ export type MutationUpdateProfilesCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ProfilesFilter>;
   set: ProfilesUpdateInput;
+};
+
+
+export type MutationUpdateProjectsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<ProjectsFilter>;
+  set: ProjectsUpdateInput;
 };
 
 export type Node = {
@@ -721,6 +745,7 @@ export type Organizations = Node & {
   organizationInvitesCollection?: Maybe<OrganizationInvitesConnection>;
   organizationMembersCollection?: Maybe<OrganizationMembersConnection>;
   profilePictureUrl?: Maybe<Scalars['String']['output']>;
+  projectsCollection?: Maybe<ProjectsConnection>;
   updatedAt: Scalars['Datetime']['output'];
   updatedBy: Scalars['UUID']['output'];
 };
@@ -745,6 +770,17 @@ export type OrganizationsOrganizationMembersCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<OrganizationMembersOrderBy>>;
+};
+
+
+export type OrganizationsProjectsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ProjectsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ProjectsOrderBy>>;
 };
 
 export type OrganizationsConnection = {
@@ -875,6 +911,7 @@ export type Profiles = Node & {
   organizationMembersCollection?: Maybe<OrganizationMembersConnection>;
   phoneNumber?: Maybe<Scalars['String']['output']>;
   profilePictureUrl?: Maybe<Scalars['String']['output']>;
+  projectsCollection?: Maybe<ProjectsConnection>;
   updatedAt: Scalars['Datetime']['output'];
   updatedBy: Scalars['UUID']['output'];
 };
@@ -899,6 +936,17 @@ export type ProfilesOrganizationMembersCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<OrganizationMembersOrderBy>>;
+};
+
+
+export type ProfilesProjectsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ProjectsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ProjectsOrderBy>>;
 };
 
 export type ProfilesConnection = {
@@ -1002,6 +1050,114 @@ export type ProfilesUpdateResponse = {
   records: Array<Profiles>;
 };
 
+export type Projects = Node & {
+  __typename?: 'Projects';
+  createdAt: Scalars['Datetime']['output'];
+  createdBy: Scalars['UUID']['output'];
+  deletedAt?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  name: Scalars['String']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  organization?: Maybe<Organizations>;
+  organizationId?: Maybe<Scalars['UUID']['output']>;
+  profile?: Maybe<Profiles>;
+  profileId?: Maybe<Scalars['UUID']['output']>;
+  updatedAt: Scalars['Datetime']['output'];
+  updatedBy: Scalars['UUID']['output'];
+};
+
+export type ProjectsConnection = {
+  __typename?: 'ProjectsConnection';
+  edges: Array<ProjectsEdge>;
+  pageInfo: PageInfo;
+};
+
+export type ProjectsDeleteResponse = {
+  __typename?: 'ProjectsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Projects>;
+};
+
+export type ProjectsEdge = {
+  __typename?: 'ProjectsEdge';
+  cursor: Scalars['String']['output'];
+  node: Projects;
+};
+
+export type ProjectsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ProjectsFilter>>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  createdBy?: InputMaybe<UuidFilter>;
+  deletedAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<ProjectsFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ProjectsFilter>>;
+  organizationId?: InputMaybe<UuidFilter>;
+  profileId?: InputMaybe<UuidFilter>;
+  updatedAt?: InputMaybe<DatetimeFilter>;
+  updatedBy?: InputMaybe<UuidFilter>;
+};
+
+export type ProjectsInsertInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  organizationId?: InputMaybe<Scalars['UUID']['input']>;
+  profileId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ProjectsInsertResponse = {
+  __typename?: 'ProjectsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Projects>;
+};
+
+export type ProjectsOrderBy = {
+  createdAt?: InputMaybe<OrderByDirection>;
+  createdBy?: InputMaybe<OrderByDirection>;
+  deletedAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  organizationId?: InputMaybe<OrderByDirection>;
+  profileId?: InputMaybe<OrderByDirection>;
+  updatedAt?: InputMaybe<OrderByDirection>;
+  updatedBy?: InputMaybe<OrderByDirection>;
+};
+
+export type ProjectsUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  organizationId?: InputMaybe<Scalars['UUID']['input']>;
+  profileId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ProjectsUpdateResponse = {
+  __typename?: 'ProjectsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Projects>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** A pagable collection of type `DeletedRecord` */
@@ -1018,6 +1174,8 @@ export type Query = {
   placeholder?: Maybe<Scalars['String']['output']>;
   /** A pagable collection of type `Profiles` */
   profilesCollection?: Maybe<ProfilesConnection>;
+  /** A pagable collection of type `Projects` */
+  projectsCollection?: Maybe<ProjectsConnection>;
   viewer?: Maybe<Profiles>;
 };
 
@@ -1085,6 +1243,17 @@ export type QueryProfilesCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ProfilesOrderBy>>;
+};
+
+
+export type QueryProjectsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ProjectsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ProjectsOrderBy>>;
 };
 
 /** Boolean expression comparing fields on type "String" */
@@ -1666,6 +1835,66 @@ export function ProfilesUpdateInputSchema(): z.ZodObject<Properties<ProfilesUpda
     lastName: z.string().nullish(),
     phoneNumber: z.string().nullish(),
     profilePictureUrl: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function ProjectsFilterSchema(): z.ZodObject<Properties<ProjectsFilter>> {
+  return z.object({
+    and: z.array(ProjectsFilterSchema()).nullish(),
+    createdAt: DatetimeFilterSchema().nullish(),
+    createdBy: UuidFilterSchema().nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    name: StringFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: ProjectsFilterSchema().nullish(),
+    or: z.array(ProjectsFilterSchema()).nullish(),
+    organizationId: UuidFilterSchema().nullish(),
+    profileId: UuidFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish(),
+    updatedBy: UuidFilterSchema().nullish()
+  })
+}
+
+export function ProjectsInsertInputSchema(): z.ZodObject<Properties<ProjectsInsertInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    name: z.string().nullish(),
+    organizationId: z.string().nullish(),
+    profileId: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function ProjectsOrderBySchema(): z.ZodObject<Properties<ProjectsOrderBy>> {
+  return z.object({
+    createdAt: OrderByDirectionSchema.nullish(),
+    createdBy: OrderByDirectionSchema.nullish(),
+    deletedAt: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    name: OrderByDirectionSchema.nullish(),
+    organizationId: OrderByDirectionSchema.nullish(),
+    profileId: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish(),
+    updatedBy: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function ProjectsUpdateInputSchema(): z.ZodObject<Properties<ProjectsUpdateInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    name: z.string().nullish(),
+    organizationId: z.string().nullish(),
+    profileId: z.string().nullish(),
     updatedAt: z.string().nullish(),
     updatedBy: z.string().nullish()
   })

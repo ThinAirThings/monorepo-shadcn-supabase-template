@@ -5,7 +5,8 @@
       "OrganizationInvites",
       "OrganizationMembers",
       "Organizations",
-      "Profiles"
+      "Profiles",
+      "Projects"
     ]
   }
 }

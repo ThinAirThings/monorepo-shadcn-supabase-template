@@ -15,6 +15,13 @@
       "when": 1740007716249,
       "tag": "20250219232836_initial-schema-after-configuration",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740011337701,
+      "tag": "20250220002857_add-projects-table",
+      "breakpoints": true
     }
   ]
 }
