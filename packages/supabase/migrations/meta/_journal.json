@@ -50,6 +50,13 @@
       "when": 1740069660524,
       "tag": "20250220164100_update-chat-rls",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1740077844989,
+      "tag": "20250220185724_update-chat-rls",
+      "breakpoints": true
     }
   ]
 }

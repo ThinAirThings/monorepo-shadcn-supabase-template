@@ -14,11 +14,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
-    "\n    query ComponentEditorPageQuery($componentId: UUID!) {\n        componentsCollection(filter: {id: {eq: $componentId}}) {\n            edges {\n                node {\n                    id\n                    name\n                }\n            }\n        }\n    }\n": types.ComponentEditorPageQueryDocument,
-    "\n    fragment SingleComponentChatFragment on Components {\n        id\n        aiChatsCollection {\n            edges {\n                node {\n                    id\n                }\n            }\n        }\n    }\n": types.SingleComponentChatFragmentFragmentDoc,
+    "\n    query ComponentEditorPageQuery($componentId: UUID!) {\n        componentsCollection(filter: {id: {eq: $componentId}}) {\n            edges {\n                node {\n                    id\n                    name\n                    aiChatsCollection {\n                        edges {\n                            node {\n                                id\n                                ...ComponentChatFragment\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n": types.ComponentEditorPageQueryDocument,
     "\n    query ComponentEditor($id: UUID!) {\n        projectsCollection(filter: {id: {eq: $id}}) {\n            edges {\n                node {\n                    id\n                    ...ComponentsListFragment\n                }\n            }\n        }\n    }\n": types.ComponentEditorDocument,
     "\n  query GetInviteDetails($token: String!) {\n    organizationInvitesCollection(filter: { token: { eq: $token } }) {\n      edges {\n        node {\n          id\n          email\n          role\n          organizationName\n        }\n      }\n    }\n  }\n": types.GetInviteDetailsDocument,
+    "\n    fragment AiChatMessageFragment on AiChatMessages {\n        id\n        content\n        role\n    }\n": types.AiChatMessageFragmentFragmentDoc,
     "\n    query AuthenticationQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n        }\n    }\n": types.AuthenticationQueryDocument,
+    "\n    fragment ComponentChatFragment on AiChats {\n        id\n        aiChatMessagesCollection {\n            edges {\n                node {\n                    id\n                    content\n                    role\n                }\n            }\n        }\n    }\n": types.ComponentChatFragmentFragmentDoc,
     "\n    mutation CreateComponent($input: ComponentsInsertInput!) {\n        insertIntoComponentsCollection(objects: [$input]) {\n            records {\n                id\n                name\n                projectId\n            }\n        }\n    }\n": types.CreateComponentDocument,
     "\n    fragment ComponentsListFragment on Projects {\n        id  \n        componentsCollection {\n            edges {\n                node {\n                    id\n                    name\n                }\n            }\n        }\n    }\n": types.ComponentsListFragmentFragmentDoc,
     "\n    query OrganizationsQuery {\n        organizationsCollection {\n            edges {\n                node {\n                    id\n                    name\n                    profilePictureUrl\n                }\n            }\n        }\n    }\n": types.OrganizationsQueryDocument,
@@ -53,11 +54,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query ComponentEditorPageQuery($componentId: UUID!) {\n        componentsCollection(filter: {id: {eq: $componentId}}) {\n            edges {\n                node {\n                    id\n                    name\n                }\n            }\n        }\n    }\n"): (typeof documents)["\n    query ComponentEditorPageQuery($componentId: UUID!) {\n        componentsCollection(filter: {id: {eq: $componentId}}) {\n            edges {\n                node {\n                    id\n                    name\n                }\n            }\n        }\n    }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n    fragment SingleComponentChatFragment on Components {\n        id\n        aiChatsCollection {\n            edges {\n                node {\n                    id\n                }\n            }\n        }\n    }\n"): (typeof documents)["\n    fragment SingleComponentChatFragment on Components {\n        id\n        aiChatsCollection {\n            edges {\n                node {\n                    id\n                }\n            }\n        }\n    }\n"];
+export function graphql(source: "\n    query ComponentEditorPageQuery($componentId: UUID!) {\n        componentsCollection(filter: {id: {eq: $componentId}}) {\n            edges {\n                node {\n                    id\n                    name\n                    aiChatsCollection {\n                        edges {\n                            node {\n                                id\n                                ...ComponentChatFragment\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n"): (typeof documents)["\n    query ComponentEditorPageQuery($componentId: UUID!) {\n        componentsCollection(filter: {id: {eq: $componentId}}) {\n            edges {\n                node {\n                    id\n                    name\n                    aiChatsCollection {\n                        edges {\n                            node {\n                                id\n                                ...ComponentChatFragment\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -69,7 +66,15 @@ export function graphql(source: "\n  query GetInviteDetails($token: String!) {\n
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n    fragment AiChatMessageFragment on AiChatMessages {\n        id\n        content\n        role\n    }\n"): (typeof documents)["\n    fragment AiChatMessageFragment on AiChatMessages {\n        id\n        content\n        role\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n    query AuthenticationQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n        }\n    }\n"): (typeof documents)["\n    query AuthenticationQuery {\n        viewer {\n            id\n            email\n            firstName\n            lastName\n            phoneNumber\n            createdAt\n            updatedAt\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    fragment ComponentChatFragment on AiChats {\n        id\n        aiChatMessagesCollection {\n            edges {\n                node {\n                    id\n                    content\n                    role\n                }\n            }\n        }\n    }\n"): (typeof documents)["\n    fragment ComponentChatFragment on AiChats {\n        id\n        aiChatMessagesCollection {\n            edges {\n                node {\n                    id\n                    content\n                    role\n                }\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
