@@ -8,6 +8,7 @@ import { persist } from "zustand/middleware";
 import invariant from "tiny-invariant";
 import { NodeKeyProvider } from "@/context/node-key-provider";
 import { useNodeKey } from "@/context/node-key-provider";
+import { FullLoading } from "../full-loading";
 
 interface ProjectState {
     projectId: string | null;
@@ -46,7 +47,7 @@ const ProjectsIdSetQuery = graphql(`
 // Convenience hook to just get the projectId
 export const useProjectId = () => {
     const projectId = useProjectStore((state) => state.projectId);
-    const organizationNodeKey = useNodeKey('Organizations', false)
+    const organizationNodeKey = useNodeKey('Organizations', {isInvariant: false})
     const profileNodeKey = useNodeKey('Profiles')
 
     const { data, loading } = useQuery(ProjectsIdSetQuery, {
@@ -74,6 +75,7 @@ export const useProjectId = () => {
 
 export const ProjectNodeKeyProvider = ({children}: {children: React.ReactNode}) => {
     const [projectId] = useProjectId()
+    if (!projectId) return <FullLoading message="Loading project..." />
     return (
         <NodeKeyProvider node={projectId ? {
             __typename: 'Projects',

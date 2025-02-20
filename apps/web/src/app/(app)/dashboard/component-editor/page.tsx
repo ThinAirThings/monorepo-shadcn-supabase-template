@@ -1,14 +1,13 @@
-import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup,
-  } from "@thinair-monorepo-template/ui/components/resizable"
+'use client'
 
-export default function ComponentEditor() {
+
+export default function ComponentEditorEmptyState() {    
     return (
-        <></>
-        // <ResizablePanel>
-        //     <ResizableHandle />
-        // </ResizablePanel>
+        <div className="h-full w-full flex items-center justify-center">
+            <div className="text-center">
+                <h1 className="text-2xl font-bold">No component selected</h1>
+                <p className="text-muted-foreground">Select a component to get started</p>
+            </div>
+        </div>
     )
 }

@@ -19,7 +19,6 @@ export const AuthenticationQuery = graphql(`
             phoneNumber
             createdAt
             updatedAt
-            deletedAt
         }
     }
 `);
@@ -31,6 +30,7 @@ export function AuthenticationProvider({ children }: { children: ReactNode }) {
     const router = useRouter();
 
     const { data, error } = useQuery(AuthenticationQuery);
+    if (error) throw Error(error.message);
     const userNode = data?.viewer ?? null;
     useEffect(() => {
         startTransition(async () => {
@@ -47,7 +47,6 @@ export function AuthenticationProvider({ children }: { children: ReactNode }) {
     if (loading || !authUser || !userNode) {
         return <FullLoading />;
     }
-
     return (
         <NodeKeyProvider node={userNode}>
             {children}

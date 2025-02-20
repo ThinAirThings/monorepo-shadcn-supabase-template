@@ -8,6 +8,7 @@ import { db } from '@/lib/drizzle/db'
 import { createStorageBucket } from './storage/create-storage-bucket'
 import { createOrReplaceDeleteTrigger } from './triggers/handle-delete'
 import { createOrReplaceIsOrgMemberFunction } from './functions/is-org-member'
+import { createOrReplaceIsOrgManagerFunction } from './functions/is-org-manager'
 
 console.log(process.env.DATABASE_URL)
 async function configureDatabase() {
@@ -42,7 +43,7 @@ async function configureDatabase() {
         console.log('🔧 Creating database functions...')
         await createOrReplaceViewerFunction()
         await createOrReplaceIsOrgMemberFunction()
-
+        await createOrReplaceIsOrgManagerFunction()
         // Configure storage buckets
         console.log('📦 Configuring storage buckets...')
         await createStorageBucket({

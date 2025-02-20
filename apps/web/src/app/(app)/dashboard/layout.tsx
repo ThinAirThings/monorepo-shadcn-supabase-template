@@ -10,13 +10,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
         <OrganizationNodeKeyProvider>
             <ProjectNodeKeyProvider>
-                <div className="min-h-screen flex flex-col">
+                <div className="min-h-screen w-full grid grid-rows-[auto_1fr]">
                     {/* Header */}
                     <header className="border-b">
-                        <div className="h-16 px-4 flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
+                        <div className="h-14 px-2 flex items-center justify-between">
+                            <div className="flex items-center space-x-8">
                                 {/* Logo or brand name */}
-                                <Image src="/thinair-ears-white.svg" alt="Thinair Logo" width={40} height={40} />
+                                <Image src="/thinair-ears-white.svg" alt="Thinair Logo" width={34} height={34} className="translate-y-[-2px]"/>
                                 <div className="flex items-center space-x-4">
                                     <OrganizationsCombobox />
                                     <span className="text-muted-foreground">/</span>
@@ -30,10 +30,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </div>
                     </header>
                     {/* Main content */}
-                    <main className="flex-1 flex">
+                    <div className="flex h-full">
                         <DashboardSidebar />    
                         {children}
-                    </main>
+                    </div>
                 </div>
             </ProjectNodeKeyProvider>
         </OrganizationNodeKeyProvider>

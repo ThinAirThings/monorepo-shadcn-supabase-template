@@ -20,7 +20,7 @@ const NodeKeyContextMap = createContext<Map<
 export const useNodeKey = <
     NodeType extends NodeTypeSet, 
     IsInvariant extends boolean=true
->(nodeType: NodeType, isInvariant: IsInvariant = true as IsInvariant) => {
+>(nodeType: NodeType, {isInvariant = true as IsInvariant} = {}) => {
     const nodeKeyContextMap = useContext(NodeKeyContextMap)
     const nodeKey = nodeKeyContextMap.get(nodeType)
     if (isInvariant) {

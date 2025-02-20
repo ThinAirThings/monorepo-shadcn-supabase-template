@@ -45,7 +45,7 @@ export const ProjectsQuery = graphql(`
 export function ProjectsCombobox() {
     const [open, setOpen] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
-    const organizationNodeKey = useNodeKey('Organizations', false)
+    const organizationNodeKey = useNodeKey('Organizations', {isInvariant: false})
     const profileNodeKey = useNodeKey('Profiles')
 
     const [projectId, setProjectId] = useProjectId()
@@ -74,6 +74,7 @@ export function ProjectsCombobox() {
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
+                        size="sm"
                         variant="ghost"
                         role="combobox"
                         aria-expanded={open}

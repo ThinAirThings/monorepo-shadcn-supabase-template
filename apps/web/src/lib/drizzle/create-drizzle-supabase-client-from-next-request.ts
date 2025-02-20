@@ -1,6 +1,7 @@
 import { createDrizzleSupabaseClient } from "@thinair-monorepo-template/supabase/drizzle/createDrizzleSupabaseClient";
 import { db } from "@thinair-monorepo-template/supabase/drizzle/db";
 import { NextRequest } from "next/server";
+import invariant from "tiny-invariant";
 
 
 
@@ -10,5 +11,7 @@ export function createDrizzleSupabaseClientFromNextRequest(request: NextRequest)
     if (!accessToken) {
         throw new Error('No access token found');
     }
-    return createDrizzleSupabaseClient(accessToken.split(' ')[1]!, { admin: db, client: db });
+    const token = accessToken.split(' ')[1];
+    invariant(token, 'No access token found');
+    return createDrizzleSupabaseClient(token, { admin: db, client: db });
 }

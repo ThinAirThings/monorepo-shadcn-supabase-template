@@ -27,11 +27,17 @@
 			"complexity": {
 				"noForEach": "off"
 			},
+			"correctness": {
+				"useExhaustiveDependencies": "off"
+			},
 			"a11y": {
 				"useSemanticElements": "off"
 			},
 			"suspicious": {
 				"noArrayIndexKey": "off"
+			},
+			"style": {
+				"useImportType": "off"
 			}
 		}
 	}

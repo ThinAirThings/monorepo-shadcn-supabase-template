@@ -40,6 +40,6 @@ export const apolloClient = new ApolloClient({
     cache: new InMemoryCache({
         possibleTypes: generatedIntrospection.possibleTypes
     }),
-    dataMasking: true,
+    // dataMasking: true,
     
 });

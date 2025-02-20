@@ -1,10 +1,11 @@
 import { sql, type ColumnBaseConfig, type ColumnDataType } from "drizzle-orm";
 import { uuid, timestamp, index, ExtraConfigColumn, pgPolicy } from "drizzle-orm/pg-core";
+import { profiles } from "./tables/profiles-table";
 
 export const base = {
     id: uuid().default(sql`uuid_generate_v4()`).primaryKey().notNull(),
-    createdBy: uuid("created_by").notNull().default('00000000-0000-0000-0000-000000000000'),
-    updatedBy: uuid("updated_by").notNull().default('00000000-0000-0000-0000-000000000000'),
+    createdBy: uuid("created_by").references(() => profiles.id).notNull(),
+    updatedBy: uuid("updated_by").references(() => profiles.id).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
     deletedAt: timestamp("deleted_at", { withTimezone: true, mode: 'string' }),

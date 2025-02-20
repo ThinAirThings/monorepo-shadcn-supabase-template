@@ -25,6 +25,244 @@ export type Scalars = {
   UUID: { input: string; output: string; }
 };
 
+export type AiChatMessages = Node & {
+  __typename?: 'AiChatMessages';
+  annotations?: Maybe<Scalars['JSON']['output']>;
+  attachments?: Maybe<Scalars['JSON']['output']>;
+  chat?: Maybe<AiChats>;
+  chatId: Scalars['UUID']['output'];
+  content: Scalars['String']['output'];
+  createdAt: Scalars['Datetime']['output'];
+  createdBy: Scalars['UUID']['output'];
+  deletedAt?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  parts: Scalars['JSON']['output'];
+  profiles?: Maybe<Profiles>;
+  role: MessageRoles;
+  updatedAt: Scalars['Datetime']['output'];
+  updatedBy: Scalars['UUID']['output'];
+};
+
+export type AiChatMessagesConnection = {
+  __typename?: 'AiChatMessagesConnection';
+  edges: Array<AiChatMessagesEdge>;
+  pageInfo: PageInfo;
+};
+
+export type AiChatMessagesDeleteResponse = {
+  __typename?: 'AiChatMessagesDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChatMessages>;
+};
+
+export type AiChatMessagesEdge = {
+  __typename?: 'AiChatMessagesEdge';
+  cursor: Scalars['String']['output'];
+  node: AiChatMessages;
+};
+
+export type AiChatMessagesFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<AiChatMessagesFilter>>;
+  chatId?: InputMaybe<UuidFilter>;
+  content?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  createdBy?: InputMaybe<UuidFilter>;
+  deletedAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<AiChatMessagesFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<AiChatMessagesFilter>>;
+  role?: InputMaybe<MessageRolesFilter>;
+  updatedAt?: InputMaybe<DatetimeFilter>;
+  updatedBy?: InputMaybe<UuidFilter>;
+};
+
+export type AiChatMessagesInsertInput = {
+  annotations?: InputMaybe<Scalars['JSON']['input']>;
+  attachments?: InputMaybe<Scalars['JSON']['input']>;
+  chatId?: InputMaybe<Scalars['UUID']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  parts?: InputMaybe<Scalars['JSON']['input']>;
+  role?: InputMaybe<MessageRoles>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type AiChatMessagesInsertResponse = {
+  __typename?: 'AiChatMessagesInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChatMessages>;
+};
+
+export type AiChatMessagesOrderBy = {
+  chatId?: InputMaybe<OrderByDirection>;
+  content?: InputMaybe<OrderByDirection>;
+  createdAt?: InputMaybe<OrderByDirection>;
+  createdBy?: InputMaybe<OrderByDirection>;
+  deletedAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  role?: InputMaybe<OrderByDirection>;
+  updatedAt?: InputMaybe<OrderByDirection>;
+  updatedBy?: InputMaybe<OrderByDirection>;
+};
+
+export type AiChatMessagesUpdateInput = {
+  annotations?: InputMaybe<Scalars['JSON']['input']>;
+  attachments?: InputMaybe<Scalars['JSON']['input']>;
+  chatId?: InputMaybe<Scalars['UUID']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  parts?: InputMaybe<Scalars['JSON']['input']>;
+  role?: InputMaybe<MessageRoles>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type AiChatMessagesUpdateResponse = {
+  __typename?: 'AiChatMessagesUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChatMessages>;
+};
+
+export type AiChats = Node & {
+  __typename?: 'AiChats';
+  aiChatMessagesCollection?: Maybe<AiChatMessagesConnection>;
+  component?: Maybe<Components>;
+  componentId?: Maybe<Scalars['UUID']['output']>;
+  createdAt: Scalars['Datetime']['output'];
+  createdBy: Scalars['UUID']['output'];
+  deletedAt?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  name: Scalars['String']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  profiles?: Maybe<Profiles>;
+  project?: Maybe<Projects>;
+  projectId?: Maybe<Scalars['UUID']['output']>;
+  updatedAt: Scalars['Datetime']['output'];
+  updatedBy: Scalars['UUID']['output'];
+};
+
+
+export type AiChatsAiChatMessagesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatMessagesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatMessagesOrderBy>>;
+};
+
+export type AiChatsConnection = {
+  __typename?: 'AiChatsConnection';
+  edges: Array<AiChatsEdge>;
+  pageInfo: PageInfo;
+};
+
+export type AiChatsDeleteResponse = {
+  __typename?: 'AiChatsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChats>;
+};
+
+export type AiChatsEdge = {
+  __typename?: 'AiChatsEdge';
+  cursor: Scalars['String']['output'];
+  node: AiChats;
+};
+
+export type AiChatsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<AiChatsFilter>>;
+  componentId?: InputMaybe<UuidFilter>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  createdBy?: InputMaybe<UuidFilter>;
+  deletedAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<AiChatsFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<AiChatsFilter>>;
+  projectId?: InputMaybe<UuidFilter>;
+  updatedAt?: InputMaybe<DatetimeFilter>;
+  updatedBy?: InputMaybe<UuidFilter>;
+};
+
+export type AiChatsInsertInput = {
+  componentId?: InputMaybe<Scalars['UUID']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  projectId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type AiChatsInsertResponse = {
+  __typename?: 'AiChatsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChats>;
+};
+
+export type AiChatsOrderBy = {
+  componentId?: InputMaybe<OrderByDirection>;
+  createdAt?: InputMaybe<OrderByDirection>;
+  createdBy?: InputMaybe<OrderByDirection>;
+  deletedAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  projectId?: InputMaybe<OrderByDirection>;
+  updatedAt?: InputMaybe<OrderByDirection>;
+  updatedBy?: InputMaybe<OrderByDirection>;
+};
+
+export type AiChatsUpdateInput = {
+  componentId?: InputMaybe<Scalars['UUID']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  projectId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type AiChatsUpdateResponse = {
+  __typename?: 'AiChatsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChats>;
+};
+
 /** Boolean expression comparing fields on type "BigFloat" */
 export type BigFloatFilter = {
   eq?: InputMaybe<Scalars['BigFloat']['input']>;
@@ -80,6 +318,123 @@ export type BooleanListFilter = {
   eq?: InputMaybe<Array<Scalars['Boolean']['input']>>;
   is?: InputMaybe<FilterIs>;
   overlaps?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+};
+
+export type Components = Node & {
+  __typename?: 'Components';
+  aiChatsCollection?: Maybe<AiChatsConnection>;
+  createdAt: Scalars['Datetime']['output'];
+  createdBy: Scalars['UUID']['output'];
+  deletedAt?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  name: Scalars['String']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  profiles?: Maybe<Profiles>;
+  project?: Maybe<Projects>;
+  projectId: Scalars['UUID']['output'];
+  updatedAt: Scalars['Datetime']['output'];
+  updatedBy: Scalars['UUID']['output'];
+};
+
+
+export type ComponentsAiChatsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatsOrderBy>>;
+};
+
+export type ComponentsConnection = {
+  __typename?: 'ComponentsConnection';
+  edges: Array<ComponentsEdge>;
+  pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
+};
+
+export type ComponentsDeleteResponse = {
+  __typename?: 'ComponentsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Components>;
+};
+
+export type ComponentsEdge = {
+  __typename?: 'ComponentsEdge';
+  cursor: Scalars['String']['output'];
+  node: Components;
+};
+
+export type ComponentsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ComponentsFilter>>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  createdBy?: InputMaybe<UuidFilter>;
+  deletedAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<ComponentsFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ComponentsFilter>>;
+  projectId?: InputMaybe<UuidFilter>;
+  updatedAt?: InputMaybe<DatetimeFilter>;
+  updatedBy?: InputMaybe<UuidFilter>;
+};
+
+export type ComponentsInsertInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  projectId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ComponentsInsertResponse = {
+  __typename?: 'ComponentsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Components>;
+};
+
+export type ComponentsOrderBy = {
+  createdAt?: InputMaybe<OrderByDirection>;
+  createdBy?: InputMaybe<OrderByDirection>;
+  deletedAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  projectId?: InputMaybe<OrderByDirection>;
+  updatedAt?: InputMaybe<OrderByDirection>;
+  updatedBy?: InputMaybe<OrderByDirection>;
+};
+
+export type ComponentsUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  projectId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ComponentsUpdateResponse = {
+  __typename?: 'ComponentsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Components>;
 };
 
 /** Boolean expression comparing fields on type "Date" */
@@ -267,10 +622,45 @@ export type IntListFilter = {
   overlaps?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+export enum MessagePartTypes {
+  Reasoning = 'reasoning',
+  Text = 'text',
+  ToolInvocation = 'tool_invocation'
+}
+
+/** Boolean expression comparing fields on type "MessagePartTypes" */
+export type MessagePartTypesFilter = {
+  eq?: InputMaybe<MessagePartTypes>;
+  in?: InputMaybe<Array<MessagePartTypes>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<MessagePartTypes>;
+};
+
+export enum MessageRoles {
+  Assistant = 'assistant',
+  Data = 'data',
+  System = 'system',
+  User = 'user'
+}
+
+/** Boolean expression comparing fields on type "MessageRoles" */
+export type MessageRolesFilter = {
+  eq?: InputMaybe<MessageRoles>;
+  in?: InputMaybe<Array<MessageRoles>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<MessageRoles>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAuditTrigger?: Maybe<Scalars['Opaque']['output']>;
   createDeleteTrigger?: Maybe<Scalars['Opaque']['output']>;
+  /** Deletes zero or more records from the `AiChatMessages` collection */
+  deleteFromAiChatMessagesCollection: AiChatMessagesDeleteResponse;
+  /** Deletes zero or more records from the `AiChats` collection */
+  deleteFromAiChatsCollection: AiChatsDeleteResponse;
+  /** Deletes zero or more records from the `Components` collection */
+  deleteFromComponentsCollection: ComponentsDeleteResponse;
   /** Deletes zero or more records from the `DeletedRecord` collection */
   deleteFromDeletedRecordCollection: DeletedRecordDeleteResponse;
   /** Deletes zero or more records from the `OrganizationInvites` collection */
@@ -283,6 +673,12 @@ export type Mutation = {
   deleteFromProfilesCollection: ProfilesDeleteResponse;
   /** Deletes zero or more records from the `Projects` collection */
   deleteFromProjectsCollection: ProjectsDeleteResponse;
+  /** Adds one or more `AiChatMessages` records to the collection */
+  insertIntoAiChatMessagesCollection?: Maybe<AiChatMessagesInsertResponse>;
+  /** Adds one or more `AiChats` records to the collection */
+  insertIntoAiChatsCollection?: Maybe<AiChatsInsertResponse>;
+  /** Adds one or more `Components` records to the collection */
+  insertIntoComponentsCollection?: Maybe<ComponentsInsertResponse>;
   /** Adds one or more `DeletedRecord` records to the collection */
   insertIntoDeletedRecordCollection?: Maybe<DeletedRecordInsertResponse>;
   /** Adds one or more `OrganizationInvites` records to the collection */
@@ -297,6 +693,12 @@ export type Mutation = {
   insertIntoProjectsCollection?: Maybe<ProjectsInsertResponse>;
   organizationCreate?: Maybe<OrganizationCreateResult>;
   profileUpdate?: Maybe<ProfileUpdateResult>;
+  /** Updates zero or more records in the `AiChatMessages` collection */
+  updateAiChatMessagesCollection: AiChatMessagesUpdateResponse;
+  /** Updates zero or more records in the `AiChats` collection */
+  updateAiChatsCollection: AiChatsUpdateResponse;
+  /** Updates zero or more records in the `Components` collection */
+  updateComponentsCollection: ComponentsUpdateResponse;
   /** Updates zero or more records in the `DeletedRecord` collection */
   updateDeletedRecordCollection: DeletedRecordUpdateResponse;
   /** Updates zero or more records in the `OrganizationInvites` collection */
@@ -319,6 +721,24 @@ export type MutationCreateAuditTriggerArgs = {
 
 export type MutationCreateDeleteTriggerArgs = {
   targetTableName: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteFromAiChatMessagesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<AiChatMessagesFilter>;
+};
+
+
+export type MutationDeleteFromAiChatsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<AiChatsFilter>;
+};
+
+
+export type MutationDeleteFromComponentsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<ComponentsFilter>;
 };
 
 
@@ -355,6 +775,21 @@ export type MutationDeleteFromProfilesCollectionArgs = {
 export type MutationDeleteFromProjectsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ProjectsFilter>;
+};
+
+
+export type MutationInsertIntoAiChatMessagesCollectionArgs = {
+  objects: Array<AiChatMessagesInsertInput>;
+};
+
+
+export type MutationInsertIntoAiChatsCollectionArgs = {
+  objects: Array<AiChatsInsertInput>;
+};
+
+
+export type MutationInsertIntoComponentsCollectionArgs = {
+  objects: Array<ComponentsInsertInput>;
 };
 
 
@@ -395,6 +830,27 @@ export type MutationOrganizationCreateArgs = {
 
 export type MutationProfileUpdateArgs = {
   input: ProfileUpdateInput;
+};
+
+
+export type MutationUpdateAiChatMessagesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<AiChatMessagesFilter>;
+  set: AiChatMessagesUpdateInput;
+};
+
+
+export type MutationUpdateAiChatsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<AiChatsFilter>;
+  set: AiChatsUpdateInput;
+};
+
+
+export type MutationUpdateComponentsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<ComponentsFilter>;
+  set: ComponentsUpdateInput;
 };
 
 
@@ -621,6 +1077,7 @@ export type OrganizationMembers = Node & {
   organizationId?: Maybe<Scalars['UUID']['output']>;
   profile?: Maybe<Profiles>;
   profileId?: Maybe<Scalars['UUID']['output']>;
+  profiles?: Maybe<Profiles>;
   role: OrganizationRoles;
   updatedAt: Scalars['Datetime']['output'];
   updatedBy: Scalars['UUID']['output'];
@@ -745,6 +1202,7 @@ export type Organizations = Node & {
   organizationInvitesCollection?: Maybe<OrganizationInvitesConnection>;
   organizationMembersCollection?: Maybe<OrganizationMembersConnection>;
   profilePictureUrl?: Maybe<Scalars['String']['output']>;
+  profiles?: Maybe<Profiles>;
   projectsCollection?: Maybe<ProjectsConnection>;
   updatedAt: Scalars['Datetime']['output'];
   updatedBy: Scalars['UUID']['output'];
@@ -898,9 +1356,10 @@ export type ProfileUpdateResult = {
 
 export type Profiles = Node & {
   __typename?: 'Profiles';
+  aiChatMessagesCollection?: Maybe<AiChatMessagesConnection>;
+  aiChatsCollection?: Maybe<AiChatsConnection>;
+  componentsCollection?: Maybe<ComponentsConnection>;
   createdAt: Scalars['Datetime']['output'];
-  createdBy: Scalars['UUID']['output'];
-  deletedAt?: Maybe<Scalars['Datetime']['output']>;
   email: Scalars['String']['output'];
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['UUID']['output'];
@@ -909,11 +1368,44 @@ export type Profiles = Node & {
   nodeId: Scalars['ID']['output'];
   organizationInvitesCollection?: Maybe<OrganizationInvitesConnection>;
   organizationMembersCollection?: Maybe<OrganizationMembersConnection>;
+  organizationsCollection?: Maybe<OrganizationsConnection>;
   phoneNumber?: Maybe<Scalars['String']['output']>;
   profilePictureUrl?: Maybe<Scalars['String']['output']>;
   projectsCollection?: Maybe<ProjectsConnection>;
   updatedAt: Scalars['Datetime']['output'];
-  updatedBy: Scalars['UUID']['output'];
+};
+
+
+export type ProfilesAiChatMessagesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatMessagesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatMessagesOrderBy>>;
+};
+
+
+export type ProfilesAiChatsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatsOrderBy>>;
+};
+
+
+export type ProfilesComponentsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ComponentsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ComponentsOrderBy>>;
 };
 
 
@@ -936,6 +1428,17 @@ export type ProfilesOrganizationMembersCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<OrganizationMembersOrderBy>>;
+};
+
+
+export type ProfilesOrganizationsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<OrganizationsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<OrganizationsOrderBy>>;
 };
 
 
@@ -975,8 +1478,6 @@ export type ProfilesFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<ProfilesFilter>>;
   createdAt?: InputMaybe<DatetimeFilter>;
-  createdBy?: InputMaybe<UuidFilter>;
-  deletedAt?: InputMaybe<DatetimeFilter>;
   email?: InputMaybe<StringFilter>;
   firstName?: InputMaybe<StringFilter>;
   id?: InputMaybe<UuidFilter>;
@@ -989,13 +1490,10 @@ export type ProfilesFilter = {
   phoneNumber?: InputMaybe<StringFilter>;
   profilePictureUrl?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DatetimeFilter>;
-  updatedBy?: InputMaybe<UuidFilter>;
 };
 
 export type ProfilesInsertInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
-  createdBy?: InputMaybe<Scalars['UUID']['input']>;
-  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
@@ -1003,7 +1501,6 @@ export type ProfilesInsertInput = {
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
   profilePictureUrl?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
 };
 
 export type ProfilesInsertResponse = {
@@ -1016,8 +1513,6 @@ export type ProfilesInsertResponse = {
 
 export type ProfilesOrderBy = {
   createdAt?: InputMaybe<OrderByDirection>;
-  createdBy?: InputMaybe<OrderByDirection>;
-  deletedAt?: InputMaybe<OrderByDirection>;
   email?: InputMaybe<OrderByDirection>;
   firstName?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
@@ -1025,13 +1520,10 @@ export type ProfilesOrderBy = {
   phoneNumber?: InputMaybe<OrderByDirection>;
   profilePictureUrl?: InputMaybe<OrderByDirection>;
   updatedAt?: InputMaybe<OrderByDirection>;
-  updatedBy?: InputMaybe<OrderByDirection>;
 };
 
 export type ProfilesUpdateInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
-  createdBy?: InputMaybe<Scalars['UUID']['input']>;
-  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
@@ -1039,7 +1531,6 @@ export type ProfilesUpdateInput = {
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
   profilePictureUrl?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
 };
 
 export type ProfilesUpdateResponse = {
@@ -1052,6 +1543,8 @@ export type ProfilesUpdateResponse = {
 
 export type Projects = Node & {
   __typename?: 'Projects';
+  aiChatsCollection?: Maybe<AiChatsConnection>;
+  componentsCollection?: Maybe<ComponentsConnection>;
   createdAt: Scalars['Datetime']['output'];
   createdBy: Scalars['UUID']['output'];
   deletedAt?: Maybe<Scalars['Datetime']['output']>;
@@ -1063,14 +1556,39 @@ export type Projects = Node & {
   organizationId?: Maybe<Scalars['UUID']['output']>;
   profile?: Maybe<Profiles>;
   profileId?: Maybe<Scalars['UUID']['output']>;
+  profiles?: Maybe<Profiles>;
   updatedAt: Scalars['Datetime']['output'];
   updatedBy: Scalars['UUID']['output'];
+};
+
+
+export type ProjectsAiChatsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatsOrderBy>>;
+};
+
+
+export type ProjectsComponentsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ComponentsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ComponentsOrderBy>>;
 };
 
 export type ProjectsConnection = {
   __typename?: 'ProjectsConnection';
   edges: Array<ProjectsEdge>;
   pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
 };
 
 export type ProjectsDeleteResponse = {
@@ -1160,8 +1678,15 @@ export type ProjectsUpdateResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  /** A pagable collection of type `AiChatMessages` */
+  aiChatMessagesCollection?: Maybe<AiChatMessagesConnection>;
+  /** A pagable collection of type `AiChats` */
+  aiChatsCollection?: Maybe<AiChatsConnection>;
+  /** A pagable collection of type `Components` */
+  componentsCollection?: Maybe<ComponentsConnection>;
   /** A pagable collection of type `DeletedRecord` */
   deletedRecordCollection?: Maybe<DeletedRecordConnection>;
+  isOrgManager?: Maybe<Scalars['Boolean']['output']>;
   isOrgMember?: Maybe<Scalars['Boolean']['output']>;
   /** Retrieve a record by its `ID` */
   node?: Maybe<Node>;
@@ -1180,6 +1705,39 @@ export type Query = {
 };
 
 
+export type QueryAiChatMessagesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatMessagesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatMessagesOrderBy>>;
+};
+
+
+export type QueryAiChatsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatsOrderBy>>;
+};
+
+
+export type QueryComponentsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ComponentsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ComponentsOrderBy>>;
+};
+
+
 export type QueryDeletedRecordCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1188,6 +1746,12 @@ export type QueryDeletedRecordCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DeletedRecordOrderBy>>;
+};
+
+
+export type QueryIsOrgManagerArgs = {
+  organizationId: Scalars['UUID']['input'];
+  profileId: Scalars['UUID']['input'];
 };
 
 
@@ -1303,6 +1867,20 @@ export type TimeListFilter = {
   overlaps?: InputMaybe<Array<Scalars['Time']['input']>>;
 };
 
+export enum ToolInvocationStates {
+  Call = 'call',
+  PartialCall = 'partial_call',
+  Result = 'result'
+}
+
+/** Boolean expression comparing fields on type "ToolInvocationStates" */
+export type ToolInvocationStatesFilter = {
+  eq?: InputMaybe<ToolInvocationStates>;
+  in?: InputMaybe<Array<ToolInvocationStates>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<ToolInvocationStates>;
+};
+
 /** Boolean expression comparing fields on type "UUID" */
 export type UuidFilter = {
   eq?: InputMaybe<Scalars['UUID']['input']>;
@@ -1333,9 +1911,141 @@ export const definedNonNullAnySchema = z.any().refine((v) => isDefinedNonNullAny
 
 export const FilterIsSchema = z.nativeEnum(FilterIs);
 
+export const MessagePartTypesSchema = z.nativeEnum(MessagePartTypes);
+
+export const MessageRolesSchema = z.nativeEnum(MessageRoles);
+
 export const OrderByDirectionSchema = z.nativeEnum(OrderByDirection);
 
 export const OrganizationRolesSchema = z.nativeEnum(OrganizationRoles);
+
+export const ToolInvocationStatesSchema = z.nativeEnum(ToolInvocationStates);
+
+export function AiChatMessagesFilterSchema(): z.ZodObject<Properties<AiChatMessagesFilter>> {
+  return z.object({
+    and: z.array(AiChatMessagesFilterSchema()).nullish(),
+    chatId: UuidFilterSchema().nullish(),
+    content: StringFilterSchema().nullish(),
+    createdAt: DatetimeFilterSchema().nullish(),
+    createdBy: UuidFilterSchema().nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: AiChatMessagesFilterSchema().nullish(),
+    or: z.array(AiChatMessagesFilterSchema()).nullish(),
+    role: MessageRolesFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish(),
+    updatedBy: UuidFilterSchema().nullish()
+  })
+}
+
+export function AiChatMessagesInsertInputSchema(): z.ZodObject<Properties<AiChatMessagesInsertInput>> {
+  return z.object({
+    annotations: z.string().nullish(),
+    attachments: z.string().nullish(),
+    chatId: z.string().nullish(),
+    content: z.string().nullish(),
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    parts: z.string().nullish(),
+    role: MessageRolesSchema.nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function AiChatMessagesOrderBySchema(): z.ZodObject<Properties<AiChatMessagesOrderBy>> {
+  return z.object({
+    chatId: OrderByDirectionSchema.nullish(),
+    content: OrderByDirectionSchema.nullish(),
+    createdAt: OrderByDirectionSchema.nullish(),
+    createdBy: OrderByDirectionSchema.nullish(),
+    deletedAt: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    role: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish(),
+    updatedBy: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function AiChatMessagesUpdateInputSchema(): z.ZodObject<Properties<AiChatMessagesUpdateInput>> {
+  return z.object({
+    annotations: z.string().nullish(),
+    attachments: z.string().nullish(),
+    chatId: z.string().nullish(),
+    content: z.string().nullish(),
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    parts: z.string().nullish(),
+    role: MessageRolesSchema.nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function AiChatsFilterSchema(): z.ZodObject<Properties<AiChatsFilter>> {
+  return z.object({
+    and: z.array(AiChatsFilterSchema()).nullish(),
+    componentId: UuidFilterSchema().nullish(),
+    createdAt: DatetimeFilterSchema().nullish(),
+    createdBy: UuidFilterSchema().nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    name: StringFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: AiChatsFilterSchema().nullish(),
+    or: z.array(AiChatsFilterSchema()).nullish(),
+    projectId: UuidFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish(),
+    updatedBy: UuidFilterSchema().nullish()
+  })
+}
+
+export function AiChatsInsertInputSchema(): z.ZodObject<Properties<AiChatsInsertInput>> {
+  return z.object({
+    componentId: z.string().nullish(),
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    name: z.string().nullish(),
+    projectId: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function AiChatsOrderBySchema(): z.ZodObject<Properties<AiChatsOrderBy>> {
+  return z.object({
+    componentId: OrderByDirectionSchema.nullish(),
+    createdAt: OrderByDirectionSchema.nullish(),
+    createdBy: OrderByDirectionSchema.nullish(),
+    deletedAt: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    name: OrderByDirectionSchema.nullish(),
+    projectId: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish(),
+    updatedBy: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function AiChatsUpdateInputSchema(): z.ZodObject<Properties<AiChatsUpdateInput>> {
+  return z.object({
+    componentId: z.string().nullish(),
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    name: z.string().nullish(),
+    projectId: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
 
 export function BigFloatFilterSchema(): z.ZodObject<Properties<BigFloatFilter>> {
   return z.object({
@@ -1397,6 +2107,62 @@ export function BooleanListFilterSchema(): z.ZodObject<Properties<BooleanListFil
     eq: z.array(z.boolean()).nullish(),
     is: FilterIsSchema.nullish(),
     overlaps: z.array(z.boolean()).nullish()
+  })
+}
+
+export function ComponentsFilterSchema(): z.ZodObject<Properties<ComponentsFilter>> {
+  return z.object({
+    and: z.array(ComponentsFilterSchema()).nullish(),
+    createdAt: DatetimeFilterSchema().nullish(),
+    createdBy: UuidFilterSchema().nullish(),
+    deletedAt: DatetimeFilterSchema().nullish(),
+    id: UuidFilterSchema().nullish(),
+    name: StringFilterSchema().nullish(),
+    nodeId: IdFilterSchema().nullish(),
+    not: ComponentsFilterSchema().nullish(),
+    or: z.array(ComponentsFilterSchema()).nullish(),
+    projectId: UuidFilterSchema().nullish(),
+    updatedAt: DatetimeFilterSchema().nullish(),
+    updatedBy: UuidFilterSchema().nullish()
+  })
+}
+
+export function ComponentsInsertInputSchema(): z.ZodObject<Properties<ComponentsInsertInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    name: z.string().nullish(),
+    projectId: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
+  })
+}
+
+export function ComponentsOrderBySchema(): z.ZodObject<Properties<ComponentsOrderBy>> {
+  return z.object({
+    createdAt: OrderByDirectionSchema.nullish(),
+    createdBy: OrderByDirectionSchema.nullish(),
+    deletedAt: OrderByDirectionSchema.nullish(),
+    id: OrderByDirectionSchema.nullish(),
+    name: OrderByDirectionSchema.nullish(),
+    projectId: OrderByDirectionSchema.nullish(),
+    updatedAt: OrderByDirectionSchema.nullish(),
+    updatedBy: OrderByDirectionSchema.nullish()
+  })
+}
+
+export function ComponentsUpdateInputSchema(): z.ZodObject<Properties<ComponentsUpdateInput>> {
+  return z.object({
+    createdAt: z.string().nullish(),
+    createdBy: z.string().nullish(),
+    deletedAt: z.string().nullish(),
+    id: z.string().nullish(),
+    name: z.string().nullish(),
+    projectId: z.string().nullish(),
+    updatedAt: z.string().nullish(),
+    updatedBy: z.string().nullish()
   })
 }
 
@@ -1541,6 +2307,24 @@ export function IntListFilterSchema(): z.ZodObject<Properties<IntListFilter>> {
     eq: z.array(z.number()).nullish(),
     is: FilterIsSchema.nullish(),
     overlaps: z.array(z.number()).nullish()
+  })
+}
+
+export function MessagePartTypesFilterSchema(): z.ZodObject<Properties<MessagePartTypesFilter>> {
+  return z.object({
+    eq: MessagePartTypesSchema.nullish(),
+    in: z.array(MessagePartTypesSchema).nullish(),
+    is: FilterIsSchema.nullish(),
+    neq: MessagePartTypesSchema.nullish()
+  })
+}
+
+export function MessageRolesFilterSchema(): z.ZodObject<Properties<MessageRolesFilter>> {
+  return z.object({
+    eq: MessageRolesSchema.nullish(),
+    in: z.array(MessageRolesSchema).nullish(),
+    is: FilterIsSchema.nullish(),
+    neq: MessageRolesSchema.nullish()
   })
 }
 
@@ -1776,8 +2560,6 @@ export function ProfilesFilterSchema(): z.ZodObject<Properties<ProfilesFilter>> 
   return z.object({
     and: z.array(ProfilesFilterSchema()).nullish(),
     createdAt: DatetimeFilterSchema().nullish(),
-    createdBy: UuidFilterSchema().nullish(),
-    deletedAt: DatetimeFilterSchema().nullish(),
     email: StringFilterSchema().nullish(),
     firstName: StringFilterSchema().nullish(),
     id: UuidFilterSchema().nullish(),
@@ -1787,56 +2569,46 @@ export function ProfilesFilterSchema(): z.ZodObject<Properties<ProfilesFilter>> 
     or: z.array(ProfilesFilterSchema()).nullish(),
     phoneNumber: StringFilterSchema().nullish(),
     profilePictureUrl: StringFilterSchema().nullish(),
-    updatedAt: DatetimeFilterSchema().nullish(),
-    updatedBy: UuidFilterSchema().nullish()
+    updatedAt: DatetimeFilterSchema().nullish()
   })
 }
 
 export function ProfilesInsertInputSchema(): z.ZodObject<Properties<ProfilesInsertInput>> {
   return z.object({
     createdAt: z.string().nullish(),
-    createdBy: z.string().nullish(),
-    deletedAt: z.string().nullish(),
     email: z.string().nullish(),
     firstName: z.string().nullish(),
     id: z.string().nullish(),
     lastName: z.string().nullish(),
     phoneNumber: z.string().nullish(),
     profilePictureUrl: z.string().nullish(),
-    updatedAt: z.string().nullish(),
-    updatedBy: z.string().nullish()
+    updatedAt: z.string().nullish()
   })
 }
 
 export function ProfilesOrderBySchema(): z.ZodObject<Properties<ProfilesOrderBy>> {
   return z.object({
     createdAt: OrderByDirectionSchema.nullish(),
-    createdBy: OrderByDirectionSchema.nullish(),
-    deletedAt: OrderByDirectionSchema.nullish(),
     email: OrderByDirectionSchema.nullish(),
     firstName: OrderByDirectionSchema.nullish(),
     id: OrderByDirectionSchema.nullish(),
     lastName: OrderByDirectionSchema.nullish(),
     phoneNumber: OrderByDirectionSchema.nullish(),
     profilePictureUrl: OrderByDirectionSchema.nullish(),
-    updatedAt: OrderByDirectionSchema.nullish(),
-    updatedBy: OrderByDirectionSchema.nullish()
+    updatedAt: OrderByDirectionSchema.nullish()
   })
 }
 
 export function ProfilesUpdateInputSchema(): z.ZodObject<Properties<ProfilesUpdateInput>> {
   return z.object({
     createdAt: z.string().nullish(),
-    createdBy: z.string().nullish(),
-    deletedAt: z.string().nullish(),
     email: z.string().nullish(),
     firstName: z.string().nullish(),
     id: z.string().nullish(),
     lastName: z.string().nullish(),
     phoneNumber: z.string().nullish(),
     profilePictureUrl: z.string().nullish(),
-    updatedAt: z.string().nullish(),
-    updatedBy: z.string().nullish()
+    updatedAt: z.string().nullish()
   })
 }
 
@@ -1948,6 +2720,15 @@ export function TimeListFilterSchema(): z.ZodObject<Properties<TimeListFilter>> 
     eq: z.array(z.string()).nullish(),
     is: FilterIsSchema.nullish(),
     overlaps: z.array(z.string()).nullish()
+  })
+}
+
+export function ToolInvocationStatesFilterSchema(): z.ZodObject<Properties<ToolInvocationStatesFilter>> {
+  return z.object({
+    eq: ToolInvocationStatesSchema.nullish(),
+    in: z.array(ToolInvocationStatesSchema).nullish(),
+    is: FilterIsSchema.nullish(),
+    neq: ToolInvocationStatesSchema.nullish()
   })
 }
 

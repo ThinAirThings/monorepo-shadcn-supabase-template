@@ -60,7 +60,7 @@ export function ProfilesMenu() {
             <DropdownMenu>
                 <DropdownMenuTrigger className="w-full">
                     <div className="flex items-center gap-3 hover:bg-accent rounded-md p-2 transition-colors">
-                        <Avatar>
+                        <Avatar className="w-8 h-8">
                             <AvatarImage 
                                 src={profile.profilePictureUrl ?? undefined} 
                                 alt={fullName} 

@@ -49,7 +49,7 @@ export function ProjectsForm({
     form: UseUIFormReturn<ProjectFormValues>
 }) {
     const profileNodeKey = useNodeKey('Profiles')
-    const organizationNodeKey = useNodeKey('Organizations', false)
+    const organizationNodeKey = useNodeKey('Organizations', {isInvariant: false})
 
     const rhfForm = useForm<ProjectFormValues>({
         resolver: zodResolver(formSchema),
@@ -112,7 +112,7 @@ export function ProjectsForm({
                 form.setMutationLoading(false)
             }
         })
-    }, [rhfForm, createProject, organizationNodeKey, form])
+    }, [rhfForm, createProject, organizationNodeKey, form, profileNodeKey])
 
     return (
         <Form {...rhfForm}>

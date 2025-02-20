@@ -1,6 +1,9 @@
 {
   "possibleTypes": {
     "Node": [
+      "AiChatMessages",
+      "AiChats",
+      "Components",
       "DeletedRecord",
       "OrganizationInvites",
       "OrganizationMembers",

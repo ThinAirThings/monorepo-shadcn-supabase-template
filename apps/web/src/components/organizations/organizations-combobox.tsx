@@ -63,25 +63,10 @@ export function OrganizationsCombobox() {
                         variant='ghost'
                         role="combobox"
                         aria-expanded={open}
-                        className="w-[200px] justify-between"
+                        className="w-[150px] justify-between"
+                        size="sm"
                     >
                         <div className="flex items-center gap-2">
-                            <Avatar className="h-5 w-5 rounded-md">
-                                {selectedOrg ? (
-                                    <>
-                                        <AvatarImage 
-                                            src={selectedOrg.profilePictureUrl ?? undefined}
-                                            alt={selectedOrg.name}
-                                            className="rounded-md"
-                                        />
-                                        <AvatarFallback className="rounded-md">
-                                            <Building2 className="h-3 w-3" />
-                                        </AvatarFallback>
-                                    </>
-                                ) : (
-                                    <></>
-                                )}
-                            </Avatar>
                             {selectedOrg ? selectedOrg.name : "Personal"}
                         </div>
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

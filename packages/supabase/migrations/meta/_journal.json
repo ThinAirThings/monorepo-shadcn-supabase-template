@@ -22,6 +22,34 @@
       "when": 1740011337701,
       "tag": "20250220002857_add-projects-table",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1740020636717,
+      "tag": "20250220030356_add-components-table",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1740067554764,
+      "tag": "20250220160554_add-chats",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1740068165815,
+      "tag": "20250220161605_update-enum-names",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1740069660524,
+      "tag": "20250220164100_update-chat-rls",
+      "breakpoints": true
     }
   ]
 }

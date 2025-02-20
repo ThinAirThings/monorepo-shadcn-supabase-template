@@ -34,6 +34,244 @@ export type Scalars = {
   UUID: { input: string; output: string; }
 };
 
+export type AiChatMessages = Node & {
+  __typename?: 'AiChatMessages';
+  annotations?: Maybe<Scalars['JSON']['output']>;
+  attachments?: Maybe<Scalars['JSON']['output']>;
+  chat?: Maybe<AiChats>;
+  chatId: Scalars['UUID']['output'];
+  content: Scalars['String']['output'];
+  createdAt: Scalars['Datetime']['output'];
+  createdBy: Scalars['UUID']['output'];
+  deletedAt?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  parts: Scalars['JSON']['output'];
+  profiles?: Maybe<Profiles>;
+  role: MessageRoles;
+  updatedAt: Scalars['Datetime']['output'];
+  updatedBy: Scalars['UUID']['output'];
+};
+
+export type AiChatMessagesConnection = {
+  __typename?: 'AiChatMessagesConnection';
+  edges: Array<AiChatMessagesEdge>;
+  pageInfo: PageInfo;
+};
+
+export type AiChatMessagesDeleteResponse = {
+  __typename?: 'AiChatMessagesDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChatMessages>;
+};
+
+export type AiChatMessagesEdge = {
+  __typename?: 'AiChatMessagesEdge';
+  cursor: Scalars['String']['output'];
+  node: AiChatMessages;
+};
+
+export type AiChatMessagesFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<AiChatMessagesFilter>>;
+  chatId?: InputMaybe<UuidFilter>;
+  content?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  createdBy?: InputMaybe<UuidFilter>;
+  deletedAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<AiChatMessagesFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<AiChatMessagesFilter>>;
+  role?: InputMaybe<MessageRolesFilter>;
+  updatedAt?: InputMaybe<DatetimeFilter>;
+  updatedBy?: InputMaybe<UuidFilter>;
+};
+
+export type AiChatMessagesInsertInput = {
+  annotations?: InputMaybe<Scalars['JSON']['input']>;
+  attachments?: InputMaybe<Scalars['JSON']['input']>;
+  chatId?: InputMaybe<Scalars['UUID']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  parts?: InputMaybe<Scalars['JSON']['input']>;
+  role?: InputMaybe<MessageRoles>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type AiChatMessagesInsertResponse = {
+  __typename?: 'AiChatMessagesInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChatMessages>;
+};
+
+export type AiChatMessagesOrderBy = {
+  chatId?: InputMaybe<OrderByDirection>;
+  content?: InputMaybe<OrderByDirection>;
+  createdAt?: InputMaybe<OrderByDirection>;
+  createdBy?: InputMaybe<OrderByDirection>;
+  deletedAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  role?: InputMaybe<OrderByDirection>;
+  updatedAt?: InputMaybe<OrderByDirection>;
+  updatedBy?: InputMaybe<OrderByDirection>;
+};
+
+export type AiChatMessagesUpdateInput = {
+  annotations?: InputMaybe<Scalars['JSON']['input']>;
+  attachments?: InputMaybe<Scalars['JSON']['input']>;
+  chatId?: InputMaybe<Scalars['UUID']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  parts?: InputMaybe<Scalars['JSON']['input']>;
+  role?: InputMaybe<MessageRoles>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type AiChatMessagesUpdateResponse = {
+  __typename?: 'AiChatMessagesUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChatMessages>;
+};
+
+export type AiChats = Node & {
+  __typename?: 'AiChats';
+  aiChatMessagesCollection?: Maybe<AiChatMessagesConnection>;
+  component?: Maybe<Components>;
+  componentId?: Maybe<Scalars['UUID']['output']>;
+  createdAt: Scalars['Datetime']['output'];
+  createdBy: Scalars['UUID']['output'];
+  deletedAt?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  name: Scalars['String']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  profiles?: Maybe<Profiles>;
+  project?: Maybe<Projects>;
+  projectId?: Maybe<Scalars['UUID']['output']>;
+  updatedAt: Scalars['Datetime']['output'];
+  updatedBy: Scalars['UUID']['output'];
+};
+
+
+export type AiChatsAiChatMessagesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatMessagesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatMessagesOrderBy>>;
+};
+
+export type AiChatsConnection = {
+  __typename?: 'AiChatsConnection';
+  edges: Array<AiChatsEdge>;
+  pageInfo: PageInfo;
+};
+
+export type AiChatsDeleteResponse = {
+  __typename?: 'AiChatsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChats>;
+};
+
+export type AiChatsEdge = {
+  __typename?: 'AiChatsEdge';
+  cursor: Scalars['String']['output'];
+  node: AiChats;
+};
+
+export type AiChatsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<AiChatsFilter>>;
+  componentId?: InputMaybe<UuidFilter>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  createdBy?: InputMaybe<UuidFilter>;
+  deletedAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<AiChatsFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<AiChatsFilter>>;
+  projectId?: InputMaybe<UuidFilter>;
+  updatedAt?: InputMaybe<DatetimeFilter>;
+  updatedBy?: InputMaybe<UuidFilter>;
+};
+
+export type AiChatsInsertInput = {
+  componentId?: InputMaybe<Scalars['UUID']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  projectId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type AiChatsInsertResponse = {
+  __typename?: 'AiChatsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChats>;
+};
+
+export type AiChatsOrderBy = {
+  componentId?: InputMaybe<OrderByDirection>;
+  createdAt?: InputMaybe<OrderByDirection>;
+  createdBy?: InputMaybe<OrderByDirection>;
+  deletedAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  projectId?: InputMaybe<OrderByDirection>;
+  updatedAt?: InputMaybe<OrderByDirection>;
+  updatedBy?: InputMaybe<OrderByDirection>;
+};
+
+export type AiChatsUpdateInput = {
+  componentId?: InputMaybe<Scalars['UUID']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  projectId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type AiChatsUpdateResponse = {
+  __typename?: 'AiChatsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<AiChats>;
+};
+
 /** Boolean expression comparing fields on type "BigFloat" */
 export type BigFloatFilter = {
   eq?: InputMaybe<Scalars['BigFloat']['input']>;
@@ -89,6 +327,123 @@ export type BooleanListFilter = {
   eq?: InputMaybe<Array<Scalars['Boolean']['input']>>;
   is?: InputMaybe<FilterIs>;
   overlaps?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+};
+
+export type Components = Node & {
+  __typename?: 'Components';
+  aiChatsCollection?: Maybe<AiChatsConnection>;
+  createdAt: Scalars['Datetime']['output'];
+  createdBy: Scalars['UUID']['output'];
+  deletedAt?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['UUID']['output'];
+  name: Scalars['String']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  profiles?: Maybe<Profiles>;
+  project?: Maybe<Projects>;
+  projectId: Scalars['UUID']['output'];
+  updatedAt: Scalars['Datetime']['output'];
+  updatedBy: Scalars['UUID']['output'];
+};
+
+
+export type ComponentsAiChatsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatsOrderBy>>;
+};
+
+export type ComponentsConnection = {
+  __typename?: 'ComponentsConnection';
+  edges: Array<ComponentsEdge>;
+  pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
+};
+
+export type ComponentsDeleteResponse = {
+  __typename?: 'ComponentsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Components>;
+};
+
+export type ComponentsEdge = {
+  __typename?: 'ComponentsEdge';
+  cursor: Scalars['String']['output'];
+  node: Components;
+};
+
+export type ComponentsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ComponentsFilter>>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  createdBy?: InputMaybe<UuidFilter>;
+  deletedAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<ComponentsFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ComponentsFilter>>;
+  projectId?: InputMaybe<UuidFilter>;
+  updatedAt?: InputMaybe<DatetimeFilter>;
+  updatedBy?: InputMaybe<UuidFilter>;
+};
+
+export type ComponentsInsertInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  projectId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ComponentsInsertResponse = {
+  __typename?: 'ComponentsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Components>;
+};
+
+export type ComponentsOrderBy = {
+  createdAt?: InputMaybe<OrderByDirection>;
+  createdBy?: InputMaybe<OrderByDirection>;
+  deletedAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  projectId?: InputMaybe<OrderByDirection>;
+  updatedAt?: InputMaybe<OrderByDirection>;
+  updatedBy?: InputMaybe<OrderByDirection>;
+};
+
+export type ComponentsUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['UUID']['input']>;
+  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  projectId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+export type ComponentsUpdateResponse = {
+  __typename?: 'ComponentsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Components>;
 };
 
 /** Boolean expression comparing fields on type "Date" */
@@ -275,10 +630,43 @@ export type IntListFilter = {
   overlaps?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+export type MessagePartTypes =
+  | 'reasoning'
+  | 'text'
+  | 'tool_invocation';
+
+/** Boolean expression comparing fields on type "MessagePartTypes" */
+export type MessagePartTypesFilter = {
+  eq?: InputMaybe<MessagePartTypes>;
+  in?: InputMaybe<Array<MessagePartTypes>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<MessagePartTypes>;
+};
+
+export type MessageRoles =
+  | 'assistant'
+  | 'data'
+  | 'system'
+  | 'user';
+
+/** Boolean expression comparing fields on type "MessageRoles" */
+export type MessageRolesFilter = {
+  eq?: InputMaybe<MessageRoles>;
+  in?: InputMaybe<Array<MessageRoles>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<MessageRoles>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAuditTrigger?: Maybe<Scalars['Opaque']['output']>;
   createDeleteTrigger?: Maybe<Scalars['Opaque']['output']>;
+  /** Deletes zero or more records from the `AiChatMessages` collection */
+  deleteFromAiChatMessagesCollection: AiChatMessagesDeleteResponse;
+  /** Deletes zero or more records from the `AiChats` collection */
+  deleteFromAiChatsCollection: AiChatsDeleteResponse;
+  /** Deletes zero or more records from the `Components` collection */
+  deleteFromComponentsCollection: ComponentsDeleteResponse;
   /** Deletes zero or more records from the `DeletedRecord` collection */
   deleteFromDeletedRecordCollection: DeletedRecordDeleteResponse;
   /** Deletes zero or more records from the `OrganizationInvites` collection */
@@ -291,6 +679,12 @@ export type Mutation = {
   deleteFromProfilesCollection: ProfilesDeleteResponse;
   /** Deletes zero or more records from the `Projects` collection */
   deleteFromProjectsCollection: ProjectsDeleteResponse;
+  /** Adds one or more `AiChatMessages` records to the collection */
+  insertIntoAiChatMessagesCollection?: Maybe<AiChatMessagesInsertResponse>;
+  /** Adds one or more `AiChats` records to the collection */
+  insertIntoAiChatsCollection?: Maybe<AiChatsInsertResponse>;
+  /** Adds one or more `Components` records to the collection */
+  insertIntoComponentsCollection?: Maybe<ComponentsInsertResponse>;
   /** Adds one or more `DeletedRecord` records to the collection */
   insertIntoDeletedRecordCollection?: Maybe<DeletedRecordInsertResponse>;
   /** Adds one or more `OrganizationInvites` records to the collection */
@@ -305,6 +699,12 @@ export type Mutation = {
   insertIntoProjectsCollection?: Maybe<ProjectsInsertResponse>;
   organizationCreate?: Maybe<OrganizationCreateResult>;
   profileUpdate?: Maybe<ProfileUpdateResult>;
+  /** Updates zero or more records in the `AiChatMessages` collection */
+  updateAiChatMessagesCollection: AiChatMessagesUpdateResponse;
+  /** Updates zero or more records in the `AiChats` collection */
+  updateAiChatsCollection: AiChatsUpdateResponse;
+  /** Updates zero or more records in the `Components` collection */
+  updateComponentsCollection: ComponentsUpdateResponse;
   /** Updates zero or more records in the `DeletedRecord` collection */
   updateDeletedRecordCollection: DeletedRecordUpdateResponse;
   /** Updates zero or more records in the `OrganizationInvites` collection */
@@ -327,6 +727,24 @@ export type MutationCreateAuditTriggerArgs = {
 
 export type MutationCreateDeleteTriggerArgs = {
   targetTableName: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteFromAiChatMessagesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<AiChatMessagesFilter>;
+};
+
+
+export type MutationDeleteFromAiChatsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<AiChatsFilter>;
+};
+
+
+export type MutationDeleteFromComponentsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<ComponentsFilter>;
 };
 
 
@@ -363,6 +781,21 @@ export type MutationDeleteFromProfilesCollectionArgs = {
 export type MutationDeleteFromProjectsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ProjectsFilter>;
+};
+
+
+export type MutationInsertIntoAiChatMessagesCollectionArgs = {
+  objects: Array<AiChatMessagesInsertInput>;
+};
+
+
+export type MutationInsertIntoAiChatsCollectionArgs = {
+  objects: Array<AiChatsInsertInput>;
+};
+
+
+export type MutationInsertIntoComponentsCollectionArgs = {
+  objects: Array<ComponentsInsertInput>;
 };
 
 
@@ -403,6 +836,27 @@ export type MutationOrganizationCreateArgs = {
 
 export type MutationProfileUpdateArgs = {
   input: ProfileUpdateInput;
+};
+
+
+export type MutationUpdateAiChatMessagesCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<AiChatMessagesFilter>;
+  set: AiChatMessagesUpdateInput;
+};
+
+
+export type MutationUpdateAiChatsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<AiChatsFilter>;
+  set: AiChatsUpdateInput;
+};
+
+
+export type MutationUpdateComponentsCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<ComponentsFilter>;
+  set: ComponentsUpdateInput;
 };
 
 
@@ -628,6 +1082,7 @@ export type OrganizationMembers = Node & {
   organizationId?: Maybe<Scalars['UUID']['output']>;
   profile?: Maybe<Profiles>;
   profileId?: Maybe<Scalars['UUID']['output']>;
+  profiles?: Maybe<Profiles>;
   role: OrganizationRoles;
   updatedAt: Scalars['Datetime']['output'];
   updatedBy: Scalars['UUID']['output'];
@@ -751,6 +1206,7 @@ export type Organizations = Node & {
   organizationInvitesCollection?: Maybe<OrganizationInvitesConnection>;
   organizationMembersCollection?: Maybe<OrganizationMembersConnection>;
   profilePictureUrl?: Maybe<Scalars['String']['output']>;
+  profiles?: Maybe<Profiles>;
   projectsCollection?: Maybe<ProjectsConnection>;
   updatedAt: Scalars['Datetime']['output'];
   updatedBy: Scalars['UUID']['output'];
@@ -904,9 +1360,10 @@ export type ProfileUpdateResult = {
 
 export type Profiles = Node & {
   __typename?: 'Profiles';
+  aiChatMessagesCollection?: Maybe<AiChatMessagesConnection>;
+  aiChatsCollection?: Maybe<AiChatsConnection>;
+  componentsCollection?: Maybe<ComponentsConnection>;
   createdAt: Scalars['Datetime']['output'];
-  createdBy: Scalars['UUID']['output'];
-  deletedAt?: Maybe<Scalars['Datetime']['output']>;
   email: Scalars['String']['output'];
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['UUID']['output'];
@@ -915,11 +1372,44 @@ export type Profiles = Node & {
   nodeId: Scalars['ID']['output'];
   organizationInvitesCollection?: Maybe<OrganizationInvitesConnection>;
   organizationMembersCollection?: Maybe<OrganizationMembersConnection>;
+  organizationsCollection?: Maybe<OrganizationsConnection>;
   phoneNumber?: Maybe<Scalars['String']['output']>;
   profilePictureUrl?: Maybe<Scalars['String']['output']>;
   projectsCollection?: Maybe<ProjectsConnection>;
   updatedAt: Scalars['Datetime']['output'];
-  updatedBy: Scalars['UUID']['output'];
+};
+
+
+export type ProfilesAiChatMessagesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatMessagesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatMessagesOrderBy>>;
+};
+
+
+export type ProfilesAiChatsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatsOrderBy>>;
+};
+
+
+export type ProfilesComponentsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ComponentsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ComponentsOrderBy>>;
 };
 
 
@@ -942,6 +1432,17 @@ export type ProfilesOrganizationMembersCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<OrganizationMembersOrderBy>>;
+};
+
+
+export type ProfilesOrganizationsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<OrganizationsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<OrganizationsOrderBy>>;
 };
 
 
@@ -981,8 +1482,6 @@ export type ProfilesFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<ProfilesFilter>>;
   createdAt?: InputMaybe<DatetimeFilter>;
-  createdBy?: InputMaybe<UuidFilter>;
-  deletedAt?: InputMaybe<DatetimeFilter>;
   email?: InputMaybe<StringFilter>;
   firstName?: InputMaybe<StringFilter>;
   id?: InputMaybe<UuidFilter>;
@@ -995,13 +1494,10 @@ export type ProfilesFilter = {
   phoneNumber?: InputMaybe<StringFilter>;
   profilePictureUrl?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DatetimeFilter>;
-  updatedBy?: InputMaybe<UuidFilter>;
 };
 
 export type ProfilesInsertInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
-  createdBy?: InputMaybe<Scalars['UUID']['input']>;
-  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
@@ -1009,7 +1505,6 @@ export type ProfilesInsertInput = {
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
   profilePictureUrl?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
 };
 
 export type ProfilesInsertResponse = {
@@ -1022,8 +1517,6 @@ export type ProfilesInsertResponse = {
 
 export type ProfilesOrderBy = {
   createdAt?: InputMaybe<OrderByDirection>;
-  createdBy?: InputMaybe<OrderByDirection>;
-  deletedAt?: InputMaybe<OrderByDirection>;
   email?: InputMaybe<OrderByDirection>;
   firstName?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
@@ -1031,13 +1524,10 @@ export type ProfilesOrderBy = {
   phoneNumber?: InputMaybe<OrderByDirection>;
   profilePictureUrl?: InputMaybe<OrderByDirection>;
   updatedAt?: InputMaybe<OrderByDirection>;
-  updatedBy?: InputMaybe<OrderByDirection>;
 };
 
 export type ProfilesUpdateInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
-  createdBy?: InputMaybe<Scalars['UUID']['input']>;
-  deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
@@ -1045,7 +1535,6 @@ export type ProfilesUpdateInput = {
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
   profilePictureUrl?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
-  updatedBy?: InputMaybe<Scalars['UUID']['input']>;
 };
 
 export type ProfilesUpdateResponse = {
@@ -1058,6 +1547,8 @@ export type ProfilesUpdateResponse = {
 
 export type Projects = Node & {
   __typename?: 'Projects';
+  aiChatsCollection?: Maybe<AiChatsConnection>;
+  componentsCollection?: Maybe<ComponentsConnection>;
   createdAt: Scalars['Datetime']['output'];
   createdBy: Scalars['UUID']['output'];
   deletedAt?: Maybe<Scalars['Datetime']['output']>;
@@ -1069,14 +1560,39 @@ export type Projects = Node & {
   organizationId?: Maybe<Scalars['UUID']['output']>;
   profile?: Maybe<Profiles>;
   profileId?: Maybe<Scalars['UUID']['output']>;
+  profiles?: Maybe<Profiles>;
   updatedAt: Scalars['Datetime']['output'];
   updatedBy: Scalars['UUID']['output'];
+};
+
+
+export type ProjectsAiChatsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatsOrderBy>>;
+};
+
+
+export type ProjectsComponentsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ComponentsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ComponentsOrderBy>>;
 };
 
 export type ProjectsConnection = {
   __typename?: 'ProjectsConnection';
   edges: Array<ProjectsEdge>;
   pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
 };
 
 export type ProjectsDeleteResponse = {
@@ -1166,8 +1682,15 @@ export type ProjectsUpdateResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  /** A pagable collection of type `AiChatMessages` */
+  aiChatMessagesCollection?: Maybe<AiChatMessagesConnection>;
+  /** A pagable collection of type `AiChats` */
+  aiChatsCollection?: Maybe<AiChatsConnection>;
+  /** A pagable collection of type `Components` */
+  componentsCollection?: Maybe<ComponentsConnection>;
   /** A pagable collection of type `DeletedRecord` */
   deletedRecordCollection?: Maybe<DeletedRecordConnection>;
+  isOrgManager?: Maybe<Scalars['Boolean']['output']>;
   isOrgMember?: Maybe<Scalars['Boolean']['output']>;
   /** Retrieve a record by its `ID` */
   node?: Maybe<Node>;
@@ -1186,6 +1709,39 @@ export type Query = {
 };
 
 
+export type QueryAiChatMessagesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatMessagesFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatMessagesOrderBy>>;
+};
+
+
+export type QueryAiChatsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<AiChatsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<AiChatsOrderBy>>;
+};
+
+
+export type QueryComponentsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<ComponentsFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ComponentsOrderBy>>;
+};
+
+
 export type QueryDeletedRecordCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1194,6 +1750,12 @@ export type QueryDeletedRecordCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<DeletedRecordOrderBy>>;
+};
+
+
+export type QueryIsOrgManagerArgs = {
+  organizationId: Scalars['UUID']['input'];
+  profileId: Scalars['UUID']['input'];
 };
 
 
@@ -1309,6 +1871,19 @@ export type TimeListFilter = {
   overlaps?: InputMaybe<Array<Scalars['Time']['input']>>;
 };
 
+export type ToolInvocationStates =
+  | 'call'
+  | 'partial_call'
+  | 'result';
+
+/** Boolean expression comparing fields on type "ToolInvocationStates" */
+export type ToolInvocationStatesFilter = {
+  eq?: InputMaybe<ToolInvocationStates>;
+  in?: InputMaybe<Array<ToolInvocationStates>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<ToolInvocationStates>;
+};
+
 /** Boolean expression comparing fields on type "UUID" */
 export type UuidFilter = {
   eq?: InputMaybe<Scalars['UUID']['input']>;
@@ -1326,6 +1901,25 @@ export type UuidListFilter = {
   overlaps?: InputMaybe<Array<Scalars['UUID']['input']>>;
 };
 
+export type ComponentEditorPageQueryQueryVariables = Exact<{
+  componentId: Scalars['UUID']['input'];
+}>;
+
+
+export type ComponentEditorPageQueryQuery = { __typename: 'Query', componentsCollection?: { __typename: 'ComponentsConnection', edges: Array<{ __typename: 'ComponentsEdge', node: { __typename: 'Components', id: string, name: string } }> } | null };
+
+export type SingleComponentChatFragmentFragment = { __typename: 'Components', id: string, aiChatsCollection?: { __typename: 'AiChatsConnection', edges: Array<{ __typename: 'AiChatsEdge', node: { __typename: 'AiChats', id: string } }> } | null } & { ' $fragmentName'?: 'SingleComponentChatFragmentFragment' };
+
+export type ComponentEditorQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type ComponentEditorQuery = { __typename: 'Query', projectsCollection?: { __typename: 'ProjectsConnection', edges: Array<{ __typename: 'ProjectsEdge', node: (
+        { __typename: 'Projects', id: string }
+        & { ' $fragmentRefs'?: { 'ComponentsListFragmentFragment': ComponentsListFragmentFragment } }
+      ) }> } | null };
+
 export type GetInviteDetailsQueryVariables = Exact<{
   token: Scalars['String']['input'];
 }>;
@@ -1336,7 +1930,16 @@ export type GetInviteDetailsQuery = { __typename: 'Query', organizationInvitesCo
 export type AuthenticationQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AuthenticationQueryQuery = { __typename: 'Query', viewer?: { __typename: 'Profiles', id: string, email: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, createdAt: string, updatedAt: string, deletedAt?: string | null } | null };
+export type AuthenticationQueryQuery = { __typename: 'Query', viewer?: { __typename: 'Profiles', id: string, email: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, createdAt: string, updatedAt: string } | null };
+
+export type CreateComponentMutationVariables = Exact<{
+  input: ComponentsInsertInput;
+}>;
+
+
+export type CreateComponentMutation = { __typename: 'Mutation', insertIntoComponentsCollection?: { __typename: 'ComponentsInsertResponse', records: Array<{ __typename: 'Components', id: string, name: string, projectId: string }> } | null };
+
+export type ComponentsListFragmentFragment = { __typename: 'Projects', id: string, componentsCollection?: { __typename: 'ComponentsConnection', edges: Array<{ __typename: 'ComponentsEdge', node: { __typename: 'Components', id: string, name: string } }> } | null } & { ' $fragmentName'?: 'ComponentsListFragmentFragment' };
 
 export type OrganizationsQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1409,15 +2012,23 @@ export type ProjectsIdSetQueryQueryVariables = Exact<{
 
 export type ProjectsIdSetQueryQuery = { __typename: 'Query', projectsCollection?: { __typename: 'ProjectsConnection', edges: Array<{ __typename: 'ProjectsEdge', node: { __typename: 'Projects', id: string } }> } | null };
 
+export type ComponentsCollectionFragmentFragment = { __typename: 'Projects', componentsCollection?: { __typename: 'ComponentsConnection', edges: Array<{ __typename: 'ComponentsEdge', node: { __typename: 'Components', id: string, name: string } }> } | null } & { ' $fragmentName'?: 'ComponentsCollectionFragmentFragment' };
+
 export type OnboardingMiddlewareQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type OnboardingMiddlewareQueryQuery = { __typename: 'Query', viewer?: { __typename: 'Profiles', id: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, organizationMembersCollection?: { __typename: 'OrganizationMembersConnection', edges: Array<{ __typename: 'OrganizationMembersEdge', node: { __typename: 'OrganizationMembers', organization?: { __typename: 'Organizations', id: string, name: string } | null } }> } | null } | null };
 
+export const SingleComponentChatFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SingleComponentChatFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Components"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"aiChatsCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SingleComponentChatFragmentFragment, unknown>;
+export const ComponentsListFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ComponentsListFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Projects"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"componentsCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ComponentsListFragmentFragment, unknown>;
 export const OrganizationFormFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrganizationFormFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Organizations"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureUrl"}}]}}]} as unknown as DocumentNode<OrganizationFormFragmentFragment, unknown>;
 export const ProfilesFormFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProfilesFormFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Profiles"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureUrl"}}]}}]} as unknown as DocumentNode<ProfilesFormFragmentFragment, unknown>;
+export const ComponentsCollectionFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ComponentsCollectionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Projects"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"componentsCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ComponentsCollectionFragmentFragment, unknown>;
+export const ComponentEditorPageQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ComponentEditorPageQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"componentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"componentsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"componentId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ComponentEditorPageQueryQuery, ComponentEditorPageQueryQueryVariables>;
+export const ComponentEditorDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ComponentEditor"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"projectsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ComponentsListFragment"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ComponentsListFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Projects"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"componentsCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ComponentEditorQuery, ComponentEditorQueryVariables>;
 export const GetInviteDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetInviteDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"organizationInvitesCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"token"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"organizationName"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetInviteDetailsQuery, GetInviteDetailsQueryVariables>;
-export const AuthenticationQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AuthenticationQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"viewer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<AuthenticationQueryQuery, AuthenticationQueryQueryVariables>;
+export const AuthenticationQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AuthenticationQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"viewer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<AuthenticationQueryQuery, AuthenticationQueryQueryVariables>;
+export const CreateComponentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateComponent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentsInsertInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"insertIntoComponentsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"ListValue","values":[{"kind":"Variable","name":{"kind":"Name","value":"input"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"records"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"projectId"}}]}}]}}]}}]} as unknown as DocumentNode<CreateComponentMutation, CreateComponentMutationVariables>;
 export const OrganizationsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"OrganizationsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"organizationsCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureUrl"}}]}}]}}]}}]}}]} as unknown as DocumentNode<OrganizationsQueryQuery, OrganizationsQueryQueryVariables>;
 export const CreateOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"profilePicture"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"File"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"organizationCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"profilePicture"},"value":{"kind":"Variable","name":{"kind":"Name","value":"profilePicture"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureUrl"}}]}}]}}]} as unknown as DocumentNode<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
 export const UpdateOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"updateOrganizationsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"records"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"OrganizationFormFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"OrganizationFormFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Organizations"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureUrl"}}]}}]} as unknown as DocumentNode<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;

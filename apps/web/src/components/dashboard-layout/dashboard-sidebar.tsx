@@ -32,7 +32,7 @@ export function DashboardSidebar() {
     return (
         <div
             className={cn(
-                "h-screen w-[60px] flex flex-col gap-2 bg-background border-r pt-4 transition-all duration-300 ease-in-out overflow-x-hidden",
+                "min-h-full w-[60px] flex flex-col gap-2 bg-background border-r pt-4 transition-all duration-300 ease-in-out overflow-x-hidden",
                 isHovered && "w-[240px]"
             )}
             onMouseEnter={() => setIsHovered(true)}

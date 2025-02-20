@@ -1,4 +1,8 @@
-import { ReactNode } from "react"
+'use client'
+
+import type { ReactNode } from "react"
+import { useState } from "react"
+import { Button } from "@thinair-monorepo-template/ui/components/button"
 import {
     Dialog,
     DialogContent,
@@ -6,82 +10,71 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@thinair-monorepo-template/ui/components/dialog"
-import { Button } from "@thinair-monorepo-template/ui/components/button"
-import { ProjectsForm, ProjectFormValues } from "./projects-form"
-import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import { ProjectsForm, type ProjectFormValues } from "./projects-form"
 import { useUIForm } from "@/hooks/use-ui-form"
+import { toast } from "sonner"
 
 type ControlledDialogProps = {
-    trigger?: never
-    open: boolean
-    setDialogOpen: (open: boolean) => void
-}
+    trigger?: never;
+    open: boolean;
+    setDialogOpen: (open: boolean) => void;
+};
 
 type UncontrolledDialogProps = {
-    trigger: ReactNode
-    open?: never
-    setDialogOpen?: never
-}
+    trigger: ReactNode;
+    open?: never;
+    setDialogOpen?: never;
+};
 
-type ProjectsDialogProps = (ControlledDialogProps | UncontrolledDialogProps) & {
-    mode?: "create" | "update"
-    parentFragment?: { __typename: "Projects" }
-}
+type ProjectsDialogProps = ControlledDialogProps | UncontrolledDialogProps;
 
 export function ProjectsDialog(props: ProjectsDialogProps) {
-    const { mode = "create" } = props
-    const form = useUIForm<ProjectFormValues>()
-
-    // Determine if we're in controlled or uncontrolled mode
-    const isControlled = 'open' in props && props.open !== undefined
-    const open = isControlled ? props.open : false
-    const setOpen = isControlled ? props.setDialogOpen : () => {}
-
-    const handleSubmit = () => {
-        form.submit({
-            onSuccess: () => {
-                setOpen(false)
-                toast.success(mode === "create" 
-                    ? "Project created successfully" 
-                    : "Project updated successfully"
-                )
-            },
-            onError: (error) => {
-                toast.error(error.message || `Failed to ${mode} project`)
-            }
-        })
-    }
+    const form = useUIForm<ProjectFormValues>();
+    const isControlled = "open" in props && props.open !== undefined;
+    const [internalOpen, setInternalOpen] = useState(false);
+    
+    const open = isControlled ? props.open : internalOpen;
+    const setOpen = isControlled ? props.setDialogOpen : setInternalOpen;
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             {props.trigger && <DialogTrigger asChild>{props.trigger}</DialogTrigger>}
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>
-                        {mode === "create" ? "Create Project" : "Edit Project"}
-                    </DialogTitle>
+                    <DialogTitle>Create Project</DialogTitle>
                 </DialogHeader>
+
                 <ProjectsForm 
                     form={form}
                 />
-                <div className="flex justify-end space-x-2 mt-6">
+
+                <div className="flex justify-end space-x-2">
                     <Button
-                        type="button"
                         variant="outline"
                         onClick={() => setOpen(false)}
+                        disabled={form.mutationLoading}
                     >
                         Cancel
                     </Button>
                     <Button
-                        type="button"
-                        onClick={handleSubmit}
+                        onClick={() => {
+                            form.submit({
+                                onSuccess: () => {
+                                    toast.success("Project created successfully");
+                                    setOpen(false);
+                                },
+                                onError: (err) => {
+                                    toast.error(err.message || "Failed to create project");
+                                },
+                            });
+                        }}
                         disabled={form.mutationLoading}
                     >
                         {form.mutationLoading && (
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         )}
-                        {mode === "create" ? "Create" : "Save"}
+                        Create
                     </Button>
                 </div>
             </DialogContent>
