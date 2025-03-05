@@ -1,0 +1,21 @@
+{
+  "name": "react-tailwind-spa",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "bun './**/*.html'",
+    "build": "bun 'component.build.ts'"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.2",
+    "bun-plugin-tailwind": "^0.0.14",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.475.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss": "^4.0.8",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

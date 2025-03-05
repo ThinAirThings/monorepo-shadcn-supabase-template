@@ -7,229 +7,509 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
-      policies: {
+      ai_chat_messages: {
         Row: {
-          action: string
-          conditions: Json | null
-          created_at: string
-          created_by: string
-          deleted_at: string | null
-          effect: string
-          id: string
-          name: string
-          resource: string
-          updated_at: string
-          updated_by: string | null
-        }
-        Insert: {
-          action: string
-          conditions?: Json | null
-          created_at?: string
-          created_by: string
-          deleted_at?: string | null
-          effect?: string
-          id?: string
-          name: string
-          resource: string
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Update: {
-          action?: string
-          conditions?: Json | null
-          created_at?: string
-          created_by?: string
-          deleted_at?: string | null
-          effect?: string
-          id?: string
-          name?: string
-          resource?: string
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string
-          created_by: string
-          deleted_at: string | null
-          first_name: string | null
-          id: string
-          last_name: string | null
-          phone_number: string | null
-          updated_at: string
-          updated_by: string | null
-        }
-        Insert: {
-          created_at?: string
-          created_by: string
-          deleted_at?: string | null
-          first_name?: string | null
-          id: string
-          last_name?: string | null
-          phone_number?: string | null
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Update: {
-          created_at?: string
-          created_by?: string
-          deleted_at?: string | null
-          first_name?: string | null
-          id?: string
-          last_name?: string | null
-          phone_number?: string | null
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Relationships: []
-      }
-      role_policies: {
-        Row: {
+          annotations: Json | null
+          attachments: Json | null
+          chat_id: string
+          content: string
           created_at: string
           created_by: string
           deleted_at: string | null
           id: string
-          policy_id: string
-          role_id: string
+          parts: Json
+          role: Database["public"]["Enums"]["message_roles"]
           updated_at: string
-          updated_by: string | null
+          updated_by: string
         }
         Insert: {
+          annotations?: Json | null
+          attachments?: Json | null
+          chat_id: string
+          content: string
           created_at?: string
           created_by: string
           deleted_at?: string | null
           id?: string
-          policy_id: string
-          role_id: string
+          parts: Json
+          role: Database["public"]["Enums"]["message_roles"]
           updated_at?: string
-          updated_by?: string | null
+          updated_by: string
         }
         Update: {
+          annotations?: Json | null
+          attachments?: Json | null
+          chat_id?: string
+          content?: string
           created_at?: string
           created_by?: string
           deleted_at?: string | null
           id?: string
-          policy_id?: string
-          role_id?: string
+          parts?: Json
+          role?: Database["public"]["Enums"]["message_roles"]
           updated_at?: string
-          updated_by?: string | null
+          updated_by?: string
         }
         Relationships: [
           {
-            foreignKeyName: "role_policies_policy_id_policies_id_fk"
-            columns: ["policy_id"]
+            foreignKeyName: "ai_chat_messages_chat_id_ai_chats_id_fk"
+            columns: ["chat_id"]
             isOneToOne: false
-            referencedRelation: "policies"
+            referencedRelation: "ai_chats"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "role_policies_role_id_roles_id_fk"
-            columns: ["role_id"]
+            foreignKeyName: "ai_chat_messages_created_by_profiles_id_fk"
+            columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: "roles"
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_chat_messages_updated_by_profiles_id_fk"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
       }
-      roles: {
+      ai_chats: {
         Row: {
+          component_id: string | null
           created_at: string
           created_by: string
           deleted_at: string | null
-          description: string | null
           id: string
           name: string
+          project_id: string | null
           updated_at: string
-          updated_by: string | null
+          updated_by: string
         }
         Insert: {
+          component_id?: string | null
           created_at?: string
           created_by: string
           deleted_at?: string | null
-          description?: string | null
           id?: string
           name: string
+          project_id?: string | null
           updated_at?: string
-          updated_by?: string | null
+          updated_by: string
         }
         Update: {
+          component_id?: string | null
           created_at?: string
           created_by?: string
           deleted_at?: string | null
-          description?: string | null
           id?: string
           name?: string
+          project_id?: string | null
           updated_at?: string
-          updated_by?: string | null
-        }
-        Relationships: []
-      }
-      user_roles: {
-        Row: {
-          created_at: string
-          created_by: string
-          deleted_at: string | null
-          id: string
-          role_id: string
-          updated_at: string
-          updated_by: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          created_by: string
-          deleted_at?: string | null
-          id?: string
-          role_id: string
-          updated_at?: string
-          updated_by?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          created_by?: string
-          deleted_at?: string | null
-          id?: string
-          role_id?: string
-          updated_at?: string
-          updated_by?: string | null
-          user_id?: string
+          updated_by?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_roles_role_id_roles_id_fk"
-            columns: ["role_id"]
+            foreignKeyName: "ai_chats_component_id_components_id_fk"
+            columns: ["component_id"]
             isOneToOne: false
-            referencedRelation: "roles"
+            referencedRelation: "components"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_chats_created_by_profiles_id_fk"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_chats_project_id_projects_id_fk"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_chats_updated_by_profiles_id_fk"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      components: {
+        Row: {
+          created_at: string
+          created_by: string
+          deleted_at: string | null
+          id: string
+          name: string
+          project_id: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          deleted_at?: string | null
+          id?: string
+          name: string
+          project_id: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          deleted_at?: string | null
+          id?: string
+          name?: string
+          project_id?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "components_created_by_profiles_id_fk"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "components_project_id_projects_id_fk"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "components_updated_by_profiles_id_fk"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deleted_record: {
+        Row: {
+          data: Json
+          deleted_at: string
+          id: string
+          object_id: string
+          table_name: string
+          updated_at: string
+        }
+        Insert: {
+          data: Json
+          deleted_at?: string
+          id?: string
+          object_id: string
+          table_name: string
+          updated_at?: string
+        }
+        Update: {
+          data?: Json
+          deleted_at?: string
+          id?: string
+          object_id?: string
+          table_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      organization_invites: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          created_by: string
+          deleted_at: string | null
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          organization_id: string
+          organization_name: string
+          role: Database["public"]["Enums"]["organization_roles"]
+          token: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          created_by: string
+          deleted_at?: string | null
+          email: string
+          expires_at: string
+          id?: string
+          invited_by: string
+          organization_id: string
+          organization_name: string
+          role: Database["public"]["Enums"]["organization_roles"]
+          token: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          created_by?: string
+          deleted_at?: string | null
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          organization_id?: string
+          organization_name?: string
+          role?: Database["public"]["Enums"]["organization_roles"]
+          token?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_invites_created_by_profiles_id_fk"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_invites_invited_by_profiles_id_fk"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_invites_organization_id_organizations_id_fk"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_invites_updated_by_profiles_id_fk"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_members: {
+        Row: {
+          created_at: string
+          created_by: string
+          deleted_at: string | null
+          id: string
+          organization_id: string | null
+          profile_id: string | null
+          role: Database["public"]["Enums"]["organization_roles"]
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          deleted_at?: string | null
+          id?: string
+          organization_id?: string | null
+          profile_id?: string | null
+          role: Database["public"]["Enums"]["organization_roles"]
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          deleted_at?: string | null
+          id?: string
+          organization_id?: string | null
+          profile_id?: string | null
+          role?: Database["public"]["Enums"]["organization_roles"]
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_members_created_by_profiles_id_fk"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_members_organization_id_organizations_id_fk"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_members_profile_id_profiles_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_members_updated_by_profiles_id_fk"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          created_by: string
+          deleted_at: string | null
+          id: string
+          name: string
+          profile_picture_url: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          deleted_at?: string | null
+          id?: string
+          name: string
+          profile_picture_url?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          deleted_at?: string | null
+          id?: string
+          name?: string
+          profile_picture_url?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organizations_created_by_profiles_id_fk"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organizations_updated_by_profiles_id_fk"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone_number: string | null
+          profile_picture_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          phone_number?: string | null
+          profile_picture_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone_number?: string | null
+          profile_picture_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          created_at: string
+          created_by: string
+          deleted_at: string | null
+          id: string
+          name: string
+          organization_id: string | null
+          profile_id: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          deleted_at?: string | null
+          id?: string
+          name: string
+          organization_id?: string | null
+          profile_id?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          deleted_at?: string | null
+          id?: string
+          name?: string
+          organization_id?: string | null
+          profile_id?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_created_by_profiles_id_fk"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_organization_id_organizations_id_fk"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_profile_id_profiles_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_updated_by_profiles_id_fk"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -252,14 +532,17 @@ export type Database = {
             }
             Returns: unknown
           }
-      can_user_do: {
+      create_audit_trigger: {
         Args: {
-          user_id: string
-          action: string
-          resource: string
-          resource_attributes?: Json
+          target_table_name: string
         }
-        Returns: boolean
+        Returns: undefined
+      }
+      create_delete_trigger: {
+        Args: {
+          target_table_name: string
+        }
+        Returns: undefined
       }
       halfvec_avg: {
         Args: {
@@ -308,6 +591,20 @@ export type Database = {
           "": unknown
         }
         Returns: unknown
+      }
+      is_org_manager: {
+        Args: {
+          _organization_id: string
+          _profile_id: string
+        }
+        Returns: boolean
+      }
+      is_org_member: {
+        Args: {
+          _organization_id: string
+          _profile_id: string
+        }
+        Returns: boolean
       }
       ivfflat_bit_support: {
         Args: {
@@ -420,9 +717,25 @@ export type Database = {
         }
         Returns: number
       }
+      viewer: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone_number: string | null
+          profile_picture_url: string | null
+          updated_at: string
+        }
+      }
     }
     Enums: {
-      [_ in never]: never
+      message_part_types: "text" | "reasoning" | "tool_invocation"
+      message_roles: "system" | "user" | "assistant" | "data"
+      organization_roles: "Owner" | "Administrator" | "Member"
+      tool_invocation_states: "partial_call" | "call" | "result"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -526,4 +839,3 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
-

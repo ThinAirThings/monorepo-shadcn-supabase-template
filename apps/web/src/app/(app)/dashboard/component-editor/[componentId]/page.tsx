@@ -7,10 +7,11 @@ import { useApolloClient, useFragment, useQuery } from "@apollo/client"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@thinair-monorepo-template/ui/components/resizable"
 import { useParams } from "next/navigation"
 import invariant from "tiny-invariant"
-import { useChat } from "ai/react"
+import { useChat } from "@ai-sdk/react"
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect } from "react"
+import { useEffect, useState, createContext, useContext } from "react"
 import { produce } from "immer"
+import { Frame } from "@ark-ui/react"
 
 const ComponentEditorPageQuery = graphql(`
     query ComponentEditorPageQuery($componentId: UUID!) {
@@ -33,6 +34,12 @@ const ComponentEditorPageQuery = graphql(`
     }
 `)
 
+const IFrameContext = createContext<HTMLIFrameElement | null>(null) 
+
+export const useIFrame = () => {
+    return useContext(IFrameContext)
+}
+
 export default function ComponentEditorPage() {
     const { componentId } = useParams()
     const {cache} = useApolloClient()
@@ -45,7 +52,7 @@ export default function ComponentEditorPage() {
         id: aiChatNodeKey && 'id' in aiChatNodeKey ? aiChatNodeKey.id : undefined,
         generateId: () => uuidv4()
     })
-
+    const [iframeRef, setIframeRef] = useState<HTMLIFrameElement | null>(null)
     useEffect(() => {
         if (loading) return
         cache.updateQuery({
@@ -74,16 +81,74 @@ export default function ComponentEditorPage() {
     }, [chatId, data, loading])
     if (!data) return null
     return (
-        <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel defaultSize={15} minSize={10} maxSize={30}>
-                <NodeKeyProvider node={{__typename: 'AiChats', id: chatId}}>
-                    <ComponentChat />
-                </NodeKeyProvider>
-            </ResizablePanel>
-            <ResizableHandle />
-            <ResizablePanel>
-                <div className="h-full w-full flex items-center justify-center">Hello</div>
-            </ResizablePanel>
-        </ResizablePanelGroup>
+        <IFrameContext.Provider value={iframeRef}>
+            <NodeKeyProvider node={{__typename: 'Components', id: componentId as string}}>
+                <ResizablePanelGroup direction="horizontal">
+                    <ResizablePanel defaultSize={25} minSize={10}>
+                        <NodeKeyProvider node={{__typename: 'AiChats', id: chatId}}>
+                            <ComponentChat />
+                        </NodeKeyProvider>
+                    </ResizablePanel>
+                    <ResizableHandle />
+                    <ResizablePanel>
+                    <Frame
+                        ref={setIframeRef}
+                        className="h-full w-full"
+                        sandbox="allow-scripts allow-same-origin"
+                        onMount={() => {
+                            const doc = iframeRef?.contentDocument;
+                            if (!doc) return;
+
+                            // Create HTML structure and inject resources
+                            doc.open();
+                            doc.write(/*html*/`
+                                <!doctype html>
+                                <html>
+                                    <head>
+                                    <meta charset="UTF-8">
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    <title>Component | Powered by Bun</title>
+                                    <link rel="icon" type="image/x-icon" href="https://bun.sh/favicon.ico">
+                                    <link rel="stylesheet" href="http://localhost:5000/components/${componentId}/dist/react-app.css" crossorigin="anonymous">
+                                    </head>
+                                    <body>
+                                    <div id="root"></div>
+                                    <script type="module" src="http://localhost:5000/components/${componentId}/dist/react-app.js" crossorigin="anonymous"></script>
+                                    <script>
+                                        window.addEventListener('message', (event) => {
+                                            if (event.data.type === 'reload') {
+                                                // Reload CSS and JS with cache busting
+                                                const cssLink = document.querySelector('link[rel="stylesheet"]');
+                                                const jsScript = document.querySelector('script[type="module"]');
+                                                
+                                                if (cssLink) {
+                                                    cssLink.href = cssLink.href.split('?')[0] + '?t=' + Date.now();
+                                                }
+                                                
+                                                if (jsScript) {
+                                                    const newScript = document.createElement('script');
+                                                    newScript.type = 'module';
+                                                    newScript.src = jsScript.src.split('?')[0] + '?t=' + Date.now();
+                                                    newScript.crossOrigin = 'anonymous';
+                                                    jsScript.remove();
+                                                    document.body.appendChild(newScript);
+                                                }
+                                                
+                                                console.log("Hot reloaded CSS and JS");
+                                            }
+                                        });
+                                    </script>
+                                    </body>
+                                </html>
+                            `);
+                            doc.close();
+                        }}
+                        >
+                        <div id="root" />
+                        </Frame>
+                    </ResizablePanel>
+                </ResizablePanelGroup>
+            </NodeKeyProvider>
+        </IFrameContext.Provider>
     )
 }

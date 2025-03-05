@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
         <OrganizationNodeKeyProvider>
             <ProjectNodeKeyProvider>
-                <div className="min-h-screen w-full grid grid-rows-[auto_1fr]">
+                <div className="min-h-screen max-h-screen overflow-hidden w-full grid grid-rows-[auto_1fr]">
                     {/* Header */}
                     <header className="border-b">
                         <div className="h-14 px-2 flex items-center justify-between">
@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </div>
                     </header>
                     {/* Main content */}
-                    <div className="flex h-full">
+                    <div className="flex h-full overflow-hidden max-h-full">
                         <DashboardSidebar />    
                         {children}
                     </div>

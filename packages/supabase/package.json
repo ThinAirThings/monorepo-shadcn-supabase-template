@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "update-config-file": "tsx scripts/configure-toml.tsx",
     "reset": "bunx supabase db reset --linked && tsx db/config/config.ts",
-    "generate": "bunx supabase gen types typescript --project-id zckqdanfxbneyklwzyqh --schema public > database.types.ts",
+    "generate": "bunx supabase gen types typescript --project-id jizoeuuogthygdmwxteh --schema public > database.types.ts",
     "configure": "tsx db/config/config.ts"
   },
   "keywords": [],

@@ -47,6 +47,7 @@ const ProjectsIdSetQuery = graphql(`
 // Convenience hook to just get the projectId
 export const useProjectId = () => {
     const projectId = useProjectStore((state) => state.projectId);
+    const setProjectId = useProjectStore((state) => state.setProjectId);
     const organizationNodeKey = useNodeKey('Organizations', {isInvariant: false})
     const profileNodeKey = useNodeKey('Profiles')
 
@@ -56,7 +57,7 @@ export const useProjectId = () => {
         },
         skip: !organizationNodeKey && !profileNodeKey,
     })
-
+    
     useEffect(() => {
         (async () => {
             const {data: userData} = await createBrowserClient().auth.getUser()
@@ -70,7 +71,15 @@ export const useProjectId = () => {
         })()
     }, [data, projectId, organizationNodeKey?.id])
 
-    return [projectId, useProjectStore.getState().setProjectId] as const;
+    // Set the first project if none is selected and data is loaded
+    useEffect(() => {
+        if (!loading && !projectId && data?.projectsCollection?.edges?.length > 0) {
+            const firstProjectId = data.projectsCollection.edges[0].node.id;
+            setProjectId(firstProjectId);
+        }
+    }, [data, loading, projectId, setProjectId]);
+
+    return [projectId, setProjectId] as const;
 }
 
 export const ProjectNodeKeyProvider = ({children}: {children: React.ReactNode}) => {

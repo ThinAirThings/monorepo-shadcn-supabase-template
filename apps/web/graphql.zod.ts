@@ -38,7 +38,6 @@ export type AiChatMessages = Node & {
   id: Scalars['UUID']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
-  parts: Scalars['JSON']['output'];
   profiles?: Maybe<Profiles>;
   role: MessageRoles;
   updatedAt: Scalars['Datetime']['output'];
@@ -49,6 +48,8 @@ export type AiChatMessagesConnection = {
   __typename?: 'AiChatMessagesConnection';
   edges: Array<AiChatMessagesEdge>;
   pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
 };
 
 export type AiChatMessagesDeleteResponse = {
@@ -93,7 +94,6 @@ export type AiChatMessagesInsertInput = {
   createdBy?: InputMaybe<Scalars['UUID']['input']>;
   deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
-  parts?: InputMaybe<Scalars['JSON']['input']>;
   role?: InputMaybe<MessageRoles>;
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
   updatedBy?: InputMaybe<Scalars['UUID']['input']>;
@@ -128,7 +128,6 @@ export type AiChatMessagesUpdateInput = {
   createdBy?: InputMaybe<Scalars['UUID']['input']>;
   deletedAt?: InputMaybe<Scalars['Datetime']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
-  parts?: InputMaybe<Scalars['JSON']['input']>;
   role?: InputMaybe<MessageRoles>;
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
   updatedBy?: InputMaybe<Scalars['UUID']['input']>;
@@ -176,6 +175,8 @@ export type AiChatsConnection = {
   __typename?: 'AiChatsConnection';
   edges: Array<AiChatsEdge>;
   pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
 };
 
 export type AiChatsDeleteResponse = {
@@ -1949,7 +1950,6 @@ export function AiChatMessagesInsertInputSchema(): z.ZodObject<Properties<AiChat
     createdBy: z.string().nullish(),
     deletedAt: z.string().nullish(),
     id: z.string().nullish(),
-    parts: z.string().nullish(),
     role: MessageRolesSchema.nullish(),
     updatedAt: z.string().nullish(),
     updatedBy: z.string().nullish()
@@ -1980,7 +1980,6 @@ export function AiChatMessagesUpdateInputSchema(): z.ZodObject<Properties<AiChat
     createdBy: z.string().nullish(),
     deletedAt: z.string().nullish(),
     id: z.string().nullish(),
-    parts: z.string().nullish(),
     role: MessageRolesSchema.nullish(),
     updatedAt: z.string().nullish(),
     updatedBy: z.string().nullish()

@@ -57,6 +57,13 @@
       "when": 1740077844989,
       "tag": "20250220185724_update-chat-rls",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1740150742454,
+      "tag": "20250221151222_ai-chat-messages-update-schema",
+      "breakpoints": true
     }
   ]
 }

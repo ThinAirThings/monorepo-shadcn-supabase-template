@@ -23,7 +23,6 @@ export const aiChatMessages = pgTable('ai_chat_messages', {
     role: messageRoles('role').notNull(),
     content: text('content').notNull(),
     annotations: json('annotations'),
-    parts: json('parts').notNull(), // Array<MessagePart>
     attachments: json('attachments'), // Array<Attachment>
 }, (table) => [
     index('ai_chat_messages_chat_id_idx').on(table.chatId),

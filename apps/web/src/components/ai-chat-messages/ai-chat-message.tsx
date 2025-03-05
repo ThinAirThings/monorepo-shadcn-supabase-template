@@ -2,42 +2,35 @@
 
 import { Sparkles } from "lucide-react";
 import { MemoizedMarkdown } from "./memoized-markdown";
-import { useFragment } from "@apollo/client";
-import { graphql } from "@/gql";
-import { useNodeKey } from "@/context/node-key-provider";
+import { useMessage } from "../ai-chats/ai-chat-message-provider";
+import { cn } from "@/lib/utils";
 
-const AiChatMessageFragment = graphql(`
-    fragment AiChatMessageFragment on AiChatMessages {
-        id
-        content
-        role
-    }
-`)
+
+
 export function AiChatMessage() {
-    const aiChatMessageNodeKey = useNodeKey('AiChatMessages')
-    const {data: message} = useFragment({
-        fragment: AiChatMessageFragment,
-        fragmentName: 'AiChatMessageFragment',
-        from: aiChatMessageNodeKey,
-    })
-    console.log(message)
+    const {message} = useMessage()
     return (
         <div
             key={message.id}
-            className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+            className={cn(
+                "flex",
+                message.role === "user" ? "justify-end" : "justify-start",
+                "w-full"
+            )}
         >
-            <div className="flex items-start gap-3 max-w-[80%]">
+            <div className="flex items-start gap-3 max-w-[95%] break-words">
                 {message.role === "assistant" && (
                     <div className="flex-shrink-0 mt-1">
                         <Sparkles className="w-4 h-4 text-white/60" />
                     </div>
                 )}
                 <div
-                    className={
-                    message.role === "assistant"
-                        ? "text-white/90 text-sm"
-                        : "bg-gradient-to-r from-orange-900/40 to-orange-500/20 text-orange-200 rounded-lg px-4 py-2"
-                    }
+                    className={cn(
+                        "whitespace-pre-wrap overflow-hidden",
+                        message.role === "assistant"
+                            ? "text-white/90 text-sm"
+                            : "bg-gradient-to-r from-orange-900/40 to-orange-500/20 text-orange-200 rounded-lg px-4 py-2"
+                    )}
                 >
                     {message.role === "assistant" 
                         ? (
@@ -53,6 +46,6 @@ export function AiChatMessage() {
                     }
                 </div>
             </div>
-      </div>
+        </div>
     );
 }
